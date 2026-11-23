@@ -1,0 +1,39 @@
+name: Daily job ingest
+
+on:
+  schedule:
+    - cron: "30 20 * * *"   # 20:30 UTC = 02:00 IST, every day
+  workflow_dispatch:         # adds a "Run workflow" button on GitHub
+    inputs:
+      max_calls:
+        description: "API call budget (leave empty for a full run; e.g. 4 for a quick test)"
+        required: false
+        default: ""
+
+concurrency:
+  group: daily-ingest       # never run two at once
+  cancel-in-progress: false
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install
+        run: pip install -e .
+      - name: Make sure tables exist
+        run: python -m skillpulse.db.migrate
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      - name: Run pipeline
+        run: python pipelines/daily_ingest.py ${MAX_CALLS:+--max-calls $MAX_CALLS}
+        env:
+          MAX_CALLS: ${{ github.event.inputs.max_calls }}
+          ADZUNA_APP_ID: ${{ secrets.ADZUNA_APP_ID }}
+          ADZUNA_APP_KEY: ${{ secrets.ADZUNA_APP_KEY }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}

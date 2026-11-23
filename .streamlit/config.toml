@@ -1,0 +1,9 @@
+# Base Streamlit theme matching design/DESIGN_SYSTEM.md.
+# Borders, shadows and heading fonts are added by app/theme.css in Phase 3.
+[theme]
+base = "light"
+primaryColor = "#1C1C1C"
+backgroundColor = "#D7E1E1"
+secondaryBackgroundColor = "#FFFFFF"
+textColor = "#1C1C1C"
+font = "sans serif"

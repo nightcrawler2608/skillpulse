@@ -1,0 +1,29 @@
+# Secrets — NEVER commit
+.env
+*.env
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+build/
+dist/
+
+# Tools
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Data that should not be in git (resumes, raw dumps)
+data/raw/
+data/eval/eval_resumes/
+*.pdf
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

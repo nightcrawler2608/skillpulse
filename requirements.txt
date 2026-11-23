@@ -1,0 +1,4 @@
+# Installs the project package (from pyproject.toml) plus dev tools.
+# Heavier libraries (spaCy, sentence-transformers, Streamlit, etc.) are added
+# in the phase that first needs them, so setup stays fast.
+-e .[dev]

@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SkillPulse — Design Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bowlby+One&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ================================================================
+   SkillPulse design tokens — "Playful Brutalist"
+   Inspired by sticker-style retro-gadget landing pages:
+   pale slate background, ink-black heavy type, flat bold colours,
+   thin black borders, hard offset shadows, friendly mascots.
+   ================================================================ */
+:root{
+  --bg:#D7E1E1;          /* page background (pale slate) */
+  --bg-shadow:#BCC9C9;   /* soft offset shadow under stickers */
+  --paper:#FFFFFF;       /* cards / boxes */
+  --ink:#1C1C1C;         /* text, borders, primary buttons */
+  --ink-2:#3D4242;       /* body text */
+  --ink-3:#6A7272;       /* captions */
+  --line:#1C1C1C;
+
+  /* brand colours (illustration + accents) */
+  --sun:#FFB000;         /* warm yellow-orange */
+  --tangerine:#F2541B;   /* red-orange */
+  --sky:#2BA8F0;         /* bright blue */
+  --navy:#2B2D8E;        /* deep indigo */
+  --forest:#0E6B47;      /* green */
+
+  /* chart palette (validated: CVD-safe, 3:1 on white) */
+  --c1:#4A4FD6; --c2:#F2541B; --c3:#168BCC;
+  --good:#0E6B47;
+
+  --f-mega:'Anton', Impact, sans-serif;
+  --f-head:'Bowlby One', 'Arial Black', sans-serif;
+  --f-body:'Inter', system-ui, sans-serif;
+
+  --shadow:6px 6px 0 var(--bg-shadow);
+  --shadow-ink:4px 4px 0 var(--ink);
+  --border:2px solid var(--line);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink-2);font:15px/1.6 var(--f-body);overflow-x:hidden}
+a{color:inherit}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+.narrow{max-width:620px;margin:0 auto;text-align:center}
+.cap{font-size:12px;color:var(--ink-3);letter-spacing:.02em}
+.h{font-family:var(--f-head);color:var(--ink);line-height:1.05;letter-spacing:-.01em}
+hr.rule{border:0;border-top:1.5px solid var(--ink);max-width:520px;margin:72px auto}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font:13px/1 var(--f-head);text-transform:uppercase;letter-spacing:.02em;
+  padding:13px 22px;border:var(--border);background:var(--paper);color:var(--ink);
+  box-shadow:var(--shadow-ink);cursor:pointer;text-decoration:none;transition:transform .12s, box-shadow .12s}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+.btn.dark{background:var(--ink);color:#fff;box-shadow:var(--shadow)}
+.btn.dark:hover{box-shadow:8px 8px 0 var(--bg-shadow)}
+.btn.block{width:100%;padding:17px}
+
+/* ---------- top bar ---------- */
+.top{display:flex;justify-content:space-between;align-items:center;padding:18px 0}
+.badge{display:flex;align-items:center;gap:8px;font-size:11px;line-height:1.25;color:var(--ink)}
+.badge b{display:block;font-weight:700}
+.badge .dot{width:24px;height:24px;border-radius:50%;background:var(--c1);display:grid;place-items:center}
+.nav{display:flex;gap:22px;font:600 13px var(--f-body)}
+.nav a{text-decoration:none}
+.nav a:hover{text-decoration:underline;text-underline-offset:4px}
+
+/* ---------- hero ---------- */
+.hero{position:relative;text-align:center;padding-top:20px}
+.hero-meta{display:flex;justify-content:space-between;max-width:560px;margin:0 auto 4px;font-size:12px;color:var(--ink)}
+.mega{font-family:var(--f-mega);color:var(--ink);text-transform:uppercase;
+  font-size:clamp(96px,19vw,210px);line-height:.84;letter-spacing:-.01em}
+.mega span{display:block}
+.ribbon{position:absolute;left:-10vw;right:-10vw;top:clamp(120px,19vw,200px);transform:rotate(-4deg);
+  background:var(--paper);border-top:var(--border);border-bottom:var(--border);
+  box-shadow:0 8px 0 var(--bg-shadow);overflow:hidden;z-index:3}
+.ribbon .track{display:flex;width:max-content;animation:marquee 38s linear infinite}
+.ribbon .item{font:14px var(--f-head);color:var(--ink);padding:9px 0;white-space:nowrap}
+.ribbon .item i{font-style:normal;padding:0 18px;color:var(--ink-3)}
+.up{color:var(--good)} .down{color:var(--tangerine)}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+.mascots{display:flex;justify-content:center;align-items:flex-end;gap:10px;margin-top:-6px;position:relative;z-index:4}
+.mascot{width:220px;height:220px;flex:none;animation:bob 4s ease-in-out infinite}
+.mascot.big{width:270px;height:270px}
+.mascot:nth-child(2){animation-delay:-1.3s}.mascot:nth-child(3){animation-delay:-2.6s}
+@keyframes bob{50%{translate:0 -8px}}
+
+.tagline{margin-top:36px}
+.tagline .h1{font-size:clamp(28px,4.2vw,40px)}
+.tagline .foot{font-size:10px;color:var(--ink);text-align:right;max-width:430px;margin:-2px auto 8px}
+.tagline .h2{font-size:clamp(24px,3.6vw,34px);margin-bottom:16px}
+.tagline p{font-size:13.5px;margin:0 auto 12px;max-width:560px;color:var(--ink)}
+
+.powered{margin-top:26px}
+.powered .row{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap;margin-top:8px}
+.who{display:flex;align-items:center;gap:7px;font:13px var(--f-head);color:var(--ink)}
+.av{width:32px;height:32px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center;font:13px var(--f-head);color:#fff}
+.plus{color:var(--ink-3)}
+
+/* ---------- features list ---------- */
+.features{display:grid;grid-template-columns:300px 1fr;align-items:center;gap:10px;max-width:860px;margin:0 auto}
+.features ul{list-style:none;text-align:center}
+.features li{font:clamp(22px,3.3vw,30px)/1.45 var(--f-head);color:var(--ink)}
+.features .mascot{width:300px;height:300px;animation:none;transform:rotate(-6deg)}
+
+/* ---------- section heads ---------- */
+.sec-head{text-align:center;margin-bottom:28px}
+.sec-head .h{font-size:clamp(34px,5.5vw,56px);text-transform:uppercase}
+.sec-head p{max-width:520px;margin:10px auto 0;font-size:14px;color:var(--ink)}
+
+/* ---------- cards / dashboard ---------- */
+.card{background:var(--paper);border:var(--border);box-shadow:var(--shadow);padding:22px}
+.card h3{font:15px var(--f-head);color:var(--ink);text-transform:uppercase;margin-bottom:4px}
+.card .sub{font-size:12px;color:var(--ink-3);margin-bottom:16px}
+
+.filters{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;margin-bottom:22px}
+.chip{font:12px var(--f-head);text-transform:uppercase;padding:9px 14px;border:var(--border);background:var(--paper);color:var(--ink);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:#fff}
+.select{font:600 13px var(--f-body);padding:9px 34px 9px 12px;border:var(--border);background:var(--paper) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%231c1c1c' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 12px center;appearance:none;color:var(--ink)}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:18px}
+.stat .k{font:30px/1.1 var(--f-head);color:var(--ink)}
+.stat .l{font-size:12.5px;color:var(--ink-2);margin-top:6px}
+.stat .tag{display:inline-block;font:11px var(--f-head);padding:3px 8px;border:1.5px solid var(--ink);margin-bottom:10px}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+
+/* bar list (single series, one hue) */
+.bars{display:grid;gap:7px}
+.bar{display:grid;grid-template-columns:108px 1fr 40px;align-items:center;gap:10px;font-size:13px;color:var(--ink);cursor:default}
+.bar .track{height:16px;position:relative}
+.bar .fill{height:100%;background:var(--c1);border-radius:0 4px 4px 0;transition:opacity .15s}
+.bar .v{text-align:right;color:var(--ink-3);font-variant-numeric:tabular-nums;font-size:12px}
+.bars:hover .bar .fill{opacity:.45}.bars .bar:hover .fill{opacity:1}
+
+/* line chart */
+.chart{position:relative}
+.chart svg{width:100%;height:auto;display:block;overflow:visible}
+.legend{display:flex;gap:16px;font-size:12px;color:var(--ink-2);margin-bottom:8px}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{width:14px;height:3px;border-radius:2px}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:#fff;font-size:12px;line-height:1.5;padding:8px 10px;
+  box-shadow:4px 4px 0 var(--bg-shadow);opacity:0;transition:opacity .1s;white-space:nowrap;z-index:5}
+.tip b{font-family:var(--f-head);font-weight:400}
+.tip .sw{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+.movers{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px;font-size:13px;color:var(--ink)}
+.movers h4{font:12px var(--f-head);text-transform:uppercase;margin-bottom:4px}
+.movers li{list-style:none;display:flex;justify-content:space-between;border-bottom:1px dashed var(--bg-shadow);padding:3px 0}
+
+/* ---------- analyzer form ---------- */
+.analyzer{position:relative;max-width:440px;margin:0 auto}
+.form{text-align:center;padding:26px 22px}
+.form .h{font-size:38px;text-transform:uppercase;margin:6px 0 10px}
+.form p{font-size:12.5px;color:var(--ink);margin-bottom:18px}
+.drop{display:block;border:2px dashed var(--ink);padding:24px 12px;margin-bottom:12px;cursor:pointer;transition:background .15s}
+.drop:hover{background:#F3F7F7}
+.drop b{display:block;font:13px var(--f-head);color:var(--ink);text-transform:uppercase}
+.drop span{font-size:11.5px;color:var(--ink-3)}
+.field{width:100%;margin-bottom:12px;padding:13px 12px;text-align:center;font:13px var(--f-head);text-transform:uppercase;color:var(--ink-3)}
+.peek{position:absolute;right:-190px;top:90px;width:210px;height:210px;transform:rotate(12deg)}
+.peek-l{position:absolute;left:-170px;bottom:-20px;width:180px;height:180px;transform:rotate(-10deg)}
+
+/* ---------- results ---------- */
+.results{display:grid;grid-template-columns:260px 1fr;gap:18px;margin-top:56px}
+.score{text-align:center}
+.score svg{width:180px;height:180px;margin:4px auto 6px;display:block}
+.score .verdict{font:16px var(--f-head);color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.sk{font:600 12.5px var(--f-body);padding:6px 10px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);display:inline-flex;gap:6px;align-items:center}
+.sk.miss{background:var(--sun)}
+.sk .n{font:11px var(--f-head);background:var(--ink);color:#fff;width:18px;height:18px;display:grid;place-items:center;border-radius:50%}
+.sk .ok{color:var(--good);font-weight:800}
+.mini{font-size:11.5px;color:var(--ink-3);margin-top:-10px;margin-bottom:14px}
+
+.jobs{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px}
+.job{display:flex;flex-direction:column;gap:6px}
+.job .t{font:15px/1.2 var(--f-head);color:var(--ink)}
+.job .m{font-size:12.5px;color:var(--ink-2)}
+.job .fit{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:12px;border-top:1.5px solid var(--ink)}
+.job .pct{font:20px var(--f-head);color:var(--ink)}
+.job .btn{padding:8px 12px;font-size:11px;box-shadow:3px 3px 0 var(--ink)}
+
+.plan{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:18px;border:var(--border);box-shadow:var(--shadow);background:var(--paper)}
+.wk{padding:16px;border-right:var(--border)}
+.wk:last-child{border-right:0}
+.wk .lbl{font:11px var(--f-head);display:inline-block;padding:3px 8px;color:#fff;margin-bottom:8px}
+.wk .t{font:15px/1.2 var(--f-head);color:var(--ink);margin-bottom:6px}
+.wk ul{padding-left:16px;font-size:12.5px;color:var(--ink-2)}
+
+/* ---------- role explorer ---------- */
+.clusters{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.cl{padding:0}
+.cl .band{padding:16px 18px;border-bottom:var(--border);color:#fff}
+.cl .band .h{color:inherit;font-size:20px}
+.cl .band .share{font:600 12px var(--f-body);opacity:.95}
+.cl .body{padding:16px 18px;font-size:13px;color:var(--ink)}
+.cl .body li{list-style:none;padding:4px 0;border-bottom:1px dashed var(--bg-shadow);display:flex;justify-content:space-between}
+
+/* ---------- footer ---------- */
+.contact{text-align:center;font-size:12.5px;color:var(--ink);margin:90px 0 50px}
+.contact b{display:block}
+.parade{display:flex;justify-content:center;gap:24px;height:190px;overflow:hidden;align-items:flex-start}
+.parade .mascot{width:220px;height:220px;animation:none}
+
+.note{position:fixed;left:16px;bottom:16px;background:var(--ink);color:#fff;font-size:11px;padding:6px 10px;z-index:9}
+
+/* ---------- responsive ---------- */
+@media (max-width:860px){
+  .nav{display:none}
+  .features{grid-template-columns:1fr}.features .mascot{width:220px;height:220px;margin:0 auto}
+  .stats,.grid2,.jobs,.clusters,.results{grid-template-columns:1fr}
+  .plan{grid-template-columns:1fr 1fr}.wk:nth-child(2){border-right:0}.wk:nth-child(-n+2){border-bottom:var(--border)}
+  .peek,.peek-l{display:none}
+  .mascot{width:120px;height:120px}.mascot.big{width:150px;height:150px}
+  .parade .mascot{width:140px;height:140px}.parade{height:120px;gap:8px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+
+<!-- ================= MASCOT LIBRARY (original illustrations) ================= -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- CHARTIE: retro monitor showing live trends -->
+    <symbol id="chartie" viewBox="0 0 220 220">
+      <g stroke="#1C1C1C" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+        <rect x="46" y="44" width="150" height="150" rx="16" fill="#BCC9C9" stroke="none"/>
+        <path d="M110 34 L96 14 M110 34 L128 12" fill="none"/>
+        <circle cx="128" cy="12" r="5" fill="#F2541B"/>
+        <rect x="30" y="32" width="150" height="150" rx="16" fill="#EEF3F3"/>
+        <rect x="44" y="44" width="122" height="20" rx="4" fill="#F2541B"/>
+        <rect x="44" y="74" width="122" height="78" rx="8" fill="#FFB000"/>
+        <!-- face -->
+        <ellipse cx="80" cy="102" rx="6" ry="9" fill="#1C1C1C" stroke="none"/>
+        <path d="M118 104 q10 -10 20 0" fill="none"/>
+        <path d="M86 124 q19 18 38 0 z" fill="#fff"/>
+        <ellipse cx="66" cy="122" rx="8" ry="5" fill="#F2541B" stroke="none" opacity=".55"/>
+        <ellipse cx="146" cy="122" rx="8" ry="5" fill="#F2541B" stroke="none" opacity=".55"/>
+        <!-- knob -->
+        <circle cx="182" cy="110" r="15" fill="#FFB000"/>
+        <circle cx="182" cy="110" r="5" fill="#1C1C1C" stroke="none"/>
+        <!-- bottom panel -->
+        <circle cx="54" cy="167" r="5" fill="#1C1C1C" stroke="none"/>
+        <circle cx="70" cy="167" r="4" fill="#1C1C1C" stroke="none"/>
+        <rect x="118" y="161" width="46" height="12" rx="3" fill="#2BA8F0"/>
+        <rect x="52" y="182" width="20" height="14" rx="3" fill="#2B2D8E"/>
+        <rect x="140" y="182" width="20" height="14" rx="3" fill="#2B2D8E"/>
+      </g>
+      <text x="58" y="59" font-family="Bowlby One, Arial Black" font-size="12" fill="#fff">LIVE ▸▸▸</text>
+    </symbol>
+
+    <!-- RESUMO: clipboard resume buddy -->
+    <symbol id="resumo" viewBox="0 0 220 220">
+      <g stroke="#1C1C1C" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+        <rect x="58" y="44" width="122" height="156" rx="14" fill="#BCC9C9" stroke="none"/>
+        <rect x="44" y="30" width="122" height="156" rx="14" fill="#2BA8F0"/>
+        <rect x="80" y="18" width="50" height="24" rx="7" fill="#2B2D8E"/>
+        <rect x="58" y="52" width="94" height="118" rx="6" fill="#fff"/>
+        <!-- face -->
+        <ellipse cx="88" cy="82" rx="5.5" ry="8" fill="#1C1C1C" stroke="none"/>
+        <ellipse cx="122" cy="82" rx="5.5" ry="8" fill="#1C1C1C" stroke="none"/>
+        <path d="M84 98 q21 26 42 0 z" fill="#F2541B"/>
+        <!-- checklist lines -->
+        <path d="M70 132 l5 5 9 -10" fill="none" stroke="#0E6B47"/>
+        <path d="M94 134 h44" fill="none"/>
+        <path d="M70 152 l5 5 9 -10" fill="none" stroke="#0E6B47"/>
+        <path d="M94 154 h32" fill="none"/>
+        <!-- pencil -->
+        <g transform="rotate(28 180 120)">
+          <rect x="172" y="70" width="18" height="74" fill="#FFB000"/>
+          <rect x="172" y="62" width="18" height="12" fill="#F2541B"/>
+          <path d="M172 144 l9 18 9 -18 z" fill="#EEF3F3"/>
+        </g>
+      </g>
+    </symbol>
+
+    <!-- LENSY: magnifying glass that finds skills -->
+    <symbol id="lensy" viewBox="0 0 220 220">
+      <g stroke="#1C1C1C" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+        <circle cx="104" cy="98" r="64" fill="#BCC9C9" stroke="none"/>
+        <g transform="rotate(45 150 150)"><rect x="136" y="128" width="30" height="78" rx="12" fill="#BCC9C9" stroke="none"/></g>
+        <g transform="rotate(45 138 138)"><rect x="124" y="118" width="30" height="78" rx="12" fill="#F2541B"/>
+          <rect x="124" y="118" width="30" height="16" fill="#2B2D8E"/></g>
+        <circle cx="92" cy="86" r="64" fill="#2B2D8E"/>
+        <circle cx="92" cy="86" r="46" fill="#FFB000"/>
+        <path d="M60 64 q10 -16 28 -18" fill="none" stroke="#fff" stroke-width="6"/>
+        <!-- face -->
+        <path d="M70 84 q8 -10 16 0" fill="none"/>
+        <path d="M100 84 q8 -10 16 0" fill="none"/>
+        <path d="M76 100 q17 16 34 0" fill="#fff"/>
+        <!-- sparkles -->
+        <path d="M176 30 v18 M167 39 h18" fill="none"/>
+        <path d="M20 150 v12 M14 156 h12" fill="none"/>
+      </g>
+    </symbol>
+
+    <!-- BASEO: database cylinder that stores job data -->
+    <symbol id="baseo" viewBox="0 0 220 220">
+      <g stroke="#1C1C1C" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M56 56 v120 a56 20 0 0 0 112 0 v-120 z" fill="#BCC9C9" stroke="none"/>
+        <path d="M40 42 v120 a62 22 0 0 0 124 0 v-120" fill="#0E6B47"/>
+        <path d="M40 82 a62 22 0 0 0 124 0" fill="none" stroke="#1C1C1C"/>
+        <path d="M40 122 a62 22 0 0 0 124 0" fill="none" stroke="#1C1C1C"/>
+        <ellipse cx="102" cy="42" rx="62" ry="22" fill="#1E9466"/>
+        <!-- screen with face -->
+        <rect x="68" y="92" width="68" height="50" rx="8" fill="#2BA8F0"/>
+        <ellipse cx="88" cy="112" rx="4.5" ry="7" fill="#1C1C1C" stroke="none"/>
+        <ellipse cx="116" cy="112" rx="4.5" ry="7" fill="#1C1C1C" stroke="none"/>
+        <path d="M92 126 q10 8 20 0" fill="none"/>
+        <!-- side light + plug -->
+        <circle cx="148" cy="64" r="6" fill="#FFB000"/>
+        <path d="M164 140 q30 4 26 34" fill="none"/>
+        <rect x="180" y="170" width="20" height="16" rx="3" fill="#F2541B"/>
+      </g>
+    </symbol>
+
+    <!-- small pulse icon -->
+    <symbol id="pulse" viewBox="0 0 24 24"><path d="M2 12h5l2-6 4 12 2-6h7" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <!-- ================= TOP BAR ================= -->
+  <header class="top">
+    <div class="badge"><span class="dot"><svg width="16" height="16"><use href="#pulse"/></svg></span>
+      <div>Live job data via<b>Adzuna API</b></div></div>
+    <nav class="nav"><a href="#market">Market</a><a href="#analyze">Analyzer</a><a href="#roles">Roles</a></nav>
+    <a class="btn" href="#analyze">Check my resume</a>
+  </header>
+
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <div class="hero-meta"><span>Updated 23 Nov 2026, 2:00 AM</span><span>India · 7 cities · 10 roles</span></div>
+    <h1 class="mega"><span>Skill</span><span>Pulse</span></h1>
+    <div class="ribbon" aria-label="Trending skills this week">
+      <div class="track" id="ribbon"></div>
+    </div>
+    <div class="mascots">
+      <svg class="mascot" style="rotate:-10deg"><use href="#lensy"/></svg>
+      <svg class="mascot big"><use href="#chartie"/></svg>
+      <svg class="mascot" style="rotate:9deg"><use href="#resumo"/></svg>
+    </div>
+  </section>
+
+  <section class="tagline narrow">
+    <div class="h h1">Know what jobs want.*</div>
+    <div class="foot">*from real job postings, refreshed every night</div>
+    <div class="h h2">Close the gap BEFORE you apply.</div>
+    <p>Every night SkillPulse reads thousands of fresh job postings across India and works out which skills employers are actually asking for, by role, city and week.</p>
+    <p>Upload your resume and see your match score, the skills you're missing (ranked by how much they matter), jobs that already fit you, and a week-by-week plan to close the gap.</p>
+    <p>No sign-up. No cost. Your resume is never stored.</p>
+    <div class="powered">
+      <div class="cap">Powered by:</div>
+      <div class="row">
+        <span class="who"><span class="av" style="background:var(--tangerine)">A</span>Adzuna Jobs</span><span class="plus">+</span>
+        <span class="who"><span class="av" style="background:var(--navy)">N</span>Open NLP</span><span class="plus">+</span>
+        <span class="who"><span class="av" style="background:#B9C2C2"></span>You (Fresher)</span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ================= FEATURES ================= -->
+  <section class="features">
+    <svg class="mascot"><use href="#baseo"/></svg>
+    <div>
+      <div class="cap" style="text-align:center;margin-bottom:6px">Free with every visit:</div>
+      <ul>
+        <li>Live Skill Trends</li>
+        <li>Resume Match Score</li>
+        <li>Missing Skills, Ranked</li>
+        <li>Jobs That Fit You</li>
+        <li>AI Learning Plan</li>
+        <li>&amp; More!</li>
+      </ul>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ================= MARKET DASHBOARD ================= -->
+  <section id="market">
+    <div class="sec-head">
+      <div class="cap">Market dashboard · sample data</div>
+      <div class="h">The market, right now</div>
+      <p>Pick a role and a city. Everything below updates from last night's job postings.</p>
+    </div>
+
+    <div class="filters" role="group" aria-label="Role">
+      <button class="chip" aria-pressed="true">Data Analyst</button>
+      <button class="chip" aria-pressed="false">Data Scientist</button>
+      <button class="chip" aria-pressed="false">ML Engineer</button>
+      <button class="chip" aria-pressed="false">Data Engineer</button>
+      <select class="select" aria-label="City"><option>Bengaluru</option><option>Hyderabad</option><option>Pune</option><option>All India</option></select>
+      <select class="select" aria-label="Time range"><option>Last 30 days</option><option>Last 12 weeks</option></select>
+    </div>
+
+    <div class="stats">
+      <div class="card stat"><span class="tag">Jobs this month</span><div class="k">3,482</div><div class="l">Data Analyst postings in Bengaluru, <span class="up">▲ 6%</span> vs last month</div></div>
+      <div class="card stat"><span class="tag">Fastest rising</span><div class="k">Power BI</div><div class="l">Now in 30% of postings, <span class="up">▲ 9 pts</span> in 12 weeks</div></div>
+      <div class="card stat"><span class="tag">Fresher salary</span><div class="k">₹4.2–7.8L</div><div class="l">Typical range (middle 50%) where salary is listed</div></div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>Top 10 skills</h3>
+        <div class="sub">% of Data Analyst postings that mention each skill</div>
+        <div class="bars" id="bars"></div>
+      </div>
+      <div class="card">
+        <h3>Skill demand over time</h3>
+        <div class="sub">% of postings mentioning the skill, weekly</div>
+        <div class="legend" id="legend"></div>
+        <div class="chart" id="line"><div class="tip" id="tip"></div></div>
+        <div class="movers">
+          <div><h4>Rising ▲</h4><ul><li>Power BI<span class="up">+9 pts</span></li><li>Python<span class="up">+8 pts</span></li><li>dbt<span class="up">+3 pts</span></li></ul></div>
+          <div><h4>Cooling ▼</h4><ul><li>VBA<span class="down">−4 pts</span></li><li>SAS<span class="down">−3 pts</span></li><li>Tableau<span class="down">−2 pts</span></li></ul></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ================= RESUME ANALYZER ================= -->
+  <section id="analyze">
+    <div class="analyzer">
+      <svg class="peek"><use href="#lensy"/></svg>
+      <svg class="peek-l"><use href="#resumo"/></svg>
+      <div class="card form">
+        <div class="cap">100% private · nothing is saved</div>
+        <div class="h">Get your match score</div>
+        <p>Upload your resume, pick the job you want, and see exactly how you stack up against real postings.</p>
+        <label class="drop"><b>Drop your resume here</b><span>PDF, up to 5 MB, or click to browse</span><input type="file" accept=".pdf" hidden></label>
+        <select class="select field" aria-label="Target role"><option>Target role: Data Analyst</option><option>Data Scientist</option></select>
+        <button class="btn dark block">Analyze my resume</button>
+      </div>
+    </div>
+
+    <!-- results (sample) -->
+    <div class="results">
+      <div class="card score">
+        <h3>Your match</h3>
+        <svg viewBox="0 0 180 180" role="img" aria-label="Match score 72 out of 100">
+          <circle cx="90" cy="90" r="72" fill="none" stroke="#E4EBEB" stroke-width="16"/>
+          <circle cx="90" cy="90" r="72" fill="none" stroke="var(--ink)" stroke-width="16" stroke-dasharray="325.7 452.4" transform="rotate(-90 90 90)" stroke-linecap="butt"/>
+          <text x="90" y="98" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="56" fill="#1C1C1C">72</text>
+          <text x="90" y="122" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#6A7272">out of 100</text>
+        </svg>
+        <div class="verdict">Almost there!</div>
+        <div class="cap">Better than 64% of resumes checked for this role</div>
+      </div>
+      <div class="card">
+        <h3>Skills you have</h3>
+        <div class="sub">Found in your resume and wanted by employers</div>
+        <div class="chips">
+          <span class="sk"><span class="ok">✓</span>SQL</span><span class="sk"><span class="ok">✓</span>Excel</span>
+          <span class="sk"><span class="ok">✓</span>Python</span><span class="sk"><span class="ok">✓</span>Statistics</span>
+          <span class="sk"><span class="ok">✓</span>Communication</span>
+        </div>
+        <h3>Learn these next</h3>
+        <div class="sub">Ranked by how many employers ask for them</div>
+        <div class="chips">
+          <span class="sk miss"><span class="n">1</span>Power BI · 30%</span>
+          <span class="sk miss"><span class="n">2</span>Tableau · 22%</span>
+          <span class="sk miss"><span class="n">3</span>Looker · 7%</span>
+          <span class="sk miss"><span class="n">4</span>AWS · 6%</span>
+        </div>
+        <div class="mini">Adding Power BI alone would raise your score to about 84.</div>
+      </div>
+    </div>
+
+    <div class="sec-head" style="margin:56px 0 0"><div class="h" style="font-size:30px">Jobs that fit you</div></div>
+    <div class="jobs">
+      <div class="card job"><div class="cap">Posted 2 days ago</div><div class="t">Junior Data Analyst</div><div class="m">FinServe Analytics · Bengaluru<br>₹5–7 LPA</div>
+        <div class="fit"><span><span class="pct">88%</span> <span class="cap">fit</span></span><a class="btn" href="#">View ▸</a></div></div>
+      <div class="card job"><div class="cap">Posted today</div><div class="t">Business Data Analyst (Fresher)</div><div class="m">Kart &amp; Co. · Bengaluru<br>₹4.5–6 LPA</div>
+        <div class="fit"><span><span class="pct">81%</span> <span class="cap">fit</span></span><a class="btn" href="#">View ▸</a></div></div>
+      <div class="card job"><div class="cap">Posted 5 days ago</div><div class="t">MIS &amp; Reporting Analyst</div><div class="m">Medline Health · Remote<br>Salary not listed</div>
+        <div class="fit"><span><span class="pct">76%</span> <span class="cap">fit</span></span><a class="btn" href="#">View ▸</a></div></div>
+    </div>
+
+    <div class="sec-head" style="margin:56px 0 0"><div class="h" style="font-size:30px">Your 4-week plan</div><p class="cap">Written by AI from your missing skills</p></div>
+    <div class="plan">
+      <div class="wk"><span class="lbl" style="background:var(--c1)">Week 1</span><div class="t">Power BI basics</div><ul><li>Install Desktop, load a CSV</li><li>Build 3 visuals</li></ul></div>
+      <div class="wk"><span class="lbl" style="background:var(--c2)">Week 2</span><div class="t">DAX + a dashboard</div><ul><li>Measures &amp; filters</li><li>Publish a sales dashboard</li></ul></div>
+      <div class="wk"><span class="lbl" style="background:var(--c3)">Week 3</span><div class="t">Tableau sprint</div><ul><li>Rebuild it in Tableau Public</li><li>Compare both</li></ul></div>
+      <div class="wk"><span class="lbl" style="background:var(--ink)">Week 4</span><div class="t">Portfolio + apply</div><ul><li>Add both to resume</li><li>Re-check your score</li></ul></div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ================= ROLE EXPLORER ================= -->
+  <section id="roles">
+    <div class="sec-head">
+      <div class="cap">Role explorer · grouped by machine learning</div>
+      <div class="h">One title, three jobs</div>
+      <p>"Data Analyst" postings fall into three clear groups. Know which one you're aiming for.</p>
+    </div>
+    <div class="clusters">
+      <div class="card cl"><div class="band" style="background:var(--c1)"><div class="h">The Dashboard Builder</div><div class="share">41% of postings</div></div>
+        <div class="body"><ul><li>Power BI<span>72%</span></li><li>SQL<span>68%</span></li><li>Excel<span>60%</span></li><li>Stakeholder reporting<span>44%</span></li></ul></div></div>
+      <div class="card cl"><div class="band" style="background:var(--c2)"><div class="h">The Excel &amp; MIS Pro</div><div class="share">34% of postings</div></div>
+        <div class="body"><ul><li>Advanced Excel<span>91%</span></li><li>VBA<span>38%</span></li><li>MIS reports<span>52%</span></li><li>Communication<span>40%</span></li></ul></div></div>
+      <div class="card cl"><div class="band" style="background:var(--c3)"><div class="h">The Python Analyst</div><div class="share">25% of postings</div></div>
+        <div class="body"><ul><li>Python<span>88%</span></li><li>SQL<span>80%</span></li><li>Statistics<span>55%</span></li><li>A/B testing<span>31%</span></li></ul></div></div>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="contact">
+    We never store your resume. Data refreshed nightly from the Adzuna API.
+    <b>SkillPulse: a final-year data science project</b>
+  </footer>
+</div>
+
+<div class="parade">
+  <svg class="mascot" style="rotate:-6deg"><use href="#baseo"/></svg>
+  <svg class="mascot"><use href="#resumo"/></svg>
+  <svg class="mascot" style="rotate:5deg"><use href="#chartie"/></svg>
+  <svg class="mascot" style="rotate:-4deg"><use href="#lensy"/></svg>
+</div>
+
+<div class="note">Design mockup · sample data</div>
+
+<script>
+/* ---------- ribbon: trending skills ticker ---------- */
+const ticker = [["PYTHON","▲ 8 PTS","up"],["SQL","▲ 3 PTS","up"],["POWER BI","▲ 9 PTS","up"],["TABLEAU","▼ 2 PTS","down"],
+  ["UPDATED NIGHTLY",""],["DBT","▲ 3 PTS","up"],["VBA","▼ 4 PTS","down"],["CHECK YOUR RESUME FREE",""]];
+const once = ticker.map(([s,d,c]) => `<span class="item">${s}${d?` <span class="${c}">${d}</span>`:""}<i>·</i></span>`).join("");
+document.getElementById("ribbon").innerHTML = once + once + once + once;
+
+/* ---------- top skills bars (single series → one hue, no legend) ---------- */
+const skills = [["SQL",55],["Excel",51],["Python",46],["Power BI",30],["Tableau",22],["Statistics",19],["Communication",17],["R",9],["Looker",7],["AWS",6]];
+const totalJobs = 3482, max = 60;
+document.getElementById("bars").innerHTML = skills.map(([n,v]) =>
+  `<div class="bar" data-tip="<b>${n}</b><br>${v}% of postings · ${Math.round(totalJobs*v/100).toLocaleString()} jobs">
+     <span>${n}</span><span class="track"><span class="fill" style="display:block;width:${v/max*100}%"></span></span><span class="v">${v}%</span></div>`).join("");
+
+/* ---------- line chart: 3 series, legend + direct end labels + crosshair tooltip ---------- */
+const weeks = Array.from({length:12},(_,i)=>`Wk ${i+1}`);
+const series = [
+  {name:"SQL", color:"var(--c1)", hex:"#4A4FD6", v:[52,52,53,52,53,54,53,54,55,54,55,55]},
+  {name:"Python", color:"var(--c2)", hex:"#F2541B", v:[38,39,39,40,41,41,42,43,43,44,45,46]},
+  {name:"Power BI", color:"var(--c3)", hex:"#168BCC", v:[21,21,22,23,23,24,25,26,27,28,29,30]},
+];
+document.getElementById("legend").innerHTML = series.map(s=>`<span><i style="background:${s.color}"></i>${s.name}</span>`).join("");
+const W=460,H=210,m={l:30,r:62,t:10,b:24},yMax=60;
+const x=i=>m.l+i*(W-m.l-m.r)/(weeks.length-1), y=v=>m.t+(1-v/yMax)*(H-m.t-m.b);
+let svg=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Weekly share of postings for SQL, Python and Power BI">`;
+[0,20,40,60].forEach(t=>{svg+=`<line x1="${m.l}" x2="${W-m.r}" y1="${y(t)}" y2="${y(t)}" stroke="#E4EBEB"/><text x="${m.l-6}" y="${y(t)+4}" text-anchor="end" font-size="10" fill="#6A7272">${t}%</text>`});
+[0,5,11].forEach(i=>svg+=`<text x="${x(i)}" y="${H-6}" text-anchor="middle" font-size="10" fill="#6A7272">${weeks[i]}</text>`);
+series.forEach(s=>{
+  svg+=`<polyline fill="none" stroke="${s.hex}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" points="${s.v.map((v,i)=>`${x(i)},${y(v)}`).join(" ")}"/>`;
+  const last=s.v.length-1;
+  svg+=`<text x="${x(last)+8}" y="${y(s.v[last])+4}" font-size="11" font-weight="600" fill="#1C1C1C">${s.name}</text>`;
+});
+svg+=`<line id="xh" y1="${m.t}" y2="${H-m.b}" stroke="#1C1C1C" stroke-dasharray="3 3" opacity="0"/>`;
+series.forEach((s,k)=>svg+=`<circle id="d${k}" r="5" fill="${s.hex}" stroke="#fff" stroke-width="2" opacity="0"/>`);
+svg+=`<rect x="${m.l}" y="0" width="${W-m.l-m.r}" height="${H}" fill="transparent" id="hit"/></svg>`;
+const host=document.getElementById("line"); host.insertAdjacentHTML("beforeend",svg);
+const tip=document.getElementById("tip"), el=host.querySelector("svg"), xh=el.querySelector("#xh");
+el.querySelector("#hit").addEventListener("mousemove",e=>{
+  const r=el.getBoundingClientRect(), px=(e.clientX-r.left)*W/r.width;
+  const i=Math.max(0,Math.min(weeks.length-1,Math.round((px-m.l)/((W-m.l-m.r)/(weeks.length-1)))));
+  xh.setAttribute("x1",x(i));xh.setAttribute("x2",x(i));xh.setAttribute("opacity",1);
+  series.forEach((s,k)=>{const d=el.querySelector("#d"+k);d.setAttribute("cx",x(i));d.setAttribute("cy",y(s.v[i]));d.setAttribute("opacity",1)});
+  tip.innerHTML=`<b>${weeks[i]}</b><br>`+[...series].sort((a,b)=>b.v[i]-a.v[i]).map(s=>`<span class="sw" style="background:${s.hex}"></span>${s.name}: ${s.v[i]}%`).join("<br>");
+  const left=x(i)*r.width/W; tip.style.left=(left>r.width/2?left-tip.offsetWidth-12:left+12)+"px"; tip.style.top="8px"; tip.style.opacity=1;
+});
+el.querySelector("#hit").addEventListener("mouseleave",()=>{tip.style.opacity=0;xh.setAttribute("opacity",0);series.forEach((_,k)=>el.querySelector("#d"+k).setAttribute("opacity",0))});
+
+/* ---------- bar tooltips ---------- */
+const btip=document.createElement("div"); btip.className="tip"; document.body.appendChild(btip); btip.style.position="fixed";
+document.querySelectorAll(".bar").forEach(b=>{
+  b.addEventListener("mousemove",e=>{btip.innerHTML=b.dataset.tip;btip.style.left=e.clientX+14+"px";btip.style.top=e.clientY+14+"px";btip.style.opacity=1});
+  b.addEventListener("mouseleave",()=>btip.style.opacity=0);
+});
+
+/* ---------- role chips toggle ---------- */
+document.querySelectorAll(".filters .chip").forEach(c=>c.addEventListener("click",()=>{
+  document.querySelectorAll(".filters .chip").forEach(o=>o.setAttribute("aria-pressed","false")); c.setAttribute("aria-pressed","true");}));
+</script>
+</body>
+</html>
