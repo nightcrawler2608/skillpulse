@@ -1,0 +1,12 @@
+SAMPLE RESUME (fictional person, for testing only)
+Arjun Sample | Software Developer | 2 years experience | Bengaluru
+SKILLS
+Java 17, Spring Boot, Microservices, REST APIs, MySQL, Hibernate, Docker, Git, JUnit,
+Agile methodology, Problem Solving
+EXPERIENCE
+Software Engineer, Sample Fintech (2024 - present)
+- Built Spring Boot microservices for payment processing, exposing RESTful APIs.
+- Wrote JUnit unit tests and improved coverage to 80%.
+- Containerised services with Docker; worked in an agile team with two-week sprints.
+PROJECTS
+Inventory Service - Java and Spring Boot REST service backed by MySQL.

@@ -1,0 +1,16 @@
+SAMPLE RESUME (fictional person, for testing only)
+Riya Sample | B.Tech Computer Science, 2026 | Pune
+SUMMARY
+Final-year student looking for a Data Analyst role. Comfortable turning raw data into
+clear dashboards and insights.
+SKILLS
+SQL, Python (Pandas, NumPy), Microsoft Excel (pivot tables, VLOOKUP), Power BI,
+Statistics, Data Cleaning, Data Visualization, Communication, Teamwork
+PROJECTS
+Sales Dashboard - Built a Power BI dashboard on 50,000 retail orders; wrote SQL queries to
+calculate monthly KPIs and presented findings to faculty.
+Customer Churn Analysis - Cleaned a telecom dataset in Python, explored churn drivers with
+statistical tests, and visualised results with Matplotlib.
+EXPERIENCE
+Data Analytics Intern, Sample Retail Pvt Ltd (2 months) - Automated a weekly Excel report
+and analysed sales data for the regional team.

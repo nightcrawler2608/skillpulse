@@ -61,6 +61,21 @@ streamlit run app/main.py               # open http://localhost:8501
   (only when ≥ 8 postings list pay), plus the numbers as a table.
 - Every figure shows its sample size; small samples get a warning.
 
+## Resume analyzer (Phase 4)
+
+```powershell
+python pipelines/embed_jobs.py              # embeddings for new jobs (also runs nightly)
+python scripts/evaluate_matching.py --prepare   # Precision@5 workflow (see script header)
+```
+
+- **Resume reading:** PDF (pdfplumber) or pasted text, in memory only, never stored.
+- **Skills:** same dictionary as jobs, plus resume-only rules (plain "AI" counts; ML/LLM → AI,
+  AWS/Azure/GCP → Cloud Computing). Users can add or remove skills before scoring.
+- **Match score:** weighted coverage of the role's top 30 skills (weight = share of postings),
+  with "what-if" points for each missing skill.
+- **Job matches:** pgvector retrieves the 50 nearest jobs by meaning (all-MiniLM-L6-v2
+  embeddings), then re-ranks: 50% meaning + 50% Laplace-smoothed skill overlap.
+
 **Flow:** Adzuna API → clean (HTML, cities, salaries) → de-duplicate (job id + title/company/city
 hash) → map title to one of 10 roles → save to Postgres → expire jobs older than 30 days → log the
 run in `pipeline_runs`.

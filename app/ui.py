@@ -92,6 +92,27 @@ h1, h2, h3, h4 {{ font-family: 'Bowlby One', 'Arial Black', sans-serif !importan
 .sp-list li {{ font:clamp(20px,3vw,28px)/1.45 'Bowlby One','Arial Black',sans-serif; color:{INK}; }}
 .up {{ color:{GOOD}; }} .down {{ color:{TANGERINE}; }}
 .sp-note {{ background:{PAPER}; border:2px dashed {INK}; padding:14px 16px; font-size:13px; color:{INK}; }}
+.sp-chips {{ display:flex; flex-wrap:wrap; gap:8px; margin:6px 0 14px; }}
+.sp-chip {{ font:600 12.5px 'Inter',sans-serif; padding:6px 10px; border:1.5px solid {INK}; background:{PAPER};
+    color:{INK}; display:inline-flex; gap:6px; align-items:center; }}
+.sp-chip.miss {{ background:{SUN}; }}
+.sp-chip .ok {{ color:{GOOD}; font-weight:800; }}
+.sp-chip .n {{ font:11px 'Bowlby One','Arial Black',sans-serif; background:{INK}; color:#fff; min-width:18px;
+    height:18px; display:grid; place-items:center; border-radius:50%; }}
+.sp-chip .g {{ color:{INK3}; font-weight:500; }}
+.sp-ring {{ width:176px; height:176px; border-radius:50%; margin:6px auto 8px; display:grid; place-items:center; }}
+.sp-ring .in {{ width:130px; height:130px; border-radius:50%; background:{PAPER}; display:grid; place-items:center;
+    text-align:center; }}
+.sp-ring .v {{ font:54px/1 'Anton',Impact,sans-serif; color:{INK}; }}
+.sp-job {{ background:{PAPER}; border:2px solid {INK}; box-shadow:6px 6px 0 {BG_SHADOW}; padding:16px 18px;
+    margin-bottom:16px; }}
+.sp-job .t {{ font:16px/1.25 'Bowlby One','Arial Black',sans-serif; color:{INK}; }}
+.sp-job .m {{ font-size:12.5px; color:{INK2}; margin:4px 0 8px; }}
+.sp-job .fit {{ display:flex; justify-content:space-between; align-items:center; border-top:1.5px solid {INK};
+    padding-top:10px; margin-top:6px; }}
+.sp-job .pct {{ font:22px 'Bowlby One','Arial Black',sans-serif; color:{INK}; }}
+.sp-job a.go {{ font:11px 'Bowlby One','Arial Black',sans-serif; text-transform:uppercase; color:{INK};
+    border:2px solid {INK}; padding:7px 12px; box-shadow:3px 3px 0 {INK}; text-decoration:none; background:{PAPER}; }}
 """
 
 
@@ -139,6 +160,50 @@ def stat(tag: str, value: str, label_html: str) -> str:
 def card(name: str):
     """A white, ink-bordered card (use as `with ui.card("top"):`)."""
     return st.container(border=True, key=f"card-{name}")
+
+
+def score_ring(score: float) -> str:
+    pct = max(0.0, min(100.0, score))
+    return (f'<div class="sp-ring" role="img" aria-label="Match score {score:.0f} out of 100" '
+            f'style="background:conic-gradient({INK} 0 {pct}%, {GRID} {pct}% 100%)">'
+            f'<div class="in"><div><div class="v">{score:.0f}</div>'
+            f'<div class="sp-cap">out of 100</div></div></div></div>')
+
+
+def chips(items: list[str], kind: str = "have") -> str:
+    if kind == "have":
+        inner = "".join(f'<span class="sp-chip"><span class="ok">✓</span>{html.escape(s)}</span>'
+                        for s in items)
+    else:
+        inner = "".join(f'<span class="sp-chip">{html.escape(s)}</span>' for s in items)
+    return f'<div class="sp-chips">{inner}</div>'
+
+
+def gap_chips(gaps) -> str:
+    """Missing skills: rank, name, share of postings, and the score gain."""
+    inner = "".join(
+        f'<span class="sp-chip miss"><span class="n">{i}</span>{html.escape(g.skill)}'
+        f'<span class="g">· {g.share * 100:.0f}% of jobs · +{g.gain:.0f} pts</span></span>'
+        for i, g in enumerate(gaps, 1))
+    return f'<div class="sp-chips">{inner}</div>'
+
+
+def job_card(title: str, meta: str, fit: float, matched: list[str], to_learn: list[str],
+             url: str | None) -> str:
+    def _chip_list(items, cls=""):
+        return "".join(f'<span class="sp-chip {cls}">{html.escape(s)}</span>' for s in items)
+    link = (f'<a class="go" href="{html.escape(url)}" target="_blank" rel="noopener">View job ▸</a>'
+            if url else "")
+    skills = ""
+    if matched:
+        skills += f'<div class="sp-cap">You have</div><div class="sp-chips">{_chip_list(matched)}</div>'
+    if to_learn:
+        skills += (f'<div class="sp-cap">It also asks for</div>'
+                   f'<div class="sp-chips">{_chip_list(to_learn[:5], "miss")}</div>')
+    return (f'<div class="sp-job"><div class="t">{html.escape(title)}</div>'
+            f'<div class="m">{html.escape(meta)}</div>{skills}'
+            f'<div class="fit"><span><span class="pct">{fit * 100:.0f}%</span> '
+            f'<span class="sp-cap">fit</span></span>{link}</div></div>')
 
 
 def rule() -> None:

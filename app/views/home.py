@@ -40,8 +40,8 @@ ui.show(f"""
 
 c1, c2, c3 = st.columns([1, 1.2, 1])
 with c2:
+    st.page_link("views/resume.py", label="Check my resume →", use_container_width=True)
     st.page_link("views/market.py", label="See the market dashboard →", use_container_width=True)
-    st.caption("Resume analyzer: coming soon")
 
 ui.rule()
 
@@ -52,8 +52,8 @@ with right:
     ui.show("""
     <div class="sp-cap" style="text-align:center;margin-bottom:6px">What you get, free:</div>
     <ul class="sp-list">
-      <li>Live Skill Rankings</li><li>Skill Trends Over Time</li><li>City-by-City View</li>
-      <li style="opacity:.45">Resume Match Score <span style="font-size:12px">(soon)</span></li>
+      <li>Live Skill Rankings</li><li>Resume Match Score</li><li>Missing Skills, Ranked</li>
+      <li>Jobs That Fit You</li>
       <li style="opacity:.45">AI Learning Plan <span style="font-size:12px">(soon)</span></li>
     </ul>""")
 

@@ -43,11 +43,26 @@ class CleanJob:
     role_id: int | None = None   # filled in by the role mapper
 
 
+MOJIBAKE_RE = re.compile(r"â[\x80-\x9f€]*[\x80-\x9f–—“”™]?")
+
+
+def fix_mojibake(text: str) -> str:
+    """Repair text whose UTF-8 bytes were decoded as Latin-1 somewhere upstream
+    ("12 PM â\x80\x93 9 PM" -> "12 PM – 9 PM")."""
+    if "â" not in text and "Ã" not in text:
+        return text
+    try:
+        return text.encode("cp1252").decode("utf-8")
+    except (UnicodeEncodeError, UnicodeDecodeError):
+        # Bytes were partly lost: the usual culprit is an en dash, so use that.
+        return MOJIBAKE_RE.sub("–", text)
+
+
 def clean_text(text: str | None) -> str | None:
-    """Remove HTML tags/entities and squeeze whitespace."""
+    """Remove HTML tags/entities, repair broken characters, squeeze whitespace."""
     if not text:
         return None
-    text = html.unescape(TAG_RE.sub(" ", text))
+    text = fix_mojibake(html.unescape(TAG_RE.sub(" ", text)))
     text = SPACE_RE.sub(" ", text).strip()
     return text or None
 

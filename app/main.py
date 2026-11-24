@@ -13,5 +13,6 @@ ui.inject_theme()
 pages = [
     st.Page("views/home.py", title="Home", icon=":material/home:", default=True),
     st.Page("views/market.py", title="Market dashboard", icon=":material/monitoring:"),
+    st.Page("views/resume.py", title="Resume analyzer", icon=":material/description:"),
 ]
 st.navigation(pages, position="top").run()

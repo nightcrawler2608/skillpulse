@@ -1,0 +1,12 @@
+SAMPLE RESUME (fictional person, for testing only)
+Meera Sample | M.Tech AI | Hyderabad
+SKILLS
+Python, PyTorch, TensorFlow, Scikit-learn, Machine Learning, Deep Learning, Natural Language
+Processing, Large Language Models, RAG, LangChain, Hugging Face, Docker, AWS, SQL
+PROJECTS
+Document Q&A Assistant - Retrieval augmented generation pipeline with LangChain and a vector
+database (FAISS); deployed as a FastAPI service on AWS.
+Sentiment Classifier - Fine-tuning a BERT model with Hugging Face on 20k reviews.
+EXPERIENCE
+ML Intern, Sample AI Labs - Trained deep learning models in PyTorch and helped deploy
+machine learning models to production with Docker.
