@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-label="baseo mascot"><g stroke="#1C1C1C" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M56 56 v120 a56 20 0 0 0 112 0 v-120 z" fill="#BCC9C9" stroke="none"/>
+        <path d="M40 42 v120 a62 22 0 0 0 124 0 v-120" fill="#0E6B47"/>
+        <path d="M40 82 a62 22 0 0 0 124 0" fill="none" stroke="#1C1C1C"/>
+        <path d="M40 122 a62 22 0 0 0 124 0" fill="none" stroke="#1C1C1C"/>
+        <ellipse cx="102" cy="42" rx="62" ry="22" fill="#1E9466"/>
+        <!-- screen with face -->
+        <rect x="68" y="92" width="68" height="50" rx="8" fill="#2BA8F0"/>
+        <ellipse cx="88" cy="112" rx="4.5" ry="7" fill="#1C1C1C" stroke="none"/>
+        <ellipse cx="116" cy="112" rx="4.5" ry="7" fill="#1C1C1C" stroke="none"/>
+        <path d="M92 126 q10 8 20 0" fill="none"/>
+        <!-- side light + plug -->
+        <circle cx="148" cy="64" r="6" fill="#FFB000"/>
+        <path d="M164 140 q30 4 26 34" fill="none"/>
+        <rect x="180" y="170" width="20" height="16" rx="3" fill="#F2541B"/>
+      </g></svg>

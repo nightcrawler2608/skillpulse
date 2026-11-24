@@ -45,6 +45,22 @@ python scripts/evaluate_extraction.py            # precision / recall / F1 -> re
 - **Layer B (embeddings):** `all-MiniLM-L6-v2` compares 2–3 word phrases with skill names by meaning.
   The evaluation decides whether it's worth keeping and at what threshold.
 
+**Accuracy (held-out test set, 90 jobs):** precision 0.936, recall 0.860, F1 0.896.
+See [reports/](reports/).
+
+## Web app (Phase 3)
+
+```powershell
+python pipelines/aggregate.py --all     # build the daily skill-demand table (also runs nightly)
+streamlit run app/main.py               # open http://localhost:8501
+```
+
+- **Home:** live "trending skills" ribbon, data freshness, what the app does.
+- **Market dashboard:** top skills by role × city × time window, skill demand over time,
+  rising/cooling skills (once 28 days of data exist), where the jobs are, advertised salary
+  (only when ≥ 8 postings list pay), plus the numbers as a table.
+- Every figure shows its sample size; small samples get a warning.
+
 **Flow:** Adzuna API → clean (HTML, cities, salaries) → de-duplicate (job id + title/company/city
 hash) → map title to one of 10 roles → save to Postgres → expire jobs older than 30 days → log the
 run in `pipeline_runs`.

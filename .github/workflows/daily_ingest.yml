@@ -41,3 +41,7 @@ jobs:
         run: python pipelines/extract_skills.py
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      - name: Update dashboard numbers
+        run: python pipelines/aggregate.py
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}

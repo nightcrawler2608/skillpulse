@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-label="chartie mascot"><g stroke="#1C1C1C" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+        <rect x="46" y="44" width="150" height="150" rx="16" fill="#BCC9C9" stroke="none"/>
+        <path d="M110 34 L96 14 M110 34 L128 12" fill="none"/>
+        <circle cx="128" cy="12" r="5" fill="#F2541B"/>
+        <rect x="30" y="32" width="150" height="150" rx="16" fill="#EEF3F3"/>
+        <rect x="44" y="44" width="122" height="20" rx="4" fill="#F2541B"/>
+        <rect x="44" y="74" width="122" height="78" rx="8" fill="#FFB000"/>
+        <!-- face -->
+        <ellipse cx="80" cy="102" rx="6" ry="9" fill="#1C1C1C" stroke="none"/>
+        <path d="M118 104 q10 -10 20 0" fill="none"/>
+        <path d="M86 124 q19 18 38 0 z" fill="#fff"/>
+        <ellipse cx="66" cy="122" rx="8" ry="5" fill="#F2541B" stroke="none" opacity=".55"/>
+        <ellipse cx="146" cy="122" rx="8" ry="5" fill="#F2541B" stroke="none" opacity=".55"/>
+        <!-- knob -->
+        <circle cx="182" cy="110" r="15" fill="#FFB000"/>
+        <circle cx="182" cy="110" r="5" fill="#1C1C1C" stroke="none"/>
+        <!-- bottom panel -->
+        <circle cx="54" cy="167" r="5" fill="#1C1C1C" stroke="none"/>
+        <circle cx="70" cy="167" r="4" fill="#1C1C1C" stroke="none"/>
+        <rect x="118" y="161" width="46" height="12" rx="3" fill="#2BA8F0"/>
+        <rect x="52" y="182" width="20" height="14" rx="3" fill="#2B2D8E"/>
+        <rect x="140" y="182" width="20" height="14" rx="3" fill="#2B2D8E"/>
+      </g>
+      <text x="58" y="59" font-family="Bowlby One, Arial Black" font-size="12" fill="#fff">LIVE ▸▸▸</text></svg>

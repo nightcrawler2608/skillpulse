@@ -2,6 +2,12 @@
   "version": "0.0.1",
   "configurations": [
     {
+      "name": "app",
+      "runtimeExecutable": ".venv/Scripts/streamlit.exe",
+      "runtimeArgs": ["run", "app/main.py", "--server.port", "8501", "--server.headless", "true"],
+      "port": 8501
+    },
+    {
       "name": "labeler",
       "runtimeExecutable": ".venv/Scripts/streamlit.exe",
       "runtimeArgs": ["run", "app/labeler.py", "--server.port", "8502", "--server.headless", "true"],

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-label="lensy mascot"><g stroke="#1C1C1C" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+        <circle cx="104" cy="98" r="64" fill="#BCC9C9" stroke="none"/>
+        <g transform="rotate(45 150 150)"><rect x="136" y="128" width="30" height="78" rx="12" fill="#BCC9C9" stroke="none"/></g>
+        <g transform="rotate(45 138 138)"><rect x="124" y="118" width="30" height="78" rx="12" fill="#F2541B"/>
+          <rect x="124" y="118" width="30" height="16" fill="#2B2D8E"/></g>
+        <circle cx="92" cy="86" r="64" fill="#2B2D8E"/>
+        <circle cx="92" cy="86" r="46" fill="#FFB000"/>
+        <path d="M60 64 q10 -16 28 -18" fill="none" stroke="#fff" stroke-width="6"/>
+        <!-- face -->
+        <path d="M70 84 q8 -10 16 0" fill="none"/>
+        <path d="M100 84 q8 -10 16 0" fill="none"/>
+        <path d="M76 100 q17 16 34 0" fill="#fff"/>
+        <!-- sparkles -->
+        <path d="M176 30 v18 M167 39 h18" fill="none"/>
+        <path d="M20 150 v12 M14 156 h12" fill="none"/>
+      </g></svg>
