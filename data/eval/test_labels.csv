@@ -1,0 +1,91 @@
+job_id,skills,other,labeled_at,annotator
+2,,,2026-11-24T05:26:03+00:00,claude
+17,Data Modeling|Data Pipelines|ETL,streaming ingestion,2026-11-24T05:26:03+00:00,claude
+26,Artificial Intelligence,,2026-11-24T05:26:03+00:00,claude
+43,CSS|HTML|JavaScript|Jira|Responsive Design|SQL|Stakeholder Management,"Optimizely, CMS",2026-11-24T05:26:03+00:00,claude
+50,Requirements Gathering,,2026-11-24T05:26:03+00:00,claude
+52,,,2026-11-24T05:26:03+00:00,claude
+56,Data Quality|KPI Tracking|Requirements Gathering|SQL,data profiling,2026-11-24T05:26:03+00:00,claude
+69,SAP,,2026-11-24T05:26:03+00:00,claude
+80,Microsoft Azure,,2026-11-24T05:26:03+00:00,claude
+84,Power BI,,2026-11-24T05:26:03+00:00,claude
+115,Apache Spark|Data Pipelines|Databricks|ETL|Microsoft Azure|Python|SQL,,2026-11-24T05:26:03+00:00,claude
+129,Artificial Intelligence|Generative AI|Machine Learning,,2026-11-24T05:26:03+00:00,claude
+131,,,2026-11-24T05:26:03+00:00,claude
+140,Teamwork,,2026-11-24T05:26:03+00:00,claude
+161,Machine Learning|Natural Language Processing|Python|SQL,,2026-11-24T05:26:03+00:00,claude
+173,Artificial Intelligence|Machine Learning,,2026-11-24T05:26:03+00:00,claude
+184,Artificial Intelligence|Data Cleaning|Deep Learning|Generative AI|MLOps|Machine Learning|Model Deployment|Natural Language Processing|Teamwork,,2026-11-24T05:26:03+00:00,claude
+193,,,2026-11-24T05:26:03+00:00,claude
+196,,,2026-11-24T05:26:03+00:00,claude
+213,,,2026-11-24T05:26:03+00:00,claude
+220,,,2026-11-24T05:26:03+00:00,claude
+228,Artificial Intelligence,,2026-11-24T05:26:03+00:00,claude
+234,,,2026-11-24T05:26:03+00:00,claude
+246,,"attribution modeling, marketing mix modeling",2026-11-24T05:26:03+00:00,claude
+260,Artificial Intelligence|Machine Learning,,2026-11-24T05:26:03+00:00,claude
+278,,,2026-11-24T05:26:03+00:00,claude
+279,Artificial Intelligence|Machine Learning,,2026-11-24T05:26:03+00:00,claude
+291,Artificial Intelligence|Data Lake|Data Modeling|Data Pipelines|Data Warehousing|ETL|Machine Learning,,2026-11-24T05:26:03+00:00,claude
+300,Artificial Intelligence,,2026-11-24T05:26:03+00:00,claude
+305,,,2026-11-24T05:26:03+00:00,claude
+313,,clinical data,2026-11-24T05:26:03+00:00,claude
+317,,,2026-11-24T05:26:03+00:00,claude
+323,Artificial Intelligence,,2026-11-24T05:26:03+00:00,claude
+351,Artificial Intelligence|Computer Vision|Deep Learning|Generative AI,chatbots,2026-11-24T05:26:03+00:00,claude
+365,Data Analysis|Data Cleaning|Data Visualization|Statistics,,2026-11-24T05:26:03+00:00,claude
+393,,,2026-11-24T05:26:03+00:00,claude
+414,Artificial Intelligence|Deep Learning|Machine Learning,,2026-11-24T05:26:03+00:00,claude
+430,Machine Learning,,2026-11-24T05:26:03+00:00,claude
+456,AWS,,2026-11-24T05:26:03+00:00,claude
+468,Agile|Data Warehousing|Snowflake|dbt,,2026-11-24T05:26:03+00:00,claude
+510,,,2026-11-24T05:26:03+00:00,claude
+513,Microsoft Azure,,2026-11-24T05:26:03+00:00,claude
+565,,,2026-11-24T05:26:03+00:00,claude
+572,Microsoft Azure|SQL|Teamwork,Microsoft BI,2026-11-24T05:26:03+00:00,claude
+574,Cloud Computing,,2026-11-24T05:26:03+00:00,claude
+620,CRM|Data Modeling|SQL|Salesforce,"Salesforce Data Cloud, CPQ",2026-11-24T05:26:03+00:00,claude
+633,,Microsoft Fabric,2026-11-24T05:26:03+00:00,claude
+662,AI Agents|Artificial Intelligence|Teamwork,function calling,2026-11-24T05:26:03+00:00,claude
+667,AI Agents|Artificial Intelligence|Model Deployment|Monitoring & Observability,guardrails,2026-11-24T05:26:03+00:00,claude
+713,KPI Tracking|Process Mapping|Requirements Gathering|Snowflake|User Stories,"Sigma, Dataiku, UAT",2026-11-24T05:26:03+00:00,claude
+722,,,2026-11-24T05:26:03+00:00,claude
+725,MIS Reporting,,2026-11-24T05:26:03+00:00,claude
+734,Data Analysis,,2026-11-24T05:26:03+00:00,claude
+736,Generative AI|Jira|Product Management|Requirements Gathering|User Stories,,2026-11-24T05:26:03+00:00,claude
+775,Data Analysis|Problem Solving|Requirements Gathering,,2026-11-24T05:26:03+00:00,claude
+799,,"stress testing, market risk",2026-11-24T05:26:03+00:00,claude
+801,BRD/FRD|Requirements Gathering,PRD,2026-11-24T05:26:03+00:00,claude
+802,Attention to Detail|Requirements Gathering|Teamwork,,2026-11-24T05:26:03+00:00,claude
+909,.NET|C#|REST APIs,,2026-11-24T05:26:03+00:00,claude
+919,AWS|Cloud Computing|Go|REST APIs|React,,2026-11-24T05:26:03+00:00,claude
+966,,,2026-11-24T05:26:03+00:00,claude
+981,Android|Teamwork,offline-first apps,2026-11-24T05:26:03+00:00,claude
+999,Cybersecurity,,2026-11-24T05:26:03+00:00,claude
+1001,Cloud Computing|Java|Kubernetes|REST APIs|Spring Boot|gRPC,event-driven architecture,2026-11-24T05:26:03+00:00,claude
+1012,.NET|ASP.NET|C#|Microsoft Azure|REST APIs|React|SQL Server|Test Automation|TypeScript,,2026-11-24T05:26:03+00:00,claude
+1068,.NET|Angular|C#|Microsoft Azure,,2026-11-24T05:26:03+00:00,claude
+1138,.NET|Angular,desktop applications,2026-11-24T05:26:03+00:00,claude
+1146,Angular|Java|Oracle Database,J2EE,2026-11-24T05:26:03+00:00,claude
+1149,Python,,2026-11-24T05:26:03+00:00,claude
+1188,Node.js,,2026-11-24T05:26:03+00:00,claude
+1201,Java,,2026-11-24T05:26:03+00:00,claude
+1203,AWS|Teamwork,,2026-11-24T05:26:03+00:00,claude
+1209,AI Agents|Artificial Intelligence|Leadership,,2026-11-24T05:26:03+00:00,claude
+1228,,AIX,2026-11-24T05:26:03+00:00,claude
+1249,AI Agents|Artificial Intelligence|Java|Microservices|REST APIs|React|Spring Boot|Spring Framework|System Design,,2026-11-24T05:26:03+00:00,claude
+1280,,,2026-11-24T05:26:03+00:00,claude
+1284,Generative AI,,2026-11-24T05:26:03+00:00,claude
+1294,JavaScript|React|TypeScript,Adobe InDesign,2026-11-24T05:26:03+00:00,claude
+1303,Artificial Intelligence|Cloud Computing,,2026-11-24T05:26:03+00:00,claude
+1306,Java|Microsoft Azure|React|Spring Boot,,2026-11-24T05:26:03+00:00,claude
+1319,Artificial Intelligence|Large Language Models|REST APIs,,2026-11-24T05:26:03+00:00,claude
+1333,Teamwork,,2026-11-24T05:26:03+00:00,claude
+1339,,,2026-11-24T05:26:03+00:00,claude
+1369,,,2026-11-24T05:26:03+00:00,claude
+1398,AWS,,2026-11-24T05:26:03+00:00,claude
+1414,,,2026-11-24T05:26:03+00:00,claude
+1417,,,2026-11-24T05:26:03+00:00,claude
+1418,,,2026-11-24T05:26:03+00:00,claude
+1431,AWS|IAM,"AWS Cognito, RBAC",2026-11-24T05:26:03+00:00,claude
+1432,AWS|AWS Lambda|Computer Networking|Cybersecurity|Elasticsearch,"VPC, ECS",2026-11-24T05:26:03+00:00,claude

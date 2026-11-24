@@ -14,16 +14,20 @@ from __future__ import annotations
 
 import csv
 import os
+import sys
 from datetime import UTC, datetime
 from pathlib import Path
 
 import streamlit as st
 
-from skillpulse.config import PROJECT_ROOT
+from skillpulse.nlp.evalsets import labels_path, sample_path
 from skillpulse.nlp.taxonomy import default_skills
 
-SAMPLE = PROJECT_ROOT / "data" / "eval" / "sample_jobs.csv"
-LABELS = PROJECT_ROOT / "data" / "eval" / "labels.csv"
+# Which set to label: `streamlit run app/labeler.py` (dev) or
+# `streamlit run app/labeler.py -- --split test`
+SPLIT = "test" if "test" in sys.argv[1:] else "dev"
+SAMPLE = sample_path(SPLIT)
+LABELS = labels_path(SPLIT)
 FIELDS = ["job_id", "skills", "other", "labeled_at", "annotator"]
 
 st.set_page_config(page_title="SkillPulse labeller", layout="wide")
@@ -61,7 +65,7 @@ labels = load_labels()
 skill_names = sorted((s.name for s in default_skills()), key=str.lower)
 
 done = sum(1 for j in jobs if j["job_id"] in labels)
-st.progress(done / len(jobs), text=f"{done} / {len(jobs)} jobs labelled")
+st.progress(done / len(jobs), text=f"{SPLIT} set: {done} / {len(jobs)} jobs labelled")
 
 if "idx" not in st.session_state:
     st.session_state.idx = next((i for i, j in enumerate(jobs) if j["job_id"] not in labels), 0)

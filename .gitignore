@@ -31,3 +31,4 @@ data/eval/sample_jobs.csv
 Thumbs.db
 .vscode/
 .idea/
+data/eval/test_jobs.csv

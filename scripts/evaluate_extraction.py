@@ -20,12 +20,10 @@ from collections import Counter
 from datetime import date
 
 from skillpulse.config import PROJECT_ROOT
+from skillpulse.nlp.evalsets import SPLITS, labels_path, sample_path
 from skillpulse.nlp.extractor import DictionaryExtractor
 from skillpulse.nlp.taxonomy import default_skills
 
-SAMPLE = PROJECT_ROOT / "data" / "eval" / "sample_jobs.csv"
-LABELS = PROJECT_ROOT / "data" / "eval" / "labels.csv"
-REPORT = PROJECT_ROOT / "reports" / "extraction_eval.md"
 THRESHOLDS = [0.70, 0.75, 0.80, 0.85, 0.90]
 
 
@@ -46,7 +44,12 @@ def score(truth: list[set[str]], pred: list[set[str]]):
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--no-embeddings", action="store_true")
+    parser.add_argument("--split", choices=SPLITS, default="dev")
+    parser.add_argument("--details", action="store_true",
+                        help="print every wrong/missed skill per job (dev set only!)")
     args = parser.parse_args()
+    SAMPLE, LABELS = sample_path(args.split), labels_path(args.split)
+    REPORT = PROJECT_ROOT / "reports" / f"extraction_eval_{args.split}.md"
 
     if not LABELS.exists():
         print("No labels yet. Run:  streamlit run app/labeler.py")
@@ -73,12 +76,22 @@ def main() -> int:
             pred = [a | {s for _, s, sim in c if sim >= th} for a, c in zip(pred_a, cands)]
             rows.append((f"Dictionary + embeddings @ {th:.2f}", *score(truth, pred)))
 
+    if args.details:
+        if args.split == "test":
+            print("Refusing --details on the test set: looking at test mistakes = tuning on it.")
+            return 1
+        for i, t, p in zip(ids, truth, pred_a):
+            if t != p:
+                ev = {m.skill: m.alias for m in dictionary.matches(texts[i])}
+                print(f"\n[{i}] missed={sorted(t - p)} wrong={[(s, ev[s]) for s in sorted(p - t)]}")
+                print("    " + texts[i][:600])
+
     # Per-skill errors for Layer A: what it misses / wrongly adds most often
     missed = Counter(s for t, p in zip(truth, pred_a) for s in t - p)
     extra = Counter(s for t, p in zip(truth, pred_a) for s in p - t)
 
     lines = [
-        "# Skill extraction evaluation",
+        f"# Skill extraction evaluation: {args.split} set",
         "",
         (f"Date: {date.today()} · Jobs labelled: {len(labels)} · "
          f"Skills in dictionary: {len(skills)} · True job-skill pairs: {sum(map(len, truth))}"),
