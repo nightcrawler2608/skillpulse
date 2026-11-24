@@ -17,6 +17,7 @@ Rules, in plain language:
 from __future__ import annotations
 
 import re
+from datetime import date
 
 # --- job side -----------------------------------------------------------------
 _YEARS = re.compile(
@@ -29,11 +30,17 @@ _FRESHER_TITLE = re.compile(r"(?i)\b(freshers?|entry[- ]level|graduate|intern(sh
                             r"jr\.?|trainee|associate)(?=\W|$)")
 _TITLE_LEVELS = [   # checked in order; first match wins
     (re.compile(r"(?i)\b(distinguished|director|head|vice president|vp|avp|principal|"
-                r"staff|architect|manager|lead|expert)\b"), 8.0),
-    (re.compile(r"(?i)\b(senior|sr\.?)(?=\W)"), 5.0),
+                r"staff|architect|manager|lead|expert|advisor)\b"), 8.0),
+    (re.compile(r"(?i)\b(senior|sr\.?|founding|l4|level 4)(?=\W|$)"), 5.0),
     (re.compile(r"(?i)\b(iii|l3|level 3)\b"), 4.0),
+    (re.compile(r"(?i)\b(specialist)\b"), 3.0),
     (re.compile(r"(?i)\b(ii|l2|level 2|sde 2|engineer 2|scientist 2)\b"), 2.0),
 ]
+# Text that asks for experience without a number: "We are looking for an experienced ...".
+_EXPERIENCED = re.compile(
+    r"(?i)\b(?:looking for|seeking|hiring|need)\s+(?:an?\s+)?(?:highly\s+)?"
+    r"(?:experienced|seasoned|highly skilled)\b|\bdeep expertise\b|\bproven track record\b")
+_INTERN_TITLE = re.compile(r"(?i)\bintern(ship)?\b")
 
 
 def years_in_text(text: str) -> float | None:
@@ -53,7 +60,13 @@ def job_years(title: str, text: str = "") -> float | None:
             return years
     if _FRESHER_TITLE.search(title or "") or _FRESHER_TEXT.search(text or ""):
         return 0.0
+    if _EXPERIENCED.search(text or ""):
+        return 3.0
     return None
+
+
+def is_internship(title: str) -> bool:
+    return bool(_INTERN_TITLE.search(title or ""))
 
 
 # --- resume side ----------------------------------------------------------------
@@ -65,13 +78,42 @@ _R_YEARS = re.compile(rf"(?i)(?:\bwith\s+|\bfor\s+|\(){_NUM}(?:years?|yrs?)\b"
 _R_MONTHS = re.compile(r"(?i)(?:\bwith\s+|\bfor\s+|\()(\d{1,2})\s*months?\b")
 
 
-def resume_years(text: str) -> float:
-    """Largest stated experience in years (months / 12); 0 for a fresher.
-    Date ranges ("2023 - Present") aren't read; the app lets users correct the estimate."""
+_MONTHS = {m: i for i, m in enumerate(
+    ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"], 1)}
+_MON = r"(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s*"
+_NOW = r"(present|current|now|till date|today)"
+# "Jul 2023 - Present", "Jun 2026 – Aug 2026", "since Mar 2023". Month names are required so
+# that education years ("2022 - 2026") aren't counted as work.
+_RANGE = re.compile(rf"(?i)\b{_MON}((?:19|20)\d\d)\s*(?:-|–|—|to)\s*(?:{_MON}((?:19|20)\d\d)|{_NOW})")
+_SINCE = re.compile(rf"(?i)\bsince\s+{_MON}((?:19|20)\d\d)")
+
+
+def _months_between(m1: str, y1: str, m2: str | None, y2: str | None, today: date) -> int:
+    start = int(y1) * 12 + _MONTHS[m1[:3].lower()]
+    end = (int(y2) * 12 + _MONTHS[m2[:3].lower()] if m2 and y2
+           else today.year * 12 + today.month)
+    return max(0, end - start + 1)
+
+
+def years_from_dates(text: str, today: date | None = None) -> float:
+    """Total months in work date ranges, as years. Overlapping jobs are rare on fresher
+    and junior resumes, so ranges are simply added up."""
+    today = today or date.today()
+    months = sum(_months_between(m.group(1), m.group(2), m.group(3), m.group(4), today)
+                 for m in _RANGE.finditer(text or ""))
+    months += sum(_months_between(m.group(1), m.group(2), None, None, today)
+                  for m in _SINCE.finditer(text or ""))
+    return months / 12
+
+
+def resume_years(text: str, today: date | None = None) -> float:
+    """Experience in years: the larger of what the resume states ("2 years of experience",
+    "(18 months)") and the total of its work date ranges; 0 for a fresher."""
     years = [float(m.group(1) or m.group(2)) for m in _R_YEARS.finditer(text or "")]
     years += [int(m.group(1)) / 12 for m in _R_MONTHS.finditer(text or "")]
+    years.append(years_from_dates(text, today))
     years = [y for y in years if y <= 40]
-    return round(max(years), 1) if years else 0.0
+    return round(max(years), 1)
 
 
 # --- combining --------------------------------------------------------------------

@@ -1,0 +1,4 @@
+SYNTHETIC RESUME (fictional person, held-out set for a trial evaluation)
+Candidate AJ | B.E. IT | Hyderabad
+Backend Developer, an ed-tech, Apr 2023 - Present: Python FastAPI and Django services,
+PostgreSQL, Celery, Redis, AWS. Skills: Python, Django, FastAPI, PostgreSQL, Redis, AWS, Docker.

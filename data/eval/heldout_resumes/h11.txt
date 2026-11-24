@@ -1,0 +1,4 @@
+SYNTHETIC RESUME (fictional person, held-out set for a trial evaluation)
+Candidate AE | B.Tech IT, 2026 | Hyderabad
+Fresher. Skills: Python, C++, Data Structures, Algorithms, OOP, SQL, Git, Django (basic).
+Projects: competitive programming (1600+ rating); file-sharing web app in Django.

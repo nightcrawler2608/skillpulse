@@ -1,0 +1,5 @@
+SYNTHETIC RESUME (fictional person, held-out set for a trial evaluation)
+Candidate U | BSc Mathematics, 2026 | Chennai
+Aspiring data analyst. Skills: Excel, Power BI, SQL, Python (Pandas), Statistics, DAX.
+Projects: HR attrition dashboard in Power BI with DAX measures; SQL analysis of a public
+bike-sharing dataset. Internship: Business Intelligence intern, a logistics firm, Jun 2026 - Aug 2026.

@@ -1,0 +1,4 @@
+SYNTHETIC RESUME (fictional person, held-out set for a trial evaluation)
+Candidate AM | B.Tech CSE, 2026 | Delhi
+Fresher, Azure Fundamentals (AZ-900). Skills: Azure, Linux, Docker, Git, GitHub Actions, Bash,
+Terraform (basic). Projects: CI/CD with GitHub Actions deploying a container to Azure.

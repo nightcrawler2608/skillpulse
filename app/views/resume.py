@@ -140,7 +140,8 @@ ui.section("Live job matches", "Jobs that fit you",
            f"{r['role']} postings{' in ' + r['city'] if r['city'] else ''}, ranked by how close "
            "they are to your resume in meaning and in skills.")
 with get_connection() as conn:
-    jobs = recommend(conn, r["vec"], skills, role_id, r["city"], top=9, have_years=have_years)
+    jobs = recommend(conn, r["vec"], skills, role_id, r["city"], top=9, have_years=have_years,
+                     stack_check=True)
 if jobs.empty:
     st.info("No active postings for this role and city yet. Try 'Any city'.")
 else:

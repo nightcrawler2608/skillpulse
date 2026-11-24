@@ -1,0 +1,5 @@
+SYNTHETIC RESUME (fictional person, held-out set for a trial evaluation)
+Candidate W | B.Tech CSE, 2026 | Bengaluru
+Final-year student. Skills: Python, scikit-learn, Pandas, SQL, NLP, Machine Learning, Statistics,
+Git. Projects: fake-news classifier with TF-IDF + logistic regression; customer segmentation with
+K-Means; Kaggle competition top 15%.

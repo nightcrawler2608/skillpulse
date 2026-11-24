@@ -1,0 +1,4 @@
+SYNTHETIC RESUME (fictional person, held-out set for a trial evaluation)
+Candidate AA | MCA, 2026 | Noida
+Fresher data engineer. Skills: Python, SQL, PySpark, Apache Spark, Hadoop, Hive, Linux, Git.
+Projects: PySpark job that aggregates 10 GB of taxi trips; Hive tables partitioned by date.

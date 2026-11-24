@@ -1,0 +1,5 @@
+SYNTHETIC RESUME (fictional person, held-out set for a trial evaluation)
+Candidate AD | BBA, MBA | Bengaluru
+Business Analyst, an IT services firm, May 2024 - Present: user stories in Jira, process maps,
+UAT, SQL data checks. Skills: Requirements Gathering, BRD/FRD, User Stories, Jira, Agile, SQL,
+Visio, Stakeholder Management.

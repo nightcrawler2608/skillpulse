@@ -1,0 +1,4 @@
+SYNTHETIC RESUME (fictional person, held-out set for a trial evaluation)
+Candidate AH | B.Tech | Bengaluru
+Frontend Developer, Jan 2024 - Present, a fintech: Angular and TypeScript dashboards, RxJS,
+unit tests with Jasmine. Skills: Angular, TypeScript, JavaScript, RxJS, HTML, CSS, Git.

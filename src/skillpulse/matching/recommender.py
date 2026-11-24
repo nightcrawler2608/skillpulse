@@ -13,7 +13,10 @@ Two steps (a common "retrieve, then re-rank" design):
      fit      = 50% meaning + 50% skills
 3. Level: if we know the user's experience, multiply fit by a level factor so jobs
    asking for far more years sink (see seniority.py). To leave room for that, the
-   database returns 100 candidates instead of 50.
+   database returns 100 candidates instead of 50. Internships are down-ranked for
+   anyone with 1+ years of experience.
+4. Stack: if the job's languages/frameworks share nothing with yours, fit x 0.6
+   (see stack.py).
 
 The 50/50 weighting is a starting point; Precision@5 on hand-judged resumes
 (scripts/evaluate_matching.py) is how we check whether it's any good.
@@ -25,10 +28,12 @@ import numpy as np
 import pandas as pd
 
 from skillpulse.matching.embedder import to_pgvector
-from skillpulse.matching.seniority import job_years, level_factor
+from skillpulse.matching.seniority import is_internship, job_years, level_factor
+from skillpulse.matching.stack import stack_factor
 
 CANDIDATES = 50
 CANDIDATES_WITH_LEVEL = 100
+INTERN_FACTOR = 0.6
 # MiniLM cosine for related job/resume texts is typically ~0.15-0.65; map that to 0-1.
 SIM_LOW, SIM_HIGH = 0.15, 0.65
 W_MEANING = 0.5
@@ -69,8 +74,10 @@ GROUP BY c.id, c.title, c.company, c.city, c.posted_at, c.url, c.description, c.
 
 def recommend(conn, resume_vec: np.ndarray, user_skills: set[str], role_id: int,
               city: str | None = None, top: int = 10,
-              w_meaning: float = W_MEANING, have_years: float | None = None) -> pd.DataFrame:
-    """have_years=None switches the level step off (the original method)."""
+              w_meaning: float = W_MEANING, have_years: float | None = None,
+              stack_check: bool = False) -> pd.DataFrame:
+    """have_years=None switches the level step off; stack_check=False switches the
+    tech-stack step off (both off = the original method)."""
     sql = CANDIDATE_SQL.format(city_filter="AND city = %(city)s" if city else "")
     k = CANDIDATES if have_years is None else CANDIDATES_WITH_LEVEL
     cur = conn.execute(sql, {"vec": to_pgvector(resume_vec), "role": role_id,
@@ -89,6 +96,12 @@ def recommend(conn, resume_vec: np.ndarray, user_skills: set[str], role_id: int,
     df["job_years"] = levels
     if have_years is not None:
         df["fit"] = [f * level_factor(y, have_years) for f, y in zip(df["fit"], levels)]
+        # an internship is the wrong level for someone who already works
+        if have_years >= 1:
+            df["fit"] = [f * (INTERN_FACTOR if is_internship(t) else 1.0)
+                         for f, t in zip(df["fit"], df["title"])]
+    if stack_check:
+        df["fit"] = [f * stack_factor(set(s), user_skills) for f, s in zip(df["fit"], df["skills"])]
     df["matched"] = [sorted(set(r.skills) & user_skills) for r in df.itertuples()]
     df["to_learn"] = [sorted(set(r.skills) - user_skills) for r in df.itertuples()]
     # The same ad is often posted once per city; show it once (best-ranked copy).

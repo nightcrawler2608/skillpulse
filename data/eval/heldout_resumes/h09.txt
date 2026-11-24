@@ -1,0 +1,5 @@
+SYNTHETIC RESUME (fictional person, held-out set for a trial evaluation)
+Candidate AC | B.Com, 2026 | Kolkata
+Fresher. Skills: Excel, SQL (basic), Power BI, Requirements Gathering, Documentation,
+Communication, Stakeholder Management. College project: gathered requirements for a canteen
+pre-order app and wrote the BRD; built an Excel cost model.

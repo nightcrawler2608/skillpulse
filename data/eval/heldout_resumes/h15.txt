@@ -1,0 +1,4 @@
+SYNTHETIC RESUME (fictional person, held-out set for a trial evaluation)
+Candidate AI | B.Tech CSE, 2026 | Bengaluru
+Fresher backend developer. Skills: Java, Spring Boot, REST APIs, MySQL, Hibernate, Git, Maven.
+Projects: hotel booking REST API in Spring Boot with MySQL; JWT authentication.

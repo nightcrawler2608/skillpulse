@@ -1,0 +1,5 @@
+SYNTHETIC RESUME (fictional person, held-out set for a trial evaluation)
+Candidate Z | B.E. ECE | Bengaluru
+ML Engineer at a retail-analytics startup since Mar 2023: demand-forecasting models in PyTorch,
+feature store, model serving on Kubernetes, monitoring with MLflow.
+Skills: Python, PyTorch, MLOps, MLflow, Kubernetes, Docker, Airflow, AWS, SQL.

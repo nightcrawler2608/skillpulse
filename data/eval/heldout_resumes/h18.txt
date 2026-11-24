@@ -1,0 +1,4 @@
+SYNTHETIC RESUME (fictional person, held-out set for a trial evaluation)
+Candidate AL | B.Tech | Chennai
+Full Stack Developer, Feb 2023 - Present: Java Spring Boot APIs with React front ends, MySQL,
+Jenkins CI. Skills: Java, Spring Boot, React, JavaScript, MySQL, REST APIs, Jenkins, Git.

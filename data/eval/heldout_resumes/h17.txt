@@ -1,0 +1,4 @@
+SYNTHETIC RESUME (fictional person, held-out set for a trial evaluation)
+Candidate AK | BCA, 2026 | Jaipur
+Fresher. Skills: JavaScript, TypeScript, React, Next.js, Node.js, PostgreSQL, Tailwind CSS, Git.
+Projects: job-board app in Next.js with a Node API; real-time chat with Socket.IO.

@@ -1,0 +1,4 @@
+SYNTHETIC RESUME (fictional person, held-out set for a trial evaluation)
+Candidate AG | B.Sc IT, 2026 | Mumbai
+Fresher frontend developer. Skills: HTML, CSS, JavaScript, React, Bootstrap, Git, Figma.
+Projects: e-commerce UI clone in React; weather app with a public API.

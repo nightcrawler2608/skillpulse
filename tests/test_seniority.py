@@ -60,3 +60,27 @@ def test_nearest_choice():
     assert nearest_choice(0.2) == "Fresher (0 years)"
     assert nearest_choice(1.5) in ("About 1 year", "About 2 years")
     assert nearest_choice(3.0) == "3-4 years"
+
+
+def test_more_level_words():
+    assert job_years("Machine Learning Advisor", "") == 8
+    assert job_years("Machine Learning Engineer - (Founding ML Hire)", "") == 5
+    assert job_years("BUSINESS ANALYST L4", "") == 5
+    assert job_years("Specialist DevOps Engineer", "") == 3
+    assert job_years("Data Engineer", "We are looking for an experienced Azure engineer") == 3
+    assert job_years("Data Engineer", "Our experienced team builds pipelines") is None
+
+
+def test_internship_title():
+    from skillpulse.matching.seniority import is_internship
+    assert is_internship("Full Stack Intern") and is_internship("Data Internship")
+    assert not is_internship("Internal Tools Engineer")
+
+
+def test_resume_years_from_date_ranges():
+    from datetime import date
+    today = date(2026, 11, 24)
+    assert resume_years("Data Analyst, Jul 2023 - Present", today) == pytest.approx(3.4, abs=0.1)
+    assert resume_years("Intern, Jun 2026 - Aug 2026", today) == pytest.approx(0.25, abs=0.06)  # 1 decimal
+    assert resume_years("ML Engineer since Mar 2023", today) == pytest.approx(3.7, abs=0.1)
+    assert resume_years("B.Tech, 2022 - 2026", today) == 0.0     # education years don't count

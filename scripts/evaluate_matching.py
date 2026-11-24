@@ -9,6 +9,7 @@ A number on its own means little, so we compare 4 methods on the same resumes:
     skills   skill overlap only (re-ranks the same 50 nearest jobs)
     newest   the 5 newest postings for the role (what a plain job board shows)
     hybrid+level  hybrid, then jobs asking for far more experience sink (seniority.py)
+    full     hybrid+level (more level words, date ranges, internships) + stack check
 
 Adding a method later is incremental: re-run --prepare and only the new method runs;
 jobs nobody judged yet are added to the sheet with an empty "relevant" cell.
@@ -66,6 +67,7 @@ METHODS: dict[str, dict | None] = {
     "skills": {"w": 0.0},
     "newest": None,
     "hybrid+level": {"w": 0.5, "level": True},   # hybrid, then down-rank jobs above your level
+    "full": {"w": 0.5, "level": True, "stack": True},  # + level v2, internships, stack
 }
 SNIPPET = 350
 
@@ -109,7 +111,8 @@ def run_method(conn, method: str, text: str, vec, skills: set[str], role_id: int
     if spec is None:
         return newest(conn, role_id)
     years = resume_years(text) if spec.get("level") else None
-    jobs = recommend(conn, vec, skills, role_id, top=K, w_meaning=spec["w"], have_years=years)
+    jobs = recommend(conn, vec, skills, role_id, top=K, w_meaning=spec["w"], have_years=years,
+                     stack_check=spec.get("stack", False))
     return [int(x) for x in jobs["id"]]
 
 
@@ -204,7 +207,9 @@ def evaluate() -> int:
              *[f"| {n} | " + " | ".join(f"{p[m]:.1f}" for m in METHODS) + " |"
                for n, p in sorted(per.items())]]
     REPORT.parent.mkdir(exist_ok=True)
-    REPORT.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    notes = REPORT.with_name(REPORT.stem + "_notes.md")   # hand-written findings, kept
+    extra = "\n" + notes.read_text(encoding="utf-8") if notes.exists() else ""
+    REPORT.write_text("\n".join(lines) + "\n" + extra, encoding="utf-8")
     print("\n".join(lines))
     return 0
 
@@ -223,8 +228,9 @@ def use_set(name: str) -> None:
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--prepare", action="store_true")
-    ap.add_argument("--set", choices=["eval", "synthetic"], default="eval",
-                    help="eval = real resumes (default); synthetic = made-up trial set")
+    ap.add_argument("--set", choices=["eval", "synthetic", "heldout"], default="eval",
+                    help="eval = real resumes (default); synthetic = made-up set used for "
+                         "tuning; heldout = made-up set kept untouched until the final check")
     args = ap.parse_args()
     if args.set != "eval":
         use_set(args.set)

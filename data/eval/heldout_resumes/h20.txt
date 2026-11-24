@@ -1,0 +1,5 @@
+SYNTHETIC RESUME (fictional person, held-out set for a trial evaluation)
+Candidate AN | B.E. ECE | Pune
+Cloud Engineer, an IT services firm, Sep 2022 - Present: AWS landing zones, Terraform, EKS,
+Jenkins pipelines, CloudWatch monitoring. Skills: AWS, Terraform, Kubernetes, Docker, Jenkins,
+Linux, Python, Ansible.

@@ -1,0 +1,4 @@
+SYNTHETIC RESUME (fictional person, held-out set for a trial evaluation)
+Candidate Y | B.Tech AI & DS, 2026 | Hyderabad
+Fresher. Skills: Python, TensorFlow, Keras, NLP, Hugging Face Transformers, FastAPI, Docker, Git.
+Projects: resume-question chatbot with a small LLM and RAG; sentiment API with FastAPI in Docker.

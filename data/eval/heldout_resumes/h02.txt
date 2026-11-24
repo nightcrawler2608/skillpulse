@@ -1,0 +1,5 @@
+SYNTHETIC RESUME (fictional person, held-out set for a trial evaluation)
+Candidate V | B.Tech Mechanical | Pune
+Work: Data Analyst, an auto-parts manufacturer, Jul 2023 - Present. Built Tableau dashboards for
+production KPIs, wrote SQL on SQL Server, automated Excel reports with Python.
+Skills: SQL, SQL Server, Tableau, Excel, Python, Statistics, Root Cause Analysis.

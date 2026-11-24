@@ -1,0 +1,4 @@
+SYNTHETIC RESUME (fictional person, held-out set for a trial evaluation)
+Candidate AF | B.E. CSE | Pune
+Software Engineer, a SaaS company, Jun 2022 - Present: C# and .NET Core services, SQL Server,
+Azure deployments, unit tests. Skills: C#, .NET, ASP.NET, SQL Server, Azure, REST APIs, Git.

@@ -1,0 +1,5 @@
+SYNTHETIC RESUME (fictional person, held-out set for a trial evaluation)
+Candidate X | M.Tech Data Science | Mumbai
+Experience: Data Scientist, an insurance company, Jan 2024 - Present. Claim-fraud model with
+LightGBM, pricing elasticity analysis, A/B testing of renewal emails.
+Skills: Python, SQL, LightGBM, XGBoost, Statistics, A/B Testing, Tableau, AWS.

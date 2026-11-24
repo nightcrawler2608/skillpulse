@@ -1,0 +1,4 @@
+SYNTHETIC RESUME (fictional person, held-out set for a trial evaluation)
+Candidate AB | B.Tech CSE | Chennai
+Data Engineer, a bank, Aug 2022 - Present: AWS Glue and PySpark pipelines, Redshift warehouse,
+dbt models, Airflow scheduling. Skills: AWS, AWS Glue, Redshift, PySpark, dbt, Airflow, SQL, Python.
