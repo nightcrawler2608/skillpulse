@@ -55,7 +55,9 @@ def main() -> int:
         print("No labels yet. Run:  streamlit run app/labeler.py")
         return 1
     with open(SAMPLE, encoding="utf-8", newline="") as f:
-        texts = {r["job_id"]: r["text"] for r in csv.DictReader(f)}
+        rows_s = list(csv.DictReader(f))
+    texts = {r["job_id"]: r["text"] for r in rows_s}
+    titles = {r["job_id"]: r["title"] for r in rows_s}
     with open(LABELS, encoding="utf-8", newline="") as f:
         labels = list(csv.DictReader(f))
 
@@ -65,7 +67,7 @@ def main() -> int:
 
     skills = default_skills()
     dictionary = DictionaryExtractor(skills)
-    pred_a = [dictionary.extract(texts[i]) for i in ids]
+    pred_a = [dictionary.extract(texts[i], titles[i]) for i in ids]
 
     rows = [("Dictionary only (Layer A)", *score(truth, pred_a))]
     if not args.no_embeddings:
@@ -82,7 +84,7 @@ def main() -> int:
             return 1
         for i, t, p in zip(ids, truth, pred_a):
             if t != p:
-                ev = {m.skill: m.alias for m in dictionary.matches(texts[i])}
+                ev = {m.skill: m.alias for m in dictionary.matches(texts[i], titles[i])}
                 print(f"\n[{i}] missed={sorted(t - p)} wrong={[(s, ev[s]) for s in sorted(p - t)]}")
                 print("    " + texts[i][:600])
 

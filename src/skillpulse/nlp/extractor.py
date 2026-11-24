@@ -38,12 +38,39 @@ def job_text(title: str | None, description: str | None) -> str:
     return " . ".join(p for p in (title, description) if p)
 
 
+# Words that are only trustworthy in the JOB TITLE. In the body they are mostly
+# company marketing ("our AI journey", "security is our culture"); in a title like
+# "AI Platform Engineer" or "Security Engineer" they describe the job itself.
+TITLE_RULES: list[tuple[re.Pattern, str]] = [
+    # "AI" but not "Gen AI" / "Generative AI" (those are the Generative AI skill)
+    (re.compile(r"(?<![A-Za-z0-9])(?<!gen )(?<!generative )ai(?![A-Za-z0-9])", re.IGNORECASE),
+     "Artificial Intelligence"),
+    (re.compile(r"\bsecurity\b", re.IGNORECASE), "Cybersecurity"),
+    (re.compile(r"\bproduct manager\b", re.IGNORECASE), "Product Management"),
+]
+
+
+# Extra guards for short words that are also everyday English.
+ALIAS_GUARDS = {
+    "Go": r"(?!\s+(?:to|for|ahead|beyond|above|live|through|back|out|on)\b)",  # "Go to market"
+}
+
+
+def _alias_regex(alias: str) -> str:
+    rx = re.escape(alias).replace(r"\ ", r"\s+")
+    # Very short exact-case words ("Go", "R") must not be glued to a hyphen or
+    # apostrophe: "Go-to-market", "R&D" are not skills.
+    if len(alias) <= 2:
+        rx += r"(?![-'’])"
+    return rx + ALIAS_GUARDS.get(alias, "")
+
+
 def _build_pattern(aliases: list[str], flags: int) -> re.Pattern | None:
     if not aliases:
         return None
     # Longest first, so "power bi" wins over a shorter overlapping alias.
     parts = sorted(set(aliases), key=len, reverse=True)
-    body = "|".join(re.escape(a).replace(r"\ ", r"\s+") for a in parts)
+    body = "|".join(_alias_regex(a) for a in parts)
     return re.compile(f"{LEFT}(?:{body}){RIGHT}", flags)
 
 
@@ -68,11 +95,19 @@ class DictionaryExtractor:
     def _norm(text: str) -> str:
         return re.sub(r"\s+", " ", text)
 
-    def matches(self, text: str | None) -> list[Match]:
-        """All skills found, with the text that triggered each one (first hit per skill)."""
-        if not text:
-            return []
+    def matches(self, text: str | None, title: str | None = None) -> list[Match]:
+        """All skills found, with the text that triggered each one (first hit per skill).
+
+        `title` (optional) is the job title; it enables the title-only rules.
+        """
         found: dict[str, Match] = {}
+        if title:
+            for pattern, skill in TITLE_RULES:
+                m = pattern.search(title)
+                if m:
+                    found.setdefault(skill, Match(skill, m.group(0), "title"))
+        if not text:
+            return list(found.values())
         if self._ci_re:
             for m in self._ci_re.finditer(text):
                 alias = self._norm(m.group(0))
@@ -85,8 +120,8 @@ class DictionaryExtractor:
                     found.setdefault(skill, Match(skill, alias, self.method))
         return list(found.values())
 
-    def extract(self, text: str | None) -> set[str]:
-        return {m.skill for m in self.matches(text)}
+    def extract(self, text: str | None, title: str | None = None) -> set[str]:
+        return {m.skill for m in self.matches(text, title)}
 
 
 class HybridExtractor:
@@ -96,12 +131,12 @@ class HybridExtractor:
         self.dictionary = dictionary
         self.embedding = embedding
 
-    def matches(self, text: str | None) -> list[Match]:
-        found = self.dictionary.matches(text)
+    def matches(self, text: str | None, title: str | None = None) -> list[Match]:
+        found = self.dictionary.matches(text, title)
         if self.embedding is not None:
             have = {m.skill for m in found}
             found += [m for m in self.embedding.matches(text) if m.skill not in have]
         return found
 
-    def extract(self, text: str | None) -> set[str]:
-        return {m.skill for m in self.matches(text)}
+    def extract(self, text: str | None, title: str | None = None) -> set[str]:
+        return {m.skill for m in self.matches(text, title)}

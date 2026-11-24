@@ -7,6 +7,8 @@ Source: data/skills/skills.csv (hand-curated). Columns:
   case_sensitive_aliases  spellings that only count with exact capitals, e.g. "R",
                           "Excel", "Spark". Lowercase "excel" or "spark" are normal
                           English words, so we only trust the capitalised form.
+  match_name              "no" = don't match the skill's own name, only its aliases
+                          (for names that are generic words, e.g. "Leadership").
 """
 
 from __future__ import annotations
@@ -46,10 +48,12 @@ def load_skills(path: Path = SKILLS_CSV) -> list[Skill]:
             seen.add(name.lower())
             cs = tuple(_split(row.get("case_sensitive_aliases", "")))
             ci = {a.lower() for a in _split(row["aliases"])}
-            # The canonical name also counts, unless it is one of the
-            # "capitals only" words (then it's already in cs), or a 1-2 letter
-            # name like "Go" or "C" that is too ambiguous on its own.
-            if name not in cs and len(name) > 2:
+            # The canonical name also counts, unless: it is one of the "capitals
+            # only" words (then it's already in cs), a 1-2 letter name like "Go"
+            # or "C", or the CSV says match_name=no because the word is too
+            # generic on its own ("leadership", "communication").
+            match_name = (row.get("match_name") or "").strip().lower() != "no"
+            if name not in cs and len(name) > 2 and match_name:
                 ci.add(name.lower())
             skills.append(Skill(name, row["category"].strip(), tuple(sorted(ci)), cs))
     return skills

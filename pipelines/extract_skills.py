@@ -47,7 +47,7 @@ def main() -> int:
                 break
             results = []
             for job_id, title, description in batch:
-                found = extractor.matches(job_text(title, description))
+                found = extractor.matches(job_text(title, description), title=title)
                 counts.update(m.skill for m in found)
                 results.append((job_id, [(skill_ids[m.skill], m.method) for m in found]))
             total_links += repo.save_job_skills(conn, results, version)
