@@ -130,6 +130,17 @@ def movers(conn, role_id: int, city: str, n: int = 5) -> pd.DataFrame | None:
     return both.sort_values("change_pts").reset_index().rename(columns={"index": "skill"})
 
 
+# Only salaries that look like real full-time ANNUAL pay. The EDA (notebooks/01_eda)
+# found monthly or hourly amounts (Rs 1,600; Rs 30,000) and meaningless ranges
+# (Rs 0 - 55 lakh) mixed in. A salary counts only if: not part-time, at least
+# Rs 1 lakh/year at the low end, at most Rs 1 crore/year, and max <= 4 x min.
+PLAUSIBLE_SALARY_SQL = """
+    salary_min IS NOT NULL AND coalesce(contract_time, '') <> 'part_time'
+    AND salary_min >= 100000 AND coalesce(salary_max, salary_min) <= 10000000
+    AND coalesce(salary_max, salary_min) <= 4 * salary_min
+"""
+
+
 def salary_summary(conn, role_id: int, city: str, days: int) -> dict:
     """Median and middle-50% range (in lakhs per year) of ADVERTISED salaries."""
     start, end = _window(conn, days)
@@ -137,7 +148,7 @@ def salary_summary(conn, role_id: int, city: str, days: int) -> dict:
     rows = conn.execute(f"""
         SELECT (salary_min + coalesce(salary_max, salary_min)) / 2 / 100000.0
         FROM jobs j
-        WHERE role_id = %(role)s AND salary_min IS NOT NULL {where_city}
+        WHERE role_id = %(role)s AND {PLAUSIBLE_SALARY_SQL} {where_city}
           AND (coalesce(posted_at, fetched_at) AT TIME ZONE 'Asia/Kolkata')::date
               BETWEEN %(start)s AND %(end)s""",
         {"role": role_id, "city": city, "start": start, "end": end}).fetchall()
