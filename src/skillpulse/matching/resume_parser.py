@@ -27,12 +27,11 @@ def clean_text(text: str) -> str:
 
 
 def pdf_to_text(data: bytes) -> str:
-    import pdfplumber  # imported here so the core package doesn't need it
-
     if len(data) > MAX_BYTES:
         raise ResumeError("That file is bigger than 5 MB. Please upload a smaller PDF.")
     if not data.startswith(b"%PDF"):
         raise ResumeError("That doesn't look like a PDF file.")
+    import pdfplumber  # imported here (after the cheap checks) so the core package doesn't need it
     try:
         with pdfplumber.open(io.BytesIO(data)) as pdf:
             if len(pdf.pages) > MAX_PAGES:
