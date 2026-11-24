@@ -1,26 +1,41 @@
-"""Measure job-matching quality with Precision@5.
+"""Measure job-matching quality with Precision@5, against simple baselines.
 
-Precision@5 = of the top 5 jobs we recommend for a resume, how many are actually
-relevant (a person judging them would say "yes, this person should apply").
+Precision@5 = of the top 5 jobs a method recommends for a resume, how many a person
+judges relevant ("yes, this person could sensibly apply").
+
+A number on its own means little, so we compare 4 methods on the same resumes:
+    hybrid   the app's method: 50% meaning + 50% skill overlap
+    meaning  embeddings only (100% meaning)
+    skills   skill overlap only (re-ranks the same 50 nearest jobs)
+    newest   the 5 newest postings for the role (what a plain job board shows)
+
+Fair judging ("pooling", as in search-engine evaluation): every job that ANY method
+put in its top 5 goes into one shuffled sheet, with no rank, score or method shown.
+You judge each (resume, job) pair once; each method is then scored from the same
+judgments. You can't favour the app because you don't know which method picked what.
 
 Steps:
-1. Put resumes in data/eval/eval_resumes/ as PDF or TXT, named r01.pdf, r02.txt, ...
-   (that folder is git-ignored: real resumes never go to GitHub). Ask permission
-   from friends, and remove names and phone numbers first.
-2. List them with their target role in data/eval/eval_resumes/queries.csv:
+1. Put resumes in data/eval/eval_resumes/ as PDF or TXT (r01.pdf, r02.txt, ...).
+   That folder is git-ignored: real resumes never go to GitHub. Get permission and
+   remove names, phone numbers and emails first.
+2. List them in data/eval/eval_resumes/queries.csv:
        file,role
        r01.pdf,Data Analyst
 3. python scripts/evaluate_matching.py --prepare
-   -> writes data/eval/matching_judgments.csv with the top 5 jobs for each resume
-4. Open that CSV and fill the "relevant" column with 1 (relevant) or 0 (not).
+   -> data/eval/matching_judgments.csv (one row per resume x job, shuffled)
+4. Fill the "relevant" column with 1 or 0. Rule of thumb for 1:
+   the job is the target role (or very close), the level fits (a fresher resume vs.
+   a 0-3 years job), and the person has at least some of the job's core skills.
 5. python scripts/evaluate_matching.py
-   -> prints Precision@5 per resume and the average, and saves reports/matching_eval.md
+   -> Precision@5 for each method, saved to reports/matching_eval.md
 """
 
 from __future__ import annotations
 
 import argparse
 import csv
+import json
+import random
 import sys
 from datetime import date
 
@@ -33,11 +48,30 @@ from skillpulse.matching.resume_parser import clean_text, pdf_to_text
 from skillpulse.matching.resume_skills import resume_skills
 from skillpulse.nlp.extractor import DictionaryExtractor
 
-RESUMES = PROJECT_ROOT / "data" / "eval" / "eval_resumes"
+EVAL = PROJECT_ROOT / "data" / "eval"
+RESUMES = EVAL / "eval_resumes"
 QUERIES = RESUMES / "queries.csv"
-JUDGMENTS = PROJECT_ROOT / "data" / "eval" / "matching_judgments.csv"
+JUDGMENTS = EVAL / "matching_judgments.csv"
+RUNS = EVAL / "matching_runs.json"          # which method ranked which jobs (hidden from judge)
 REPORT = PROJECT_ROOT / "reports" / "matching_eval.md"
 K = 5
+METHODS = {"hybrid": 0.5, "meaning": 1.0, "skills": 0.0, "newest": None}
+SNIPPET = 350
+
+NEWEST_SQL = """
+SELECT id, title, company FROM jobs
+WHERE is_active AND role_id = %s
+ORDER BY posted_at DESC NULLS LAST, id DESC
+LIMIT 50
+"""
+
+DETAILS_SQL = """
+SELECT j.id, j.title, j.company, j.city, left(j.description, %s) AS snippet,
+       coalesce(string_agg(k.name, ', ' ORDER BY k.name), '') AS skills
+FROM jobs j LEFT JOIN job_skills s ON s.job_id = j.id LEFT JOIN skills k ON k.id = s.skill_id
+WHERE j.id = ANY(%s)
+GROUP BY j.id
+"""
 
 
 def read_resume(name: str) -> str:
@@ -47,51 +81,103 @@ def read_resume(name: str) -> str:
     return clean_text(path.read_text(encoding="utf-8"))
 
 
-def prepare() -> int:
+def newest(conn, role_id: int, k: int = K) -> list[int]:
+    """Baseline: newest postings, one per (title, company) like the app does."""
+    seen, ids = set(), []
+    for jid, title, company in conn.execute(NEWEST_SQL, (role_id,)).fetchall():
+        if (title, company) not in seen:
+            seen.add((title, company))
+            ids.append(jid)
+        if len(ids) == k:
+            break
+    return ids
+
+
+def prepare(seed: int = 7) -> int:
     if not QUERIES.exists():
         print(f"Create {QUERIES} first (see the instructions at the top of this script).")
         return 1
-    with open(QUERIES, encoding="utf-8", newline="") as f:
+    with open(QUERIES, encoding="utf-8-sig", newline="") as f:
         queries = list(csv.DictReader(f))
     ex = DictionaryExtractor()
-    rows = []
+    runs: dict[str, dict[str, list[int]]] = {}
+    pool: dict[tuple[str, int], str] = {}          # (resume, job_id) -> role
     with get_connection() as conn:
         roles = {n: i for i, n in market.roles(conn)}
         for q in queries:
+            if q["role"] not in roles:
+                print(f"{q['file']}: unknown role {q['role']!r}. Use one of: {', '.join(roles)}")
+                return 1
             text = read_resume(q["file"])
-            jobs = recommend(conn, embed_resume(text), resume_skills(text, ex), roles[q["role"]],
-                             top=K)
-            for rank, j in enumerate(jobs.itertuples(), 1):
-                rows.append({"resume": q["file"], "role": q["role"], "rank": rank,
-                             "job_id": j.id, "title": j.title, "company": j.company,
-                             "fit": round(j.fit, 3), "relevant": ""})
-            print(f"{q['file']}: {len(jobs)} jobs")
+            vec, skills, role_id = embed_resume(text), resume_skills(text, ex), roles[q["role"]]
+            runs[q["file"]] = {}
+            for method, w in METHODS.items():
+                if w is None:
+                    ids = newest(conn, role_id)
+                else:
+                    ids = [int(x) for x in recommend(conn, vec, skills, role_id, top=K,
+                                                     w_meaning=w)["id"]]
+                runs[q["file"]][method] = ids
+                for jid in ids:
+                    pool[(q["file"], jid)] = q["role"]
+            print(f"{q['file']}: {len({j for m in runs[q['file']].values() for j in m})} "
+                  "unique jobs to judge")
+        details = {r[0]: r for r in conn.execute(
+            DETAILS_SQL, (SNIPPET, list({jid for _, jid in pool}))).fetchall()}
+    rows = []
+    for (resume, jid), role in pool.items():
+        _, title, company, city, snippet, skills = details[jid]
+        rows.append({"resume": resume, "role": role, "job_id": jid, "title": title,
+                     "company": company or "", "city": city or "", "job_skills": skills,
+                     "snippet": " ".join((snippet or "").split()), "relevant": ""})
+    random.Random(seed).shuffle(rows)
+    rows.sort(key=lambda r: r["resume"])           # grouped by resume, shuffled inside
+    if JUDGMENTS.exists():
+        print(f"{JUDGMENTS} already exists; delete it first if you really want to start over.")
+        return 1
     with open(JUDGMENTS, "w", encoding="utf-8", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0]))
         w.writeheader()
         w.writerows(rows)
-    print(f"\nNow fill the 'relevant' column (1/0) in {JUDGMENTS}")
+    RUNS.write_text(json.dumps(runs, indent=1), encoding="utf-8")
+    print(f"\n{len(rows)} rows to judge. Fill the 'relevant' column (1/0) in {JUDGMENTS}")
     return 0
 
 
+def precision_at_k(ranked: list[int], judged: dict[int, int], k: int = K) -> float:
+    """Unjudged jobs can't occur (every top-k job is pooled). Fewer than k results count
+    as misses, so a method can't look good by returning less."""
+    return sum(judged.get(j, 0) for j in ranked[:k]) / k
+
+
 def evaluate() -> int:
-    if not JUDGMENTS.exists():
+    if not (JUDGMENTS.exists() and RUNS.exists()):
         print("Run with --prepare first.")
         return 1
-    with open(JUDGMENTS, encoding="utf-8", newline="") as f:
+    with open(JUDGMENTS, encoding="utf-8-sig", newline="") as f:
         rows = list(csv.DictReader(f))
     if any(r["relevant"].strip() not in ("0", "1") for r in rows):
         print("Some 'relevant' cells are empty or not 0/1. Please fill them all in.")
         return 1
-    per = {}
+    judged: dict[str, dict[int, int]] = {}
     for r in rows:
-        per.setdefault(r["resume"], []).append(int(r["relevant"]))
-    p_at_k = {name: sum(v[:K]) / K for name, v in per.items()}
-    mean = sum(p_at_k.values()) / len(p_at_k)
+        judged.setdefault(r["resume"], {})[int(r["job_id"])] = int(r["relevant"])
+    runs = json.loads(RUNS.read_text(encoding="utf-8"))
+    per = {name: {m: precision_at_k(ids, judged[name]) for m, ids in methods.items()}
+           for name, methods in runs.items()}
+    mean = {m: sum(p[m] for p in per.values()) / len(per) for m in METHODS}
+    wins = {m: sum(p["hybrid"] > p[m] for p in per.values()) for m in METHODS if m != "hybrid"}
+    losses = {m: sum(p["hybrid"] < p[m] for p in per.values()) for m in METHODS if m != "hybrid"}
     lines = [f"# Job matching evaluation ({date.today()})", "",
-             f"Resumes: {len(p_at_k)} · Precision@{K}: **{mean:.2f}**", "",
-             "| Resume | Precision@5 |", "|---|---|",
-             *[f"| {n} | {p:.2f} |" for n, p in sorted(p_at_k.items())]]
+             (f"Resumes: {len(per)} · judged pairs: {len(rows)} · metric: Precision@{K} "
+              "(pooled, blind judging)"), "",
+             "| Method | Precision@5 | Hybrid better / worse on |", "|---|---|---|",
+             *[f"| {m} | **{mean[m]:.2f}** | "
+               f"{'—' if m == 'hybrid' else f'{wins[m]} / {losses[m]} resumes'} |"
+               for m in METHODS],
+             "", "| Resume | " + " | ".join(METHODS) + " |", "|---" * (len(METHODS) + 1) + "|",
+             *[f"| {n} | " + " | ".join(f"{p[m]:.1f}" for m in METHODS) + " |"
+               for n, p in sorted(per.items())]]
     REPORT.parent.mkdir(exist_ok=True)
     REPORT.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print("\n".join(lines))

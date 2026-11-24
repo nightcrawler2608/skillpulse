@@ -63,7 +63,8 @@ GROUP BY c.id, c.title, c.company, c.city, c.posted_at, c.url, c.similarity
 
 
 def recommend(conn, resume_vec: np.ndarray, user_skills: set[str], role_id: int,
-              city: str | None = None, top: int = 10) -> pd.DataFrame:
+              city: str | None = None, top: int = 10,
+              w_meaning: float = W_MEANING) -> pd.DataFrame:
     sql = CANDIDATE_SQL.format(city_filter="AND city = %(city)s" if city else "")
     cur = conn.execute(sql, {"vec": to_pgvector(resume_vec), "role": role_id,
                              "city": city, "k": CANDIDATES})
@@ -71,7 +72,8 @@ def recommend(conn, resume_vec: np.ndarray, user_skills: set[str], role_id: int,
     df = pd.DataFrame(cur.fetchall(), columns=cols)
     if df.empty:
         return df
-    scored = [fit_score(r.similarity, set(r.skills), user_skills) for r in df.itertuples()]
+    scored = [fit_score(r.similarity, set(r.skills), user_skills, w_meaning)
+              for r in df.itertuples()]
     df["fit"] = [s[0] for s in scored]
     df["skill_overlap"] = [s[1] for s in scored]
     df["matched"] = [sorted(set(r.skills) & user_skills) for r in df.itertuples()]
