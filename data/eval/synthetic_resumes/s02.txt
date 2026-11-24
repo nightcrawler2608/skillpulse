@@ -1,0 +1,12 @@
+SYNTHETIC RESUME (fictional person, written for a trial evaluation)
+Candidate B | B.Tech IT, 2024 | Bengaluru
+SUMMARY
+Data analyst with 1.5 years of experience in e-commerce reporting and A/B test analysis.
+SKILLS
+SQL (window functions, CTEs), Python (Pandas, Matplotlib), Power BI, Excel, Statistics,
+A/B Testing, Data Cleaning, Stakeholder Management
+EXPERIENCE
+Data Analyst, an online marketplace (18 months) - Built Power BI dashboards for the
+category team, wrote SQL on a Snowflake warehouse, analysed A/B tests on checkout changes.
+PROJECTS
+Cohort Retention Analysis in Python on 1M orders.

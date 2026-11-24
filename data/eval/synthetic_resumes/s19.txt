@@ -1,0 +1,9 @@
+SYNTHETIC RESUME (fictional person, written for a trial evaluation)
+Candidate S | B.Tech ECE, 2026 | Pune
+SUMMARY
+Fresher preparing for cloud roles; AWS Cloud Practitioner certified.
+SKILLS
+Linux, AWS (EC2, S3), Docker, Git, Bash, Python (basic), Networking
+PROJECTS
+Deployed a containerised web app on EC2 with Docker and an Nginx reverse proxy.
+Shell scripts to automate backups to S3.

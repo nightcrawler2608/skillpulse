@@ -1,0 +1,10 @@
+SYNTHETIC RESUME (fictional person, written for a trial evaluation)
+Candidate P | B.E. CSE, 2022 | Bengaluru
+SUMMARY
+Backend developer with 3 years in Node.js and Go services.
+SKILLS
+Node.js, Express, Go, REST APIs, MongoDB, PostgreSQL, Redis, Kafka, Docker, AWS,
+Microservices, Git
+EXPERIENCE
+Backend Developer, a food-delivery company (3 years) - Built order and payment services
+in Node.js and Go; event-driven design with Kafka; MongoDB and Redis.

@@ -1,0 +1,11 @@
+SYNTHETIC RESUME (fictional person, written for a trial evaluation)
+Candidate E | B.Tech ECE, 2026 | Bengaluru
+SUMMARY
+Final-year student focused on deep learning and computer vision.
+SKILLS
+Python, PyTorch, OpenCV, Computer Vision, Deep Learning, NumPy, Git, Linux
+PROJECTS
+Helmet Detection - Trained a YOLO object detector on traffic camera images; 0.87 mAP.
+Plant Disease Classifier - CNN with transfer learning (ResNet) on 20k leaf images.
+EXPERIENCE
+ML Intern, an agri-tech startup (2 months) - Labelled data and tuned image models.

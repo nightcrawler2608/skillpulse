@@ -1,0 +1,12 @@
+SYNTHETIC RESUME (fictional person, written for a trial evaluation)
+Candidate D | B.Tech CSE, 2023 | Pune
+SUMMARY
+Data scientist with 2 years building churn and recommendation models.
+SKILLS
+Python, SQL, scikit-learn, XGBoost, TensorFlow, NLP, Feature Engineering, Spark,
+AWS (SageMaker), Docker, Git, Statistics
+EXPERIENCE
+Data Scientist, a telecom company (2 years) - Churn model (XGBoost) used by the retention
+team; product recommendation model on Spark; deployed models with SageMaker.
+PROJECTS
+Customer review sentiment classifier with BERT.

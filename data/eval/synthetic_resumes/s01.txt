@@ -1,0 +1,13 @@
+SYNTHETIC RESUME (fictional person, written for a trial evaluation)
+Candidate A | B.Com, 2026 | Mumbai
+SUMMARY
+Commerce graduate moving into analytics. Strong with spreadsheets and reporting.
+SKILLS
+Excel (pivot tables, VLOOKUP, charts), SQL (basic joins, GROUP BY), Tableau, Google Sheets,
+Statistics, Communication
+PROJECTS
+Retail Sales Report - Cleaned 2 years of store sales in Excel and built a Tableau dashboard
+showing top products and regional trends.
+Survey Analysis - Summarised 400 student survey responses with descriptive statistics.
+EXPERIENCE
+Accounts Intern, a CA firm (3 months) - Reconciled ledgers and prepared monthly MIS reports.

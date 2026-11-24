@@ -1,0 +1,10 @@
+SYNTHETIC RESUME (fictional person, written for a trial evaluation)
+Candidate G | B.Tech CSE, 2026 | Chennai
+SUMMARY
+Fresher interested in data pipelines and databases.
+SKILLS
+Python, SQL, PostgreSQL, ETL, Apache Airflow, Linux, Git, Data Modeling
+PROJECTS
+Weather ETL - Airflow DAG that pulls an open API daily, cleans it in Python and loads
+PostgreSQL; star-schema model for reporting.
+Log Parser - Python script that aggregates server logs into daily tables.

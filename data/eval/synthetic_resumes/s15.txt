@@ -1,0 +1,9 @@
+SYNTHETIC RESUME (fictional person, written for a trial evaluation)
+Candidate O | B.Tech IT, 2026 | Chennai
+SUMMARY
+Fresher focused on backend APIs with Python.
+SKILLS
+Python, Django, REST APIs, PostgreSQL, SQL, Git, Linux, Docker (basic)
+PROJECTS
+Event booking API in Django REST Framework with PostgreSQL and JWT auth.
+URL shortener with Redis caching.

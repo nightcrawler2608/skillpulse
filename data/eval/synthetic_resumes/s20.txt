@@ -1,0 +1,10 @@
+SYNTHETIC RESUME (fictional person, written for a trial evaluation)
+Candidate T | B.E. IT, 2022 | Bengaluru
+SUMMARY
+DevOps engineer with 3 years on Kubernetes and infrastructure as code.
+SKILLS
+Kubernetes, Docker, Terraform, AWS, Azure, Jenkins, GitHub Actions, CI/CD, Ansible,
+Prometheus, Grafana, Linux, Bash, Python
+EXPERIENCE
+DevOps Engineer, a fintech (3 years) - Ran EKS clusters, wrote Terraform modules,
+built CI/CD pipelines in Jenkins and GitHub Actions, monitoring with Prometheus/Grafana.

@@ -1,0 +1,11 @@
+SYNTHETIC RESUME (fictional person, written for a trial evaluation)
+Candidate H | B.Tech IT, 2022 | Hyderabad
+SUMMARY
+Data engineer with 3 years on cloud data platforms.
+SKILLS
+Python, SQL, Apache Spark, PySpark, Databricks, Azure Data Factory, Azure, Kafka, Airflow,
+Snowflake, Data Warehousing, ETL, Git, CI/CD
+EXPERIENCE
+Data Engineer, an IT services firm (3 years) - Built batch and streaming pipelines with
+PySpark on Databricks and Kafka; orchestrated with Azure Data Factory; modelled a
+Snowflake warehouse for finance reporting.

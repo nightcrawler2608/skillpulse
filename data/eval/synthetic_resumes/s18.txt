@@ -1,0 +1,9 @@
+SYNTHETIC RESUME (fictional person, written for a trial evaluation)
+Candidate R | MCA, 2023 | Mumbai
+SUMMARY
+Full stack developer, 2 years, Angular and .NET.
+SKILLS
+Angular, TypeScript, C#, .NET, ASP.NET, SQL Server, REST APIs, Azure, Git, HTML, CSS
+EXPERIENCE
+Full Stack Developer, an insurance IT firm (2 years) - Angular front ends on ASP.NET Core
+APIs with SQL Server; deployed to Azure App Service.

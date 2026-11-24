@@ -1,0 +1,9 @@
+SYNTHETIC RESUME (fictional person, written for a trial evaluation)
+Candidate Q | B.Tech CSE, 2026 | Indore
+SUMMARY
+Fresher building MERN stack apps.
+SKILLS
+JavaScript, React, Node.js, Express, MongoDB, HTML, CSS, Git, REST APIs
+PROJECTS
+Expense tracker (MERN) with login and charts.
+Blog platform with React frontend and Express API.

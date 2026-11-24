@@ -1,0 +1,11 @@
+SYNTHETIC RESUME (fictional person, written for a trial evaluation)
+Candidate K | B.Tech CSE, 2026 | Noida
+SUMMARY
+Fresher with strong data structures and algorithms; 400+ problems solved.
+SKILLS
+Java, C++, Data Structures, Algorithms, OOP, SQL, Git, Linux
+PROJECTS
+Library Management System in Java with MySQL.
+Chat application using Java sockets.
+ACHIEVEMENTS
+Competitive programming contests; college coding club lead.

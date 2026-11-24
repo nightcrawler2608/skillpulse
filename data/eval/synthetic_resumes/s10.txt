@@ -1,0 +1,10 @@
+SYNTHETIC RESUME (fictional person, written for a trial evaluation)
+Candidate J | MBA, 2024 | Gurugram
+SUMMARY
+Business analyst with 1.5 years in fintech product teams.
+SKILLS
+Requirements Gathering, User Stories, Agile, Scrum, Jira, Confluence, SQL, Excel, Power BI,
+Stakeholder Management, UAT
+EXPERIENCE
+Business Analyst, a payments company (18 months) - Wrote BRDs and user stories, ran UAT,
+built Power BI KPI reports, worked with developers in Scrum sprints.

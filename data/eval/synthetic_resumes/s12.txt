@@ -1,0 +1,10 @@
+SYNTHETIC RESUME (fictional person, written for a trial evaluation)
+Candidate L | B.E. IT, 2023 | Bengaluru
+SUMMARY
+Software engineer with 2 years building microservices.
+SKILLS
+Java, Spring Boot, Microservices, REST APIs, SQL, PostgreSQL, Docker, Kubernetes, AWS,
+Git, Unit Testing, Agile
+EXPERIENCE
+Software Engineer, a product company (2 years) - Developed Spring Boot microservices,
+wrote unit tests with JUnit, deployed on Kubernetes in AWS.

@@ -1,0 +1,13 @@
+SYNTHETIC RESUME (fictional person, written for a trial evaluation)
+Candidate C | M.Sc Statistics, 2026 | Hyderabad
+SUMMARY
+Statistics postgraduate seeking an entry-level data scientist role.
+SKILLS
+Python (Pandas, NumPy, scikit-learn), R, SQL, Statistics, Hypothesis Testing, Regression,
+Machine Learning, Data Visualization
+PROJECTS
+Loan Default Prediction - Logistic regression and random forest on 30k loans; AUC 0.81.
+Time Series Forecasting - Forecasted monthly electricity demand with ARIMA in R.
+EXPERIENCE
+Research Assistant (6 months) - Ran survey sampling and regression analysis for a
+public-health study.

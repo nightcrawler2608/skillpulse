@@ -1,0 +1,9 @@
+SYNTHETIC RESUME (fictional person, written for a trial evaluation)
+Candidate M | BCA, 2026 | Pune
+SUMMARY
+Fresher who builds responsive websites.
+SKILLS
+HTML, CSS, JavaScript, React, Tailwind CSS, Responsive Design, Git, Figma
+PROJECTS
+Portfolio site in React with Tailwind.
+Movie search app using a public API, React hooks and responsive layouts.

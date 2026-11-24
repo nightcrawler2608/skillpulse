@@ -1,0 +1,13 @@
+SYNTHETIC RESUME (fictional person, written for a trial evaluation)
+Candidate F | B.E. Computer Engineering, 2023 | Remote
+SUMMARY
+ML engineer with 2.5 years putting models and LLM features into production.
+SKILLS
+Python, PyTorch, LLMs, LangChain, RAG, Hugging Face Transformers, MLOps, MLflow, Docker,
+Kubernetes, FastAPI, AWS, SQL, Git
+EXPERIENCE
+Machine Learning Engineer, a SaaS company (2.5 years) - Built a RAG support assistant with
+LangChain and a vector database; served models behind FastAPI on Kubernetes; tracked
+experiments in MLflow.
+PROJECTS
+Fine-tuned a small transformer for ticket classification.

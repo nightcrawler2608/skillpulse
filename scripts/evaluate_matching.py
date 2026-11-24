@@ -184,7 +184,23 @@ def evaluate() -> int:
     return 0
 
 
+def use_set(name: str) -> None:
+    """--set synthetic reads data/eval/synthetic_resumes/ and writes *_synthetic files,
+    so a trial run on made-up resumes never mixes with the real evaluation."""
+    global RESUMES, QUERIES, JUDGMENTS, RUNS, REPORT
+    RESUMES = EVAL / f"{name}_resumes"
+    QUERIES = RESUMES / "queries.csv"
+    JUDGMENTS = EVAL / f"matching_judgments_{name}.csv"
+    RUNS = EVAL / f"matching_runs_{name}.json"
+    REPORT = PROJECT_ROOT / "reports" / f"matching_eval_{name}.md"
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--prepare", action="store_true")
-    sys.exit(prepare() if ap.parse_args().prepare else evaluate())
+    ap.add_argument("--set", choices=["eval", "synthetic"], default="eval",
+                    help="eval = real resumes (default); synthetic = made-up trial set")
+    args = ap.parse_args()
+    if args.set != "eval":
+        use_set(args.set)
+    sys.exit(prepare() if args.prepare else evaluate())

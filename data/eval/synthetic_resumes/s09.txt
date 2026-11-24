@@ -1,0 +1,12 @@
+SYNTHETIC RESUME (fictional person, written for a trial evaluation)
+Candidate I | BBA, 2026 | Delhi
+SUMMARY
+Business administration student who enjoys process improvement and documentation.
+SKILLS
+Excel, PowerPoint, Requirements Gathering, Business Process Mapping, Communication,
+Stakeholder Management, Jira, SQL (basic)
+PROJECTS
+Process study for a local logistics firm - mapped the order-to-delivery process, found
+3 bottlenecks, wrote a requirements document for a tracking tool.
+EXPERIENCE
+Operations Intern (2 months) - Prepared weekly reports in Excel.

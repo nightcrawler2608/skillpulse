@@ -1,0 +1,10 @@
+SYNTHETIC RESUME (fictional person, written for a trial evaluation)
+Candidate N | B.Tech CSE, 2023 | Hyderabad
+SUMMARY
+Frontend developer with 2 years on React and TypeScript apps.
+SKILLS
+React, TypeScript, JavaScript, Next.js, Redux, HTML, CSS, REST APIs, Jest, Webpack, Git,
+Performance Optimization
+EXPERIENCE
+Frontend Developer, an ed-tech company (2 years) - Built dashboards in React + TypeScript,
+migrated pages to Next.js, wrote Jest tests.
