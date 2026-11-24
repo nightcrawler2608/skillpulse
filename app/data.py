@@ -61,3 +61,10 @@ def trending(days: int = 7, n: int = 8):
 def cities(role_id: int, days: int):
     with get_connection() as c:
         return market.city_counts(c, role_id, days)
+
+
+@st.cache_data(ttl=TTL, show_spinner=False)
+def clusters(role_id: int):
+    from skillpulse.analytics.clustering import role_clusters
+    with get_connection() as c:
+        return role_clusters(c, role_id)

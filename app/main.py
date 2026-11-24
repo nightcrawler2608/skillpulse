@@ -14,5 +14,6 @@ pages = [
     st.Page("views/home.py", title="Home", icon=":material/home:", default=True),
     st.Page("views/market.py", title="Market dashboard", icon=":material/monitoring:"),
     st.Page("views/resume.py", title="Resume analyzer", icon=":material/description:"),
+    st.Page("views/roles.py", title="Role explorer", icon=":material/category:"),
 ]
 st.navigation(pages, position="top").run()

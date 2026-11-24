@@ -1,0 +1,65 @@
+skill,url,label
+Python,https://docs.python.org/3/tutorial/,Official Python tutorial
+Java,https://dev.java/learn/,Learn Java (dev.java)
+JavaScript,https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting,MDN JavaScript guide
+TypeScript,https://www.typescriptlang.org/docs/handbook/intro.html,TypeScript handbook
+Go,https://go.dev/tour/,A Tour of Go
+R,https://r4ds.hadley.nz/,R for Data Science (free book)
+SQL,https://sqlbolt.com/,SQLBolt interactive lessons
+PostgreSQL,https://www.postgresql.org/docs/current/tutorial.html,PostgreSQL tutorial
+MySQL,https://www.w3schools.com/mysql/,W3Schools MySQL tutorial
+MongoDB,https://learn.mongodb.com/,MongoDB University (free)
+HTML,https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content,MDN HTML guide
+CSS,https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics,MDN CSS guide
+React,https://react.dev/learn,React docs: Learn
+Angular,https://angular.dev/tutorials,Angular tutorials
+Vue.js,https://vuejs.org/tutorial/,Vue tutorial
+Next.js,https://nextjs.org/learn,Next.js Learn course
+Node.js,https://nodejs.org/en/learn,Node.js Learn
+Django,https://docs.djangoproject.com/en/stable/intro/tutorial01/,Django tutorial
+Flask,https://flask.palletsprojects.com/en/stable/tutorial/,Flask tutorial
+FastAPI,https://fastapi.tiangolo.com/tutorial/,FastAPI tutorial
+Spring Boot,https://spring.io/guides,Spring guides
+Docker,https://docs.docker.com/get-started/,Docker: get started
+Kubernetes,https://kubernetes.io/docs/tutorials/,Kubernetes tutorials
+Terraform,https://developer.hashicorp.com/terraform/tutorials,Terraform tutorials
+Jenkins,https://www.jenkins.io/doc/tutorials/,Jenkins tutorials
+GitHub Actions,https://docs.github.com/en/actions,GitHub Actions docs
+Git,https://git-scm.com/book/en/v2,Pro Git (free book)
+Linux,https://linuxjourney.com/,Linux Journey
+AWS,https://aws.amazon.com/training/digital/,AWS Skill Builder (free courses)
+Microsoft Azure,https://learn.microsoft.com/en-us/training/azure/,Microsoft Learn: Azure
+Google Cloud,https://cloud.google.com/learn/training,Google Cloud training
+Microsoft Excel,https://support.microsoft.com/en-us/excel,Excel help & training
+Power BI,https://learn.microsoft.com/en-us/training/powerplatform/power-bi,Microsoft Learn: Power BI
+DAX,https://learn.microsoft.com/en-us/dax/,DAX reference
+Tableau,https://help.tableau.com/current/guides/get-started-tutorial/en-us/get-started-tutorial-home.htm,Tableau get-started tutorial
+Pandas,https://pandas.pydata.org/docs/getting_started/index.html,pandas: getting started
+NumPy,https://numpy.org/learn/,NumPy learn
+Scikit-learn,https://scikit-learn.org/stable/getting_started.html,scikit-learn: getting started
+PyTorch,https://pytorch.org/tutorials/,PyTorch tutorials
+TensorFlow,https://www.tensorflow.org/tutorials,TensorFlow tutorials
+Matplotlib,https://matplotlib.org/stable/tutorials/index.html,Matplotlib tutorials
+Statistics,https://www.khanacademy.org/math/statistics-probability,Khan Academy statistics
+Probability,https://www.khanacademy.org/math/statistics-probability,Khan Academy probability
+Machine Learning,https://developers.google.com/machine-learning/crash-course,Google ML Crash Course
+Deep Learning,https://www.deeplearningbook.org/,Deep Learning book (free online)
+Natural Language Processing,https://huggingface.co/learn/llm-course,Hugging Face course
+Hugging Face,https://huggingface.co/learn,Hugging Face Learn
+Large Language Models,https://huggingface.co/learn/llm-course,Hugging Face LLM course
+Generative AI,https://www.cloudskillsboost.google/paths/118,Google: Intro to Generative AI
+Apache Spark,https://spark.apache.org/docs/latest/quick-start.html,Spark quick start
+Apache Kafka,https://kafka.apache.org/quickstart,Kafka quick start
+Apache Airflow,https://airflow.apache.org/docs/apache-airflow/stable/tutorial/index.html,Airflow tutorial
+dbt,https://docs.getdbt.com/docs/introduction,dbt docs
+Snowflake,https://docs.snowflake.com/en/user-guide-getting-started,Snowflake getting started
+Databricks,https://docs.databricks.com/aws/en/getting-started/,Databricks getting started
+Data Structures,https://www.geeksforgeeks.org/dsa/data-structures/,GeeksforGeeks data structures
+Algorithms,https://cp-algorithms.com/,CP-Algorithms
+Agile,https://www.atlassian.com/agile,Atlassian Agile Coach
+Scrum,https://www.atlassian.com/agile/scrum,Atlassian: Scrum
+Jira,https://www.atlassian.com/software/jira/guides,Jira guides
+REST APIs,https://developer.mozilla.org/en-US/docs/Web/HTTP,MDN HTTP guide
+Selenium,https://www.selenium.dev/documentation/,Selenium docs
+Postman,https://learning.postman.com/,Postman learning center
+Figma,https://help.figma.com/hc/en-us/categories/360002051613,Figma help: get started

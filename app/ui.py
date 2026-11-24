@@ -113,6 +113,16 @@ h1, h2, h3, h4 {{ font-family: 'Bowlby One', 'Arial Black', sans-serif !importan
 .sp-job .pct {{ font:22px 'Bowlby One','Arial Black',sans-serif; color:{INK}; }}
 .sp-job a.go {{ font:11px 'Bowlby One','Arial Black',sans-serif; text-transform:uppercase; color:{INK};
     border:2px solid {INK}; padding:7px 12px; box-shadow:3px 3px 0 {INK}; text-decoration:none; background:{PAPER}; }}
+.sp-plan {{ background:{PAPER}; border:2px solid {INK}; box-shadow:6px 6px 0 {BG_SHADOW}; padding:16px 18px;
+    margin-bottom:16px; }}
+.sp-plan .wk {{ display:inline-block; font:11px 'Bowlby One','Arial Black',sans-serif; text-transform:uppercase;
+    background:{SUN}; border:1.5px solid {INK}; padding:3px 8px; color:{INK}; }}
+.sp-plan .t {{ font:18px/1.25 'Bowlby One','Arial Black',sans-serif; color:{INK}; margin:8px 0 2px; }}
+.sp-plan .m {{ font-size:13.5px; color:{INK}; font-weight:600; }}
+.sp-plan ul {{ margin:8px 0; padding-left:18px; font-size:13px; color:{INK2}; }}
+.sp-plan .pj {{ font-size:13px; color:{INK}; border-top:1.5px dashed {INK}; padding-top:8px; margin:6px 0 12px; }}
+.sp-plan a.go {{ font:11px 'Bowlby One','Arial Black',sans-serif; text-transform:uppercase; color:{INK};
+    border:2px solid {INK}; padding:7px 12px; box-shadow:3px 3px 0 {INK}; text-decoration:none; display:inline-block; }}
 """
 
 
@@ -204,6 +214,19 @@ def job_card(title: str, meta: str, fit: float, matched: list[str], to_learn: li
             f'<div class="m">{html.escape(meta)}</div>{skills}'
             f'<div class="fit"><span><span class="pct">{fit * 100:.0f}%</span> '
             f'<span class="sp-cap">fit</span></span>{link}</div></div>')
+
+
+def plan_week(item) -> str:
+    """One block of the learning plan (a planner.PlanWeek). All text is escaped."""
+    wk = item.weeks
+    label = f"Week {wk[0]}" if len(wk) == 1 else f"Weeks {wk[0]}–{wk[-1]}"
+    tasks = "".join(f"<li>{html.escape(t)}</li>" for t in item.tasks)
+    return (f'<div class="sp-plan"><div class="wk">{label}</div>'
+            f'<div class="t">{html.escape(item.skill)}</div>'
+            f'<div class="m">{html.escape(item.goal)}</div><ul>{tasks}</ul>'
+            f'<div class="pj"><b>Mini project:</b> {html.escape(item.project)}</div>'
+            f'<a class="go" href="{html.escape(item.link)}" target="_blank" rel="noopener">'
+            f'{html.escape(item.link_label)} ▸</a></div>')
 
 
 def rule() -> None:

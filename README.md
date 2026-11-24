@@ -76,6 +76,18 @@ python scripts/evaluate_matching.py --prepare   # Precision@5 workflow (see scri
 - **Job matches:** pgvector retrieves the 50 nearest jobs by meaning (all-MiniLM-L6-v2
   embeddings), then re-ranks: 50% meaning + 50% Laplace-smoothed skill overlap.
 
+## Learning plan + Role Explorer (Phase 5)
+
+- **Learning plan** (Resume analyzer → "Make my plan"): our code picks the skills (most score
+  points first) and the schedule (1–2 weeks each, by size and hours per week); Gemini only words
+  each week (goal, 3 tasks, mini project) as validated JSON. Links come from a hand-checked list
+  ([data/skills/resources.csv](data/skills/resources.csv)), never from the AI. If Gemini is off
+  (`SKILLPULSE_LLM=off`), missing a key, busy or invalid, a template writes the same plan. Only
+  skill names, role, experience and hours are sent to Google, never resume text.
+- **Role Explorer:** KMeans on each role's job skill lists (jobs with 2+ skills), k = 2–4 chosen
+  by silhouette score, kinds named by skills that are common in the group *and* rarer in the
+  role. The silhouette is shown on the page; roles with too little data say so.
+
 **Matching quality (synthetic trial, 20 held-out resumes, blind judging):** Precision@5 0.48 →
 0.80 after adding an experience-level step and growing the job pool. Real-resume evaluation is
 still to do. See [reports/matching_eval_heldout.md](reports/matching_eval_heldout.md).

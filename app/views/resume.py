@@ -14,6 +14,7 @@ import ui
 from skillpulse.analytics.market import MIN_JOBS
 from skillpulse.config import CITIES
 from skillpulse.db.connection import get_connection
+from skillpulse.llm.planner import make_plan
 from skillpulse.matching.embedder import embed_resume
 from skillpulse.matching.recommender import recommend
 from skillpulse.matching.resume_parser import ResumeError, clean_text, pdf_to_text
@@ -85,6 +86,7 @@ if go:
         }
     ss.pop("edited_skills", None)
     ss.pop("experience", None)
+    ss.pop("plan", None)
 
 if "resume" not in ss:
     st.stop()
@@ -133,6 +135,63 @@ with b, ui.card("skills"):
         g = result.missing[0]
         st.caption(f"Adding **{g.skill}** alone would raise your score to about "
                    f"**{min(100, result.score + g.gain):.0f}**.")
+
+# ---------------------------------------------------------------------- learning plan
+@st.cache_resource
+def plan_store() -> dict:
+    return {}
+
+
+def cached_plan(missing: tuple[str, ...], role: str, have: tuple[str, ...], years: float,
+                weeks: int, hours: int):
+    """Reuse Gemini-written plans across users (the key is only skill names and numbers),
+    saving free-tier quota. Template plans aren't stored, so a brief AI outage isn't
+    remembered: the next click tries Gemini again."""
+    store, key = plan_store(), (missing, role, have, years, weeks, hours)
+    if key in store:
+        return store[key]
+    plan = make_plan(list(missing), role, list(have), years, weeks, hours)
+    if plan.source == "gemini":
+        if len(store) >= 500:
+            store.pop(next(iter(store)))        # forget the oldest
+        store[key] = plan
+    return plan
+
+
+st.write("")
+ui.section("Learning plan", "Your next weeks, planned",
+           "Built from the skills above, most valuable first. Free resources only.")
+with ui.card("plan"):
+    p1, p2, p3 = st.columns([1, 1, 1.2], vertical_alignment="bottom")
+    plan_weeks = p1.selectbox("Plan length", [4, 6, 8, 12], index=2,
+                              format_func=lambda w: f"{w} weeks")
+    hours = p2.selectbox("Time you can give", [4, 8, 12, 16], index=1,
+                         format_func=lambda h: f"{h} hours / week")
+    make = p3.button("Make my plan", type="primary", use_container_width=True)
+    st.caption("Only skill names, the role and your experience level are sent to Google's "
+               "Gemini to word the plan. Never your resume text. If AI is unavailable, a "
+               "standard template is used.")
+plan_key = (tuple(g.skill for g in result.missing), r["role"], tuple(sorted(skills)),
+            have_years, plan_weeks, hours)
+if make:
+    with st.spinner("Planning your weeks…"):
+        ss.plan = (plan_key, cached_plan(*plan_key))
+if ss.get("plan") and ss.plan[0] == plan_key:
+    plan = ss.plan[1]
+    if plan.note:
+        st.info(plan.note, icon=":material/info:")
+    if plan.items:
+        cols = st.columns(2, gap="medium")
+        for i, item in enumerate(plan.items):
+            cols[i % 2].html(ui.plan_week(item))
+        foot = ("Worded by Gemini; schedule and links chosen by SkillPulse." if
+                plan.source == "gemini" else "Standard template; schedule and links chosen by "
+                "SkillPulse.")
+        if plan.skipped:
+            foot += f" Didn't fit in {plan_weeks} weeks: {', '.join(plan.skipped[:5])}."
+        st.caption(foot)
+elif ss.get("plan"):
+    st.caption("Your skills or choices changed. Press **Make my plan** again to update it.")
 
 # ---------------------------------------------------------------------- jobs
 st.write("")
