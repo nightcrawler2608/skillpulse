@@ -1,0 +1,145 @@
+job_id,skills,other,labeled_at,annotator
+4,Data Analysis,blockchain,2026-11-24T05:08:55+00:00,claude
+15,,,2026-11-24T05:08:55+00:00,claude
+19,,,2026-11-24T05:08:55+00:00,claude
+31,Power BI,,2026-11-24T05:08:55+00:00,claude
+32,Microsoft Azure,,2026-11-24T05:08:55+00:00,claude
+35,Databricks|dbt,,2026-11-24T05:08:55+00:00,claude
+58,ETL,QA,2026-11-24T05:08:55+00:00,claude
+65,,,2026-11-24T05:08:55+00:00,claude
+75,A/B Testing|Machine Learning|Model Deployment,,2026-11-24T05:08:55+00:00,claude
+77,,,2026-11-24T05:08:55+00:00,claude
+78,Data Quality|Salesforce,,2026-11-24T05:08:55+00:00,claude
+81,Microsoft Azure,,2026-11-24T05:08:55+00:00,claude
+82,Databricks|Power BI,,2026-11-24T05:08:55+00:00,claude
+83,Databricks|dbt,,2026-11-24T05:08:55+00:00,claude
+86,Dashboarding|Data Analysis|MIS Reporting,,2026-11-24T05:08:55+00:00,claude
+87,Data Modeling,,2026-11-24T05:08:55+00:00,claude
+95,Data Pipelines|Data Quality|ETL|dbt,,2026-11-24T05:08:55+00:00,claude
+97,Data Modeling,,2026-11-24T05:08:55+00:00,claude
+109,Data Cleaning|Data Warehousing|ETL|Snowflake|Talend,data integration,2026-11-24T05:08:55+00:00,claude
+111,Data Analysis|Microsoft Excel|PowerPoint,,2026-11-24T05:08:55+00:00,claude
+121,Artificial Intelligence,,2026-11-24T05:08:55+00:00,claude
+136,Artificial Intelligence|Leadership|Machine Learning,,2026-11-24T05:08:55+00:00,claude
+158,Generative AI|MLOps|Machine Learning,LLMOps,2026-11-24T05:08:55+00:00,claude
+171,Artificial Intelligence,,2026-11-24T05:08:55+00:00,claude
+172,Artificial Intelligence|Machine Learning|Model Deployment|Predictive Modeling,"anomaly detection, fraud detection",2026-11-24T05:08:55+00:00,claude
+200,,,2026-11-24T05:08:55+00:00,claude
+201,Artificial Intelligence|Data Analysis,,2026-11-24T05:08:55+00:00,claude
+202,Data Analysis|Data Visualization|Power BI|Presentation Skills|SQL,Domo,2026-11-24T05:08:55+00:00,claude
+204,MLOps|Machine Learning|Model Deployment,,2026-11-24T05:08:55+00:00,claude
+223,,,2026-11-24T05:08:55+00:00,claude
+245,,,2026-11-24T05:08:55+00:00,claude
+263,.NET|C#,clean code,2026-11-24T05:08:55+00:00,claude
+284,Generative AI|Microsoft Azure|Teamwork,,2026-11-24T05:08:55+00:00,claude
+288,,,2026-11-24T05:08:55+00:00,claude
+339,Artificial Intelligence|Product Management,,2026-11-24T05:08:55+00:00,claude
+345,,,2026-11-24T05:08:55+00:00,claude
+348,Artificial Intelligence|Fine-tuning|Large Language Models|Machine Learning,"reinforcement learning, SFT, DPO",2026-11-24T05:08:55+00:00,claude
+350,Machine Learning|Statistics,"model risk, model validation",2026-11-24T05:08:55+00:00,claude
+362,Dashboarding|Data Quality|Data Visualization|Forecasting|Leadership|Teamwork,,2026-11-24T05:08:55+00:00,claude
+387,Artificial Intelligence,,2026-11-24T05:08:55+00:00,claude
+401,Artificial Intelligence|Machine Learning,,2026-11-24T05:08:55+00:00,claude
+402,,,2026-11-24T05:08:55+00:00,claude
+419,Artificial Intelligence|Large Language Models|Machine Learning,,2026-11-24T05:08:55+00:00,claude
+421,,,2026-11-24T05:08:55+00:00,claude
+426,Generative AI|Teamwork,"video generation, Unity",2026-11-24T05:08:55+00:00,claude
+428,Artificial Intelligence|Machine Learning,,2026-11-24T05:08:55+00:00,claude
+432,Leadership|MLOps|Machine Learning|Model Deployment,,2026-11-24T05:08:55+00:00,claude
+435,,,2026-11-24T05:08:55+00:00,claude
+445,NoSQL|Oracle Database,"distributed databases, NewSQL",2026-11-24T05:08:55+00:00,claude
+457,Cybersecurity,,2026-11-24T05:08:55+00:00,claude
+466,Agile|Data Analysis,,2026-11-24T05:08:55+00:00,claude
+476,Cybersecurity|Leadership|Problem Solving,,2026-11-24T05:08:55+00:00,claude
+487,,master data management,2026-11-24T05:08:55+00:00,claude
+497,Snowflake,,2026-11-24T05:08:55+00:00,claude
+502,Agile|Apache Airflow|Apache Spark|Big Data|BigQuery|Data Warehousing|ETL|Google Cloud|Python,"Dataflow, Teradata, Cloud Storage",2026-11-24T05:08:55+00:00,claude
+514,Databricks,,2026-11-24T05:08:55+00:00,claude
+532,Agile|Java|Python,,2026-11-24T05:08:55+00:00,claude
+563,Java,,2026-11-24T05:08:55+00:00,claude
+573,AI Agents|Dashboarding,"Claude, Copilot, MCP",2026-11-24T05:08:55+00:00,claude
+578,AI Agents|Artificial Intelligence|Machine Learning,,2026-11-24T05:08:55+00:00,claude
+602,Data Governance|Data Lake|Data Pipelines|Data Quality|Data Warehousing|Databricks|ETL|Microsoft Azure|NoSQL|SQL,"metadata management, data lineage",2026-11-24T05:08:55+00:00,claude
+652,,master data management,2026-11-24T05:08:55+00:00,claude
+673,AI Agents|AWS|Artificial Intelligence|RAG,"Amazon Bedrock, guardrails",2026-11-24T05:08:55+00:00,claude
+678,Teamwork,Cloudera,2026-11-24T05:08:55+00:00,claude
+681,Data Governance|Leadership|Stakeholder Management,,2026-11-24T05:08:55+00:00,claude
+692,,"Japanese (JLPT), project management, PMO",2026-11-24T05:08:55+00:00,claude
+697,ERP|SAP,"SAP EWM, supply chain",2026-11-24T05:08:55+00:00,claude
+701,Requirements Gathering,,2026-11-24T05:08:55+00:00,claude
+703,Requirements Gathering|Stakeholder Management,,2026-11-24T05:08:55+00:00,claude
+707,,,2026-11-24T05:08:55+00:00,claude
+710,,,2026-11-24T05:08:55+00:00,claude
+715,,,2026-11-24T05:08:55+00:00,claude
+721,,,2026-11-24T05:08:55+00:00,claude
+731,,,2026-11-24T05:08:55+00:00,claude
+732,Dashboarding|Data Pipelines|ETL|Python|SQL,,2026-11-24T05:08:55+00:00,claude
+740,,,2026-11-24T05:08:55+00:00,claude
+763,,"credit risk, lending",2026-11-24T05:08:55+00:00,claude
+765,Communication|Leadership,,2026-11-24T05:08:55+00:00,claude
+784,Requirements Gathering,RFP/RFI,2026-11-24T05:08:55+00:00,claude
+789,Java|Teamwork,FX trading domain,2026-11-24T05:08:55+00:00,claude
+790,Agile|Analytical Skills|Requirements Gathering,backlog management,2026-11-24T05:08:55+00:00,claude
+795,,,2026-11-24T05:08:55+00:00,claude
+808,Java|Microservices|Spring Boot,,2026-11-24T05:08:55+00:00,claude
+813,Analytical Skills|Attention to Detail|Data Analysis,,2026-11-24T05:08:55+00:00,claude
+826,Stakeholder Management,,2026-11-24T05:08:55+00:00,claude
+908,Artificial Intelligence|Responsive Design|Teamwork|UI/UX Design,"design systems, accessibility",2026-11-24T05:08:55+00:00,claude
+926,,,2026-11-24T05:08:55+00:00,claude
+943,Linux,"QNX, embedded systems",2026-11-24T05:08:55+00:00,claude
+953,,,2026-11-24T05:08:55+00:00,claude
+967,,,2026-11-24T05:08:55+00:00,claude
+978,Java,model transformations,2026-11-24T05:08:55+00:00,claude
+979,AWS|Generative AI|Go|Large Language Models|OpenAI API|PostgreSQL|Vector Databases,"WebSockets, Gemini",2026-11-24T05:08:55+00:00,claude
+987,Java|Leadership|Teamwork,,2026-11-24T05:08:55+00:00,claude
+991,,,2026-11-24T05:08:55+00:00,claude
+1028,,,2026-11-24T05:08:55+00:00,claude
+1034,,,2026-11-24T05:08:55+00:00,claude
+1036,AWS|Google Cloud|Microsoft Azure|REST APIs,,2026-11-24T05:08:55+00:00,claude
+1045,IAM|Java,API gateway,2026-11-24T05:08:55+00:00,claude
+1066,Cloud Computing|Infrastructure as Code|Kubernetes|Microsoft Azure|Teamwork,,2026-11-24T05:08:55+00:00,claude
+1095,Cloud Computing|Infrastructure as Code|Kubernetes|Microsoft Azure|Teamwork,,2026-11-24T05:08:55+00:00,claude
+1119,AWS|Cloud Computing|Large Language Models|Leadership|Microsoft Azure|Python,,2026-11-24T05:08:55+00:00,claude
+1124,,,2026-11-24T05:08:55+00:00,claude
+1128,AWS|Angular|Java|Microservices|Spring Boot,,2026-11-24T05:08:55+00:00,claude
+1132,Java|Microservices|REST APIs|React|Responsive Design|Spring Boot,,2026-11-24T05:08:55+00:00,claude
+1136,Vue.js,,2026-11-24T05:08:55+00:00,claude
+1140,AWS|Cloud Computing|IAM|Node.js|REST APIs|TypeScript,AWS Cognito,2026-11-24T05:08:55+00:00,claude
+1142,.NET|C#|Cloud Computing|FastAPI|Leadership|Python|React|Terraform,,2026-11-24T05:08:55+00:00,claude
+1155,Next.js|React|Responsive Design|Unit Testing,WCAG accessibility,2026-11-24T05:08:55+00:00,claude
+1158,Large Language Models|Next.js|React|Responsive Design,,2026-11-24T05:08:55+00:00,claude
+1168,Angular|Java|REST APIs|Responsive Design|Spring Boot|Teamwork,,2026-11-24T05:08:55+00:00,claude
+1178,AI Agents,,2026-11-24T05:08:55+00:00,claude
+1180,,,2026-11-24T05:08:55+00:00,claude
+1185,Vue.js,,2026-11-24T05:08:55+00:00,claude
+1190,Java|Requirements Gathering|SDLC,,2026-11-24T05:08:55+00:00,claude
+1193,AI Agents|Artificial Intelligence|Python,,2026-11-24T05:08:55+00:00,claude
+1206,Artificial Intelligence|Leadership,Codex,2026-11-24T05:08:55+00:00,claude
+1216,C|Linux,,2026-11-24T05:08:55+00:00,claude
+1217,AI Agents|Artificial Intelligence|Go|Machine Learning|Model Deployment|Python|React,,2026-11-24T05:08:55+00:00,claude
+1225,,"Adobe Experience Manager, CMS",2026-11-24T05:08:55+00:00,claude
+1233,Cloud Computing|GraphQL|Java|Microservices|REST APIs|Spring Boot,"distributed systems, multithreading",2026-11-24T05:08:55+00:00,claude
+1240,AI Agents|Generative AI|Large Language Models|Microsoft Azure|Python|RAG,,2026-11-24T05:08:55+00:00,claude
+1254,Agile|React,,2026-11-24T05:08:55+00:00,claude
+1256,AI Agents|Artificial Intelligence|SDLC,,2026-11-24T05:08:55+00:00,claude
+1260,Next.js|Node.js|React|TypeScript,,2026-11-24T05:08:55+00:00,claude
+1276,.NET|Node.js|React,PWA,2026-11-24T05:08:55+00:00,claude
+1277,C++|Java|JavaScript|NoSQL|Python|SQL|System Design|TypeScript,,2026-11-24T05:08:55+00:00,claude
+1289,Artificial Intelligence|Next.js|REST APIs|React,"OCR, NetSuite",2026-11-24T05:08:55+00:00,claude
+1297,.NET|Angular|C#|Microsoft Azure,,2026-11-24T05:08:55+00:00,claude
+1311,,,2026-11-24T05:08:55+00:00,claude
+1314,.NET|Google Cloud,,2026-11-24T05:08:55+00:00,claude
+1316,Angular|Java|Leadership|Microservices|Spring Boot,,2026-11-24T05:08:55+00:00,claude
+1322,,,2026-11-24T05:08:55+00:00,claude
+1327,Artificial Intelligence|Machine Learning|Python,,2026-11-24T05:08:55+00:00,claude
+1351,Model Deployment|Monitoring & Observability|Teamwork,ticketing systems,2026-11-24T05:08:55+00:00,claude
+1353,Cloud Computing|Linux|Microsoft Azure|Oracle Database|Teamwork|Terraform,,2026-11-24T05:08:55+00:00,claude
+1356,,ServiceNow,2026-11-24T05:08:55+00:00,claude
+1360,English Proficiency,,2026-11-24T05:08:55+00:00,claude
+1376,,,2026-11-24T05:08:55+00:00,claude
+1378,Python,,2026-11-24T05:08:55+00:00,claude
+1427,CI/CD|Cloud Computing|Leadership,DevSecOps,2026-11-24T05:08:55+00:00,claude
+1428,Cloud Computing|Cybersecurity,,2026-11-24T05:08:55+00:00,claude
+1439,CI/CD|GitHub|GitHub Actions|IAM,"Saviynt, RBAC",2026-11-24T05:08:55+00:00,claude
+1440,,,2026-11-24T05:08:55+00:00,claude
+1461,Data Analysis|Presentation Skills|Teamwork,,2026-11-24T05:08:55+00:00,claude

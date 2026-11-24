@@ -24,7 +24,7 @@ from skillpulse.nlp.taxonomy import default_skills
 
 SAMPLE = PROJECT_ROOT / "data" / "eval" / "sample_jobs.csv"
 LABELS = PROJECT_ROOT / "data" / "eval" / "labels.csv"
-FIELDS = ["job_id", "skills", "other", "labeled_at"]
+FIELDS = ["job_id", "skills", "other", "labeled_at", "annotator"]
 
 st.set_page_config(page_title="SkillPulse labeller", layout="wide")
 
@@ -95,6 +95,7 @@ if saved:
         "skills": "|".join(sorted(chosen)),
         "other": other.strip(),
         "labeled_at": datetime.now(UTC).isoformat(timespec="seconds"),
+        "annotator": "human",
     }
     save_labels(labels)
     nxt = next((i for i, j in enumerate(jobs) if j["job_id"] not in labels), None)
