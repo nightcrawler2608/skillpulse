@@ -49,6 +49,10 @@ CREATE INDEX IF NOT EXISTS jobs_dedupe_idx      ON jobs (dedupe_hash);
 CREATE INDEX IF NOT EXISTS jobs_posted_idx      ON jobs (posted_at);
 CREATE INDEX IF NOT EXISTS jobs_embedding_idx   ON jobs USING hnsw (embedding vector_cosine_ops);
 
+-- Which dictionary version was used to extract this job's skills (Phase 2).
+-- When the dictionary changes, jobs with an old version are re-extracted.
+ALTER TABLE jobs ADD COLUMN IF NOT EXISTS skills_version TEXT;
+
 -- Which skills each job mentions (filled in Phase 2)
 CREATE TABLE IF NOT EXISTS job_skills (
     job_id   BIGINT REFERENCES jobs(id) ON DELETE CASCADE,

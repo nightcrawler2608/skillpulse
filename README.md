@@ -29,6 +29,22 @@ The pipeline runs automatically every night at 02:00 IST via
 GitHub and these **repository secrets** are added (Settings → Secrets and variables → Actions):
 `ADZUNA_APP_ID`, `ADZUNA_APP_KEY`, `DATABASE_URL`.
 
+## Skill extraction (Phase 2)
+
+```powershell
+pip install -e ".[nlp,app,dev]"                  # adds sentence-transformers + Streamlit
+python pipelines/extract_skills.py               # find skills in stored jobs (also runs nightly)
+python scripts/make_eval_sample.py               # once: pick 144 jobs to hand-label
+streamlit run app/labeler.py                     # label them (job text only, no hints)
+python scripts/evaluate_extraction.py            # precision / recall / F1 -> reports/
+```
+
+- **Dictionary:** [data/skills/skills.csv](data/skills/skills.csv), 249 skills with alternative spellings.
+  Ambiguous words ("R", "Excel", "Spark", "Go") only count in their exact, unambiguous form.
+- **Layer A (dictionary):** exact matching with word boundaries ("Java" ≠ "JavaScript", "SQL" ≠ "MySQL").
+- **Layer B (embeddings):** `all-MiniLM-L6-v2` compares 2–3 word phrases with skill names by meaning.
+  The evaluation decides whether it's worth keeping and at what threshold.
+
 **Flow:** Adzuna API → clean (HTML, cities, salaries) → de-duplicate (job id + title/company/city
 hash) → map title to one of 10 roles → save to Postgres → expire jobs older than 30 days → log the
 run in `pipeline_runs`.

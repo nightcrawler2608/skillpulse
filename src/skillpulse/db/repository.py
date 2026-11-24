@@ -58,6 +58,49 @@ def expire_old_jobs(conn: psycopg.Connection) -> int:
     return cur.rowcount
 
 
+def sync_skills(conn: psycopg.Connection, skills) -> dict[str, int]:
+    """Make the skills table match the dictionary CSV. Returns {skill name: id}."""
+    with conn.cursor() as cur:
+        cur.executemany(
+            """
+            INSERT INTO skills (name, category, aliases) VALUES (%s, %s, %s)
+            ON CONFLICT (name) DO UPDATE
+            SET category = EXCLUDED.category, aliases = EXCLUDED.aliases
+            """,
+            [(s.name, s.category, list(s.aliases) + list(s.case_sensitive_aliases))
+             for s in skills],
+        )
+    return dict(conn.execute("SELECT name, id FROM skills").fetchall())
+
+
+def jobs_needing_skills(conn: psycopg.Connection, version: str, limit: int = 5000):
+    """Jobs never processed, or processed with an older dictionary version.
+    Only jobs that still have their description (active ones)."""
+    return conn.execute(
+        """
+        SELECT id, title, description FROM jobs
+        WHERE skills_version IS DISTINCT FROM %s AND description IS NOT NULL
+        ORDER BY id LIMIT %s
+        """,
+        (version, limit),
+    ).fetchall()
+
+
+def save_job_skills(conn: psycopg.Connection, results, version: str) -> int:
+    """results: list of (job_id, [(skill_id, method), ...]). Replaces old rows."""
+    if not results:
+        return 0
+    job_ids = [job_id for job_id, _ in results]
+    rows = [(job_id, skill_id, method) for job_id, pairs in results for skill_id, method in pairs]
+    with conn.cursor() as cur:
+        cur.execute("DELETE FROM job_skills WHERE job_id = ANY(%s)", (job_ids,))
+        if rows:
+            cur.executemany(
+                "INSERT INTO job_skills (job_id, skill_id, method) VALUES (%s, %s, %s)", rows)
+        cur.execute("UPDATE jobs SET skills_version = %s WHERE id = ANY(%s)", (version, job_ids))
+    return len(rows)
+
+
 def start_run(conn: psycopg.Connection, started_at: datetime) -> int:
     row = conn.execute(
         "INSERT INTO pipeline_runs (started_at, status) VALUES (%s, 'running') RETURNING id",

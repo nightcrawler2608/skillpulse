@@ -20,6 +20,10 @@ dist/
 # Data that should not be in git (resumes, raw dumps)
 data/raw/
 data/eval/eval_resumes/
+# Job text copied from Adzuna: kept locally only (their content, not ours).
+# Labels (data/eval/labels.csv) ARE committed.
+data/eval/sample_jobs.csv
+.claude/settings.local.json
 *.pdf
 
 # OS / editor

@@ -15,6 +15,15 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+# Meaning-based skill matching (Layer B) and, later, job/resume embeddings
+nlp = [
+    "sentence-transformers>=3.0",
+]
+# Web app + labelling tool
+app = [
+    "streamlit>=1.40",
+    "pandas>=2.2",
+]
 dev = [
     "pytest>=8.0",
     "ruff>=0.5",

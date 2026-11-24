@@ -37,3 +37,7 @@ jobs:
           ADZUNA_APP_ID: ${{ secrets.ADZUNA_APP_ID }}
           ADZUNA_APP_KEY: ${{ secrets.ADZUNA_APP_KEY }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      - name: Extract skills from new jobs
+        run: python pipelines/extract_skills.py
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
