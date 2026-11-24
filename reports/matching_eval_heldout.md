@@ -1,6 +1,6 @@
 # Job matching evaluation (2026-11-24)
 
-Resumes: 20 · judged pairs: 305 · metric: Precision@5 (pooled, blind judging)
+Resumes: 20 · judged pairs: 348 · metric: Precision@5 (pooled, blind judging)
 
 | Method | Precision@5 | Hybrid better / worse on |
 |---|---|---|
@@ -10,29 +10,30 @@ Resumes: 20 · judged pairs: 305 · metric: Precision@5 (pooled, blind judging)
 | newest | **0.42** | 9 / 4 resumes |
 | hybrid+level | **0.76** | 0 / 15 resumes |
 | full | **0.76** | 0 / 15 resumes |
+| full+jobs | **0.80** | 0 / 17 resumes |
 
-| Resume | hybrid | meaning | skills | newest | hybrid+level | full |
-|---|---|---|---|---|---|---|
-| h01.txt | 0.6 | 1.0 | 0.6 | 0.4 | 1.0 | 1.0 |
-| h02.txt | 0.6 | 1.0 | 0.4 | 0.4 | 0.8 | 0.8 |
-| h03.txt | 0.2 | 0.2 | 0.2 | 0.0 | 0.4 | 0.4 |
-| h04.txt | 0.4 | 0.6 | 0.6 | 0.4 | 0.8 | 0.8 |
-| h05.txt | 0.2 | 0.2 | 0.2 | 0.4 | 1.0 | 1.0 |
-| h06.txt | 0.6 | 0.4 | 0.4 | 0.6 | 0.6 | 0.6 |
-| h07.txt | 0.2 | 0.4 | 0.6 | 0.4 | 1.0 | 1.0 |
-| h08.txt | 0.8 | 0.6 | 1.0 | 0.8 | 1.0 | 1.0 |
-| h09.txt | 0.4 | 0.0 | 0.2 | 0.8 | 1.0 | 1.0 |
-| h10.txt | 0.8 | 0.6 | 0.8 | 0.8 | 0.8 | 0.8 |
-| h11.txt | 0.6 | 0.2 | 0.4 | 0.2 | 0.6 | 0.6 |
-| h12.txt | 0.8 | 0.4 | 0.8 | 0.6 | 1.0 | 1.0 |
-| h13.txt | 0.6 | 0.4 | 0.6 | 0.4 | 0.6 | 0.6 |
-| h14.txt | 0.8 | 0.8 | 0.6 | 0.6 | 1.0 | 1.0 |
-| h15.txt | 0.2 | 0.2 | 0.0 | 0.2 | 0.4 | 0.4 |
-| h16.txt | 0.2 | 0.2 | 0.2 | 0.0 | 0.2 | 0.2 |
-| h17.txt | 0.6 | 0.2 | 0.6 | 0.2 | 0.8 | 0.8 |
-| h18.txt | 0.2 | 0.4 | 0.2 | 0.2 | 0.6 | 0.6 |
-| h19.txt | 0.2 | 0.2 | 0.2 | 0.4 | 0.8 | 0.8 |
-| h20.txt | 0.6 | 0.4 | 0.8 | 0.6 | 0.8 | 0.8 |
+| Resume | hybrid | meaning | skills | newest | hybrid+level | full | full+jobs |
+|---|---|---|---|---|---|---|---|
+| h01.txt | 0.6 | 1.0 | 0.6 | 0.4 | 1.0 | 1.0 | 0.8 |
+| h02.txt | 0.6 | 1.0 | 0.4 | 0.4 | 0.8 | 0.8 | 0.8 |
+| h03.txt | 0.2 | 0.2 | 0.2 | 0.0 | 0.4 | 0.4 | 0.8 |
+| h04.txt | 0.4 | 0.6 | 0.6 | 0.4 | 0.8 | 0.8 | 0.8 |
+| h05.txt | 0.2 | 0.2 | 0.2 | 0.4 | 1.0 | 1.0 | 0.6 |
+| h06.txt | 0.6 | 0.4 | 0.4 | 0.6 | 0.6 | 0.6 | 0.8 |
+| h07.txt | 0.2 | 0.4 | 0.6 | 0.4 | 1.0 | 1.0 | 1.0 |
+| h08.txt | 0.8 | 0.6 | 1.0 | 0.8 | 1.0 | 1.0 | 1.0 |
+| h09.txt | 0.4 | 0.0 | 0.2 | 0.8 | 1.0 | 1.0 | 1.0 |
+| h10.txt | 0.8 | 0.6 | 0.8 | 0.8 | 0.8 | 0.8 | 0.8 |
+| h11.txt | 0.6 | 0.2 | 0.4 | 0.2 | 0.6 | 0.6 | 0.8 |
+| h12.txt | 0.8 | 0.4 | 0.8 | 0.6 | 1.0 | 1.0 | 1.0 |
+| h13.txt | 0.6 | 0.4 | 0.6 | 0.4 | 0.6 | 0.6 | 0.6 |
+| h14.txt | 0.8 | 0.8 | 0.6 | 0.6 | 1.0 | 1.0 | 0.8 |
+| h15.txt | 0.2 | 0.2 | 0.0 | 0.2 | 0.4 | 0.4 | 0.4 |
+| h16.txt | 0.2 | 0.2 | 0.2 | 0.0 | 0.2 | 0.2 | 0.6 |
+| h17.txt | 0.6 | 0.2 | 0.6 | 0.2 | 0.8 | 0.8 | 1.0 |
+| h18.txt | 0.2 | 0.4 | 0.2 | 0.2 | 0.6 | 0.6 | 0.6 |
+| h19.txt | 0.2 | 0.2 | 0.2 | 0.4 | 0.8 | 0.8 | 1.0 |
+| h20.txt | 0.6 | 0.4 | 0.8 | 0.6 | 0.8 | 0.8 | 0.8 |
 
 ## What this is
 
@@ -55,5 +56,12 @@ Resumes: 20 · judged pairs: 305 · metric: Precision@5 (pooled, blind judging)
    developer (h16) gets the few Python jobs in the database and then nothing suitable remains;
    the Java backend fresher (h15) finds mostly 4+ year Java roles. More job data (more
    search terms per role, more days of collection) is the next lever, not more re-ranking.
-4. Remaining ranking misses: wrong specialisation (clinical programming, embedded, "Alexa
+4. **More jobs (`full+jobs`): 0.76 -> 0.80.** Same method, run after the active job pool
+   grew ~50% (role-keyword fix re-mapped 125 stored jobs; 21 extra All-India search terms
+   added 503 jobs for 34 API calls). Better on 6 resumes, worse on 3: **within noise**, so no
+   significant gain is claimed. It did fix the targeted weak cases (Python backend h16:
+   0.2 -> 0.6; data-science fresher h03: 0.4 -> 0.8); the ML fresher h05 fell 1.0 -> 0.6 as
+   new "Founding AI Engineer (2+ yrs)" jobs entered. The 43 new rows were judged knowing they
+   came from this run (same written rule).
+5. Remaining ranking misses: wrong specialisation (clinical programming, embedded, "Alexa
    Connections" asking to "lead"), which neither meaning nor skills separate well.

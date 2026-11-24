@@ -15,7 +15,7 @@ import sys
 from collections import Counter
 from datetime import UTC, datetime
 
-from skillpulse.config import ROLES
+from skillpulse.config import CITIES, ROLES, planned_queries
 from skillpulse.ingest.adzuna_client import AdzunaClient
 from skillpulse.ingest.collector import collect
 from skillpulse.ingest.role_mapper import RoleMapper
@@ -35,14 +35,18 @@ def print_summary(result, calls: int) -> None:
     print("Top cities:       " + ", ".join(f"{c} ({n})" for c, n in cities.most_common(6)))
 
 
-def run(dry_run: bool, max_calls: int | None) -> int:
+def run(dry_run: bool, max_calls: int | None, extras_only: bool = False) -> int:
     started = datetime.now(UTC)
     client = AdzunaClient.from_settings(**({"max_calls": max_calls} if max_calls else {}))
+    queries = None
+    if extras_only:   # only the extra search terms (e.g. right after adding new ones)
+        main = len(ROLES) * len(CITIES)
+        queries = planned_queries()[main:]
 
     if dry_run:
         # Role ids don't exist without the DB, so use positions 1..10 just for counting.
         mapper = RoleMapper(role_ids={r.name: i for i, r in enumerate(ROLES, 1)})
-        result = collect(client, mapper)
+        result = collect(client, mapper, queries)
         print_summary(result, client.calls_made)
         print("\nDry run: nothing written to the database.")
         return 0
@@ -54,7 +58,7 @@ def run(dry_run: bool, max_calls: int | None) -> int:
         run_id = repo.start_run(conn, started)
         try:
             mapper = RoleMapper(role_ids=repo.load_role_ids(conn))
-            result = collect(client, mapper)
+            result = collect(client, mapper, queries)
             new = repo.insert_jobs(conn, result.jobs)
             expired = repo.expire_old_jobs(conn)
             conn.commit()
@@ -82,9 +86,11 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="SkillPulse daily job ingestion")
     parser.add_argument("--dry-run", action="store_true", help="don't write to the database")
     parser.add_argument("--max-calls", type=int, help="override the API call budget")
+    parser.add_argument("--extras-only", action="store_true",
+                        help="run only the extra search terms (All India)")
     args = parser.parse_args()
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
-    return run(args.dry_run, args.max_calls)
+    return run(args.dry_run, args.max_calls, args.extras_only)
 
 
 if __name__ == "__main__":

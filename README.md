@@ -76,6 +76,15 @@ python scripts/evaluate_matching.py --prepare   # Precision@5 workflow (see scri
 - **Job matches:** pgvector retrieves the 50 nearest jobs by meaning (all-MiniLM-L6-v2
   embeddings), then re-ranks: 50% meaning + 50% Laplace-smoothed skill overlap.
 
+**Matching quality (synthetic trial, 20 held-out resumes, blind judging):** Precision@5 0.48 →
+0.80 after adding an experience-level step and growing the job pool. Real-resume evaluation is
+still to do. See [reports/matching_eval_heldout.md](reports/matching_eval_heldout.md).
+
+**Job collection:** every role × city, plus 21 extra All-India search terms ("react developer",
+"python developer", ...) that run last inside the daily cap. Lower the cap without code changes
+via `ADZUNA_MAX_CALLS_PER_DAY` (in `.env`, or as a GitHub repository variable). After editing
+role keywords, `python pipelines/remap_roles.py` re-maps stored jobs (also runs nightly).
+
 **Flow:** Adzuna API → clean (HTML, cities, salaries) → de-duplicate (job id + title/company/city
 hash) → map title to one of 10 roles → save to Postgres → expire jobs older than 30 days → log the
 run in `pipeline_runs`.

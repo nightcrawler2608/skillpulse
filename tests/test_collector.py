@@ -1,10 +1,11 @@
 from conftest import make_raw_job
 
-from skillpulse.config import ADZUNA_RESULTS_PER_PAGE, CITIES, ROLES
+from skillpulse.config import ADZUNA_RESULTS_PER_PAGE, CITIES, ROLES, planned_queries
 from skillpulse.ingest.adzuna_client import BudgetExceeded
 from skillpulse.ingest.collector import collect
 from skillpulse.ingest.role_mapper import RoleMapper
 
+N_QUERIES = len(planned_queries())   # main (role x city) + extra terms
 MAPPER = RoleMapper(role_ids={r.name: i for i, r in enumerate(ROLES, 1)})
 
 
@@ -26,13 +27,13 @@ def test_same_job_from_different_queries_counted_once():
     client = FakeClient(lambda *_: [make_raw_job(job_id="same")])
     result = collect(client, MAPPER)
     assert len(result.jobs) == 1
-    assert result.raw_count == len(ROLES) * len(CITIES)
+    assert result.raw_count == N_QUERIES
 
 
 def test_short_page_skips_next_page():
     client = FakeClient(lambda *_: [])
     collect(client, MAPPER)
-    assert client.calls == len(ROLES) * len(CITIES)   # only page 1 each
+    assert client.calls == N_QUERIES   # only page 1 each
 
 
 def test_full_page_fetches_page_two():
@@ -41,8 +42,8 @@ def test_full_page_fetches_page_two():
         return [make_raw_job(job_id=f"{what}-{where}-{page}-{i}") for i in range(n)]
     client = FakeClient(pages)
     result = collect(client, MAPPER)
-    assert client.calls == len(ROLES) * len(CITIES) * 2
-    assert len(result.jobs) == len(ROLES) * len(CITIES) * (ADZUNA_RESULTS_PER_PAGE + 3)
+    assert client.calls == N_QUERIES * 2
+    assert len(result.jobs) == N_QUERIES * (ADZUNA_RESULTS_PER_PAGE + 3)
 
 
 def test_unmapped_and_rejected_are_counted():
@@ -52,7 +53,7 @@ def test_unmapped_and_rejected_are_counted():
     ])
     result = collect(client, MAPPER)
     assert result.unmapped == len(result.jobs)
-    assert result.rejected == len(ROLES) * len(CITIES)
+    assert result.rejected == N_QUERIES
 
 
 def test_budget_stops_run_but_keeps_jobs():
@@ -69,4 +70,17 @@ def test_one_failing_query_does_not_stop_run():
         return [make_raw_job(job_id=f"{what}{where}")]
     result = collect(FakeClient(pages), MAPPER)
     assert len(result.failed_queries) == 1
-    assert len(result.jobs) == len(ROLES) * len(CITIES) - 1
+    assert len(result.jobs) == N_QUERIES - 1
+
+
+def test_extra_terms_run_after_main_searches_and_all_india_only():
+    queries = planned_queries()
+    main = len(ROLES) * len(CITIES)
+    assert all(city.adzuna_where is None for _, city in queries[main:])
+    assert {t for t, _ in queries[main:]} == {t for r in ROLES for t in r.extra_terms}
+
+
+def test_budget_cut_drops_extras_not_main_searches():
+    client = FakeClient(lambda *_: [], budget=len(ROLES) * len(CITIES))
+    collect(client, MAPPER)
+    assert client.calls == len(ROLES) * len(CITIES)   # every main search still ran

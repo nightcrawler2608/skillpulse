@@ -68,6 +68,8 @@ METHODS: dict[str, dict | None] = {
     "newest": None,
     "hybrid+level": {"w": 0.5, "level": True},   # hybrid, then down-rank jobs above your level
     "full": {"w": 0.5, "level": True, "stack": True},  # + level v2, internships, stack
+    # same as full, run after the job pool grew ~50% (extra search terms + role keyword fix)
+    "full+jobs": {"w": 0.5, "level": True, "stack": True},
 }
 SNIPPET = 350
 

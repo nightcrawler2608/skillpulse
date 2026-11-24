@@ -19,5 +19,12 @@
    developer (h16) gets the few Python jobs in the database and then nothing suitable remains;
    the Java backend fresher (h15) finds mostly 4+ year Java roles. More job data (more
    search terms per role, more days of collection) is the next lever, not more re-ranking.
-4. Remaining ranking misses: wrong specialisation (clinical programming, embedded, "Alexa
+4. **More jobs (`full+jobs`): 0.76 -> 0.80.** Same method, run after the active job pool
+   grew ~50% (role-keyword fix re-mapped 125 stored jobs; 21 extra All-India search terms
+   added 503 jobs for 34 API calls). Better on 6 resumes, worse on 3: **within noise**, so no
+   significant gain is claimed. It did fix the targeted weak cases (Python backend h16:
+   0.2 -> 0.6; data-science fresher h03: 0.4 -> 0.8); the ML fresher h05 fell 1.0 -> 0.6 as
+   new "Founding AI Engineer (2+ yrs)" jobs entered. The 43 new rows were judged knowing they
+   came from this run (same written rule).
+5. Remaining ranking misses: wrong specialisation (clinical programming, embedded, "Alexa
    Connections" asking to "lead"), which neither meaning nor skills separate well.

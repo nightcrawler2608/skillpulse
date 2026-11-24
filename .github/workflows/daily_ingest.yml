@@ -34,8 +34,14 @@ jobs:
         run: python pipelines/daily_ingest.py ${MAX_CALLS:+--max-calls $MAX_CALLS}
         env:
           MAX_CALLS: ${{ github.event.inputs.max_calls }}
+          # optional repo variable (Settings -> Variables) to lower the daily cap
+          ADZUNA_MAX_CALLS_PER_DAY: ${{ vars.ADZUNA_MAX_CALLS_PER_DAY }}
           ADZUNA_APP_ID: ${{ secrets.ADZUNA_APP_ID }}
           ADZUNA_APP_KEY: ${{ secrets.ADZUNA_APP_KEY }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      - name: Re-map roles of stored jobs (only changes after keyword edits)
+        run: python pipelines/remap_roles.py
+        env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
       - name: Extract skills from new jobs
         run: python pipelines/extract_skills.py

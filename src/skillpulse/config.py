@@ -28,30 +28,56 @@ load_dotenv(PROJECT_ROOT / ".env", override=False)
 @dataclass(frozen=True)
 class Role:
     name: str                       # standard name shown in the app
-    search_term: str                # what we send to the Adzuna API
+    search_term: str                # what we send to the Adzuna API (every city)
     title_keywords: tuple[str, ...]  # used later to map messy job titles to this role
+    # Extra searches that find the same kind of job under other names ("react developer"
+    # for Frontend). Run for All India only, after the main searches, inside the same
+    # daily call cap, so they can never crowd out the main searches.
+    extra_terms: tuple[str, ...] = ()
 
 
 ROLES: tuple[Role, ...] = (
     Role("Data Analyst", "data analyst",
          ("data analyst", "analytics", "mis analyst", "power bi", "bi analyst",
-          "bi developer", "reporting analyst")),
-    Role("Data Scientist", "data scientist", ("data scientist", "data science")),
+          "bi developer", "reporting analyst", "tableau developer"),
+         ("power bi developer", "mis analyst")),
+    Role("Data Scientist", "data scientist", ("data scientist", "data science",
+                                              "applied scientist"),
+         ("applied scientist",)),
     Role("Machine Learning Engineer", "machine learning engineer",
-         ("machine learning", "ml engineer", "ai engineer", "deep learning")),
-    Role("Data Engineer", "data engineer", ("data engineer", "etl", "big data")),
-    Role("Business Analyst", "business analyst", ("business analyst",)),
+         ("machine learning", "ml engineer", "ai engineer", "deep learning", "ai/ml",
+          "nlp engineer", "computer vision", "generative ai", "genai", "llm engineer",
+          "prompt engineer", "agentic ai", "ai developer", "mlops"),
+         ("ai engineer", "generative ai engineer")),
+    Role("Data Engineer", "data engineer", ("data engineer", "etl", "big data",
+                                            "data engineering", "databricks developer",
+                                            "snowflake developer", "pyspark developer"),
+         ("etl developer", "pyspark developer")),
+    Role("Business Analyst", "business analyst", ("business analyst",),
+         ("business systems analyst",)),
     Role("Software Engineer", "software engineer",
-         ("software engineer", "software developer", "sde")),
+         ("software engineer", "software developer", "sde", "software development engineer",
+          "software engineering", "software development", "application developer",
+          "applications developer", "programmer analyst", "c++ developer",
+          ".net developer", "dotnet developer"),
+         ("software development engineer", "application developer")),
     Role("Frontend Developer", "frontend developer",
-         ("frontend", "front end", "front-end", "react developer", "ui developer")),
+         ("frontend", "front end", "front-end", "react developer", "ui developer",
+          "react js", "reactjs", "angular developer", "vue developer", "vue js",
+          "javascript developer", "ui engineer", "web developer"),
+         ("react developer", "angular developer", "ui developer", "javascript developer")),
     Role("Backend Developer", "backend developer",
          ("backend", "back end", "back-end", "java developer", "python developer",
-          "node developer")),
+          "node developer", "node.js developer", "nodejs developer", "golang developer",
+          "go developer", "django developer", "api developer", "python team lead"),
+         ("python developer", "java developer", "node.js developer", "golang developer")),
     Role("Full Stack Developer", "full stack developer",
-         ("full stack", "fullstack", "full-stack", "mern")),
+         ("full stack", "fullstack", "full-stack", "mern", "mean stack"),
+         ("mern stack developer",)),
     Role("DevOps / Cloud Engineer", "devops engineer",
-         ("devops", "cloud engineer", "site reliability", "sre", "platform engineer")),
+         ("devops", "cloud engineer", "site reliability", "sre", "platform engineer",
+          "cloud infrastructure", "kubernetes engineer", "aws engineer", "azure engineer"),
+         ("cloud engineer", "site reliability engineer")),
 )
 
 
@@ -81,13 +107,24 @@ CITIES: tuple[City, ...] = (
 ADZUNA_COUNTRY = "in"
 ADZUNA_RESULTS_PER_PAGE = 50
 ADZUNA_PAGES_PER_QUERY = 2
-ADZUNA_MAX_CALLS_PER_DAY = 200   # safety cap below the free limit
+# Safety cap per run. Adzuna shows your real limits in your account and may change them,
+# so this can be lowered without a code change: ADZUNA_MAX_CALLS_PER_DAY=120 in .env
+# (or as a GitHub secret/variable).
+ADZUNA_MAX_CALLS_PER_DAY = int(os.getenv("ADZUNA_MAX_CALLS_PER_DAY") or 200)  # "" -> 200
 ACTIVE_JOB_DAYS = 30             # jobs older than this are marked inactive
 
 
+def planned_queries() -> list[tuple[str, City]]:
+    """Every (search term, city) the daily run asks for: main searches first, extras last."""
+    all_india = next(c for c in CITIES if c.adzuna_where is None)
+    main = [(r.search_term, c) for r in ROLES for c in CITIES]
+    extra = [(t, all_india) for r in ROLES for t in r.extra_terms]
+    return main + extra
+
+
 def planned_daily_calls() -> int:
-    """How many API calls one full daily run will make."""
-    return len(ROLES) * len(CITIES) * ADZUNA_PAGES_PER_QUERY
+    """Most API calls one full daily run can make (fewer when pages come back short)."""
+    return len(planned_queries()) * ADZUNA_PAGES_PER_QUERY
 
 
 # ---------------------------------------------------------------------------
