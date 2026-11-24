@@ -19,6 +19,7 @@ from skillpulse.matching.recommender import recommend
 from skillpulse.matching.resume_parser import ResumeError, clean_text, pdf_to_text
 from skillpulse.matching.resume_skills import resume_skills
 from skillpulse.matching.scorer import score_resume
+from skillpulse.matching.seniority import EXPERIENCE_CHOICES, nearest_choice, resume_years
 from skillpulse.nlp.extractor import DictionaryExtractor
 from skillpulse.nlp.taxonomy import default_skills
 
@@ -77,11 +78,13 @@ if go:
         ss.resume = {
             "skills": sorted(resume_skills(text, extractor())),
             "vec": embed_resume(text),
+            "years": resume_years(text),
             "role": role,
             "city": None if city_label == "Any city" else city_label,
             "at": datetime.now(UTC),
         }
     ss.pop("edited_skills", None)
+    ss.pop("experience", None)
 
 if "resume" not in ss:
     st.stop()
@@ -98,6 +101,11 @@ with ui.card("found"):
     all_names = sorted((s.name for s in default_skills()), key=str.lower)
     skills = set(st.multiselect("Your skills", all_names, default=r["skills"],
                                 key="edited_skills", label_visibility="collapsed"))
+    choices = list(EXPERIENCE_CHOICES)
+    experience = st.radio("Your work experience (we guessed from your resume, fix it if wrong)",
+                          choices, index=choices.index(nearest_choice(r.get("years", 0.0))),
+                          key="experience", horizontal=True)
+    have_years = EXPERIENCE_CHOICES[experience]
 
 result = score_resume(skills, demand, postings)
 if postings < MIN_JOBS:
@@ -132,16 +140,20 @@ ui.section("Live job matches", "Jobs that fit you",
            f"{r['role']} postings{' in ' + r['city'] if r['city'] else ''}, ranked by how close "
            "they are to your resume in meaning and in skills.")
 with get_connection() as conn:
-    jobs = recommend(conn, r["vec"], skills, role_id, r["city"], top=9)
+    jobs = recommend(conn, r["vec"], skills, role_id, r["city"], top=9, have_years=have_years)
 if jobs.empty:
     st.info("No active postings for this role and city yet. Try 'Any city'.")
 else:
     cols = st.columns(3, gap="medium")
     for i, j in enumerate(jobs.itertuples()):
         posted = f"posted {j.posted_at:%d %b}" if j.posted_at else ""
+        level = ("" if j.job_years != j.job_years or j.job_years is None   # NaN = unknown
+                 else "fresher-friendly" if j.job_years == 0 else f"asks ~{j.job_years:g}+ yrs")
         # missing values come back from pandas as NaN (a float), so keep real text only
-        meta = " · ".join(x for x in [j.company, j.city, posted] if isinstance(x, str) and x)
+        meta = " · ".join(x for x in [j.company, j.city, level, posted]
+                          if isinstance(x, str) and x)
         cols[i % 3].html(ui.job_card(j.title, meta, j.fit, j.matched, j.to_learn, j.url))
     st.caption("Fit = 50% meaning similarity (AI embeddings of your resume vs. the job) + 50% "
                "skill match (share of the job's listed skills you have, pulled toward 50% when "
-               "a job lists only a few). Links open the original ad on Adzuna.")
+               "a job lists only a few), lowered for jobs that ask for much more experience "
+               "than you picked above. Links open the original ad on Adzuna.")
