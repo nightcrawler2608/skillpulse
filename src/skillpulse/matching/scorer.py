@@ -49,3 +49,31 @@ def score_resume(user_skills: set[str], demand: pd.DataFrame, postings: int = 0)
     score = 100 * sum(g.share for g in have) / total
     extra = sorted(user_skills - set(top["skill"]))
     return MatchResult(round(score, 1), have, missing, extra, postings)
+
+
+@dataclass
+class RoleFit:
+    role: str
+    score: float
+    postings: int
+    next_skill: str | None      # the single most valuable skill to add for this role
+
+
+MIN_POSTINGS_FOR_RANKING = 20   # roles with fewer postings would be ranked on noise
+
+
+def rank_roles(user_skills: set[str], demand_by_role: dict[str, tuple[pd.DataFrame, int]],
+               skip: frozenset[str] = frozenset()) -> list[RoleFit]:
+    """Score one set of skills against every role (same method as the match score), best first.
+
+    demand_by_role: role -> (demand DataFrame, postings). Roles with too few postings are left
+    out rather than ranked on noise. `skip` = skills not worth suggesting (e.g. soft skills).
+    """
+    fits = []
+    for role, (demand, postings) in demand_by_role.items():
+        if postings < MIN_POSTINGS_FOR_RANKING or demand.empty:
+            continue
+        res = score_resume(user_skills, demand, postings)
+        nxt = next((g.skill for g in res.missing if g.skill not in skip), None)
+        fits.append(RoleFit(role, res.score, postings, nxt))
+    return sorted(fits, key=lambda f: -f.score)

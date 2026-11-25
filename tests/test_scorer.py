@@ -53,3 +53,20 @@ def test_clean_text_squeezes_blank_lines():
 def test_rejects_non_pdf():
     with pytest.raises(ResumeError):
         pdf_to_text(b"hello, not a pdf")
+
+
+def test_rank_roles_orders_by_score_and_skips_thin_roles():
+    import pandas as pd
+
+    from skillpulse.matching.scorer import rank_roles
+    da = pd.DataFrame({"skill": ["SQL", "Excel", "Teamwork", "Tableau"],
+                       "share": [0.5, 0.3, 0.2, 0.1]})
+    de = pd.DataFrame({"skill": ["Python", "Apache Spark", "SQL"], "share": [0.6, 0.4, 0.2]})
+    thin = pd.DataFrame({"skill": ["SQL"], "share": [1.0]})
+    fits = rank_roles({"SQL", "Excel"},
+                      {"Data Analyst": (da, 64), "Data Engineer": (de, 106), "Tiny": (thin, 5)},
+                      skip=frozenset({"Teamwork"}))
+    assert [f.role for f in fits] == ["Data Analyst", "Data Engineer"]   # Tiny: too few postings
+    assert fits[0].score > fits[1].score
+    assert fits[0].next_skill == "Tableau"          # Teamwork skipped as a suggestion
+    assert fits[1].next_skill == "Python"

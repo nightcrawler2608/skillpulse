@@ -37,6 +37,8 @@ dev = [
     "pytest>=8.0",
     "ruff>=0.5",
     "scikit-learn>=1.5",   # clustering tests
+    "streamlit>=1.40",     # page smoke tests (AppTest)
+    "plotly>=5.24",
 ]
 
 [tool.setuptools.packages.find]

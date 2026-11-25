@@ -21,7 +21,7 @@ from skillpulse.matching.embedder import embed_resume
 from skillpulse.matching.recommender import recommend
 from skillpulse.matching.resume_parser import ResumeError, clean_text, pdf_to_text
 from skillpulse.matching.resume_skills import resume_skills
-from skillpulse.matching.scorer import score_resume
+from skillpulse.matching.scorer import MIN_POSTINGS_FOR_RANKING, rank_roles, score_resume
 from skillpulse.matching.seniority import EXPERIENCE_CHOICES, nearest_choice, resume_years
 from skillpulse.nlp.extractor import DictionaryExtractor
 from skillpulse.nlp.taxonomy import default_skills
@@ -152,6 +152,26 @@ with b, ui.card("skills"):
         st.caption(f"Adding **{g.skill}** alone would raise your score to about "
                    f"**{min(100, result.score + g.gain):.0f}**.")
 
+# ---------------------------------------------------------------------- best-fit role
+fits = rank_roles(skills, {name: data.top_skills(rid, "ALL", DEMAND_DAYS, 30)
+                           for name, rid in roles.items()}, skip=soft_names)
+if fits:
+    st.write("")
+    with ui.card("fit"):
+        st.markdown("#### Which role fits you best?")
+        st.caption("The same score for every role, from the same live postings. Roles with "
+                   f"fewer than {MIN_POSTINGS_FOR_RANKING} postings aren't ranked yet.")
+        st.html(ui.role_bars(fits, r["role"]))
+        better = [f for f in fits if f.role != r["role"] and f.score > result.score][:3]
+        if better:
+            st.caption("Check yourself against a role that fits better:")
+            for col, f in zip(st.columns(len(better)), better, strict=True):
+                if col.button(f"Try {f.role}", key=f"try_{f.role}", use_container_width=True):
+                    ss.resume["role"] = f.role
+                    ss.pop("plan", None)
+                    track.event("switch_role", roles[f.role])
+                    st.rerun()
+
 # ---------------------------------------------------------------------- learning plan
 @st.cache_resource
 def plan_store() -> dict:
@@ -228,9 +248,17 @@ st.write("")
 ui.section("Live job matches", "Jobs that fit you",
            f"{r['role']} postings{' in ' + r['city'] if r['city'] else ''}, ranked by how close "
            "they are to your resume in meaning and in skills.")
+at_my_level = st.toggle(
+    "Only jobs at my level", value=have_years < 1, key="level_only",
+    help="Hides jobs that clearly ask for more than about a year beyond your experience "
+         "(e.g. Senior, Lead, '5+ years'). Jobs that don't say are still shown.")
 with get_connection() as conn:
-    jobs = recommend(conn, r["vec"], skills, role_id, r["city"], top=9, have_years=have_years,
+    jobs = recommend(conn, r["vec"], skills, role_id, r["city"], top=40, have_years=have_years,
                      stack_check=True)
+if at_my_level and not jobs.empty:
+    ask = jobs["job_years"]
+    jobs = jobs[ask.isna() | (ask <= have_years + 1)]
+jobs = jobs.head(9)
 if jobs.empty:
     st.info("No active postings for this role and city yet. Try 'Any city'.")
 else:

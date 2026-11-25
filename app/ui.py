@@ -135,6 +135,15 @@ a.go:focus-visible, [data-testid="stPageLink"] a:focus-visible, .stButton button
 .sp-job .fit, .sp-plan a.go {{ margin-top:auto; }}
 .sp-plan a.go {{ align-self:flex-start; }}
 .sp-soft {{ font-size:12.5px; color:{INK2}; margin:-4px 0 10px; }}
+.sp-roles {{ display:flex; flex-direction:column; gap:10px; }}
+.sp-rb {{ display:grid; grid-template-columns: minmax(150px, 1.3fr) 2fr 36px; gap:12px; align-items:center; }}
+.sp-rb .lab {{ font-size:13px; color:{INK}; display:flex; flex-direction:column; line-height:1.25; }}
+.sp-rb .bar {{ height:16px; border:1.5px solid {INK}; background:{PAPER}; }}
+.sp-rb .bar span {{ display:block; height:100%; background:{INK3}; }}
+.sp-rb.here .bar span {{ background:{SUN}; }}
+.sp-rb .v {{ font:16px 'Bowlby One','Arial Black',sans-serif; color:{INK}; text-align:right; }}
+@media (max-width: 640px) {{ .sp-rb {{ grid-template-columns: 1fr 34px; }}
+  .sp-rb .bar {{ grid-column: 1 / -1; grid-row: 2; }} }}
 
 /* ---- phones (Streamlit stacks columns below 640px) ---- */
 @media (max-width: 640px) {{
@@ -262,6 +271,21 @@ def plan_week(item) -> str:
             f'<div class="pj"><b>Mini project:</b> {html.escape(item.project)}</div>'
             f'<a class="go" href="{html.escape(item.link)}" target="_blank" rel="noopener">'
             f'{html.escape(item.link_label)} ▸</a></div>')
+
+
+def role_bars(fits, current: str) -> str:
+    """Ranked roles with an inked bar per score (RoleFit list from scorer.rank_roles)."""
+    rows = []
+    for f in fits:
+        here = f.role == current
+        nxt = (f'<span class="sp-cap">next: {html.escape(f.next_skill)}</span>'
+               if f.next_skill else "")
+        rows.append(
+            f'<div class="sp-rb{" here" if here else ""}">'
+            f'<div class="lab"><b>{html.escape(f.role)}</b>{" · your pick" if here else ""}{nxt}</div>'
+            f'<div class="bar"><span style="width:{max(2.0, min(100.0, f.score)):.0f}%"></span></div>'
+            f'<div class="v">{f.score:.0f}</div></div>')
+    return f'<div class="sp-roles">{"".join(rows)}</div>'
 
 
 def rule() -> None:

@@ -97,6 +97,14 @@ python scripts/evaluate_matching.py --prepare   # Precision@5 workflow (see scri
   action counts (random per-tab ID, no cookies, no resume data). About page with methodology,
   accuracy and privacy. AI plans are limited to 5 per visit to share the free Gemini quota.
 
+**Also in the app:** "Which role fits you best?" (your skills scored against every role, one
+click to re-check as a better-fitting role); an "Only jobs at my level" switch (on for
+freshers); a freshness warning if the nightly update stops; a friendly message if the database
+is unreachable. Page smoke tests (`tests/test_app_pages.py`) run every page with fake data in CI.
+
+**Phase 7 numbers:** `python scripts/usage_report.py --since <launch-day>` writes
+`reports/usage_report.md` (visitors, resumes analysed, plans, 👍 share with 95% intervals).
+
 **Matching quality (synthetic trial, 20 held-out resumes, blind judging):** Precision@5 0.48 →
 0.80 after adding an experience-level step and growing the job pool. Real-resume evaluation is
 still to do. See [reports/matching_eval_heldout.md](reports/matching_eval_heldout.md).

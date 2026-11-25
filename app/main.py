@@ -6,6 +6,7 @@ Run:  streamlit run app/main.py
 import contextlib
 import os
 import sys
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 import streamlit as st
@@ -23,7 +24,8 @@ with contextlib.suppress(Exception):          # no secrets file locally is norma
         if isinstance(value, str) and key not in os.environ:
             os.environ[key] = value
 
-import track  # needs src/ on the path first
+import data  # needs src/ on the path first
+import track
 import ui
 
 st.set_page_config(page_title="SkillPulse: what jobs want", page_icon="📈", layout="wide")
@@ -38,6 +40,22 @@ pages = [
     st.Page("views/about.py", title="About", icon=":material/info:"),
 ]
 page = st.navigation(pages, position="top")
+
+# Database reachable? A friendly message beats a crash page.
+try:
+    status = data.status()
+except Exception:  # noqa: BLE001 - any connection problem looks the same to a visitor
+    st.error("SkillPulse can't reach its database right now. Please try again in a minute.",
+             icon=":material/cloud_off:")
+    st.stop()
+
+# Honest freshness: say so if the nightly update has stopped.
+if status.last_run is not None:
+    age = datetime.now(UTC) - status.last_run
+    if age > timedelta(hours=36):
+        st.warning(f"Heads up: job data was last updated {age.days} day(s) ago, so the numbers "
+                   "may be a little out of date.", icon=":material/schedule:")
+
 track.event(f"view:{page.title}", once=True)
 page.run()
 
