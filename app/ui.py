@@ -48,6 +48,16 @@ h1, h2, h3, h4 {{ font-family: 'Bowlby One', 'Arial Black', sans-serif !importan
     border: 2px solid {INK} !important; border-radius: 0 !important; box-shadow: 4px 4px 0 {INK};
     background: {PAPER}; color: {INK} !important; }}
 [data-testid="stPageLink"] a:hover {{ transform: translate(-2px,-2px); box-shadow: 6px 6px 0 {INK}; }}
+/* main action buttons: solid ink, white text, in every state (hover/focus/pressed included),
+   like the "Analyze my resume" button. Without this the text turned ink-on-ink when pressed. */
+.stButton button[kind="primary"], [data-testid="stBaseButton-primary"],
+.stButton button[kind="primary"]:hover, .stButton button[kind="primary"]:focus,
+.stButton button[kind="primary"]:active {{
+    background: {INK} !important; color: #fff !important; border-color: {INK} !important;
+    box-shadow: 4px 4px 0 {SUN}; }}
+.stButton button[kind="primary"] p {{ color: #fff !important; }}
+.stButton button:not([kind="primary"]):focus, .stButton button:not([kind="primary"]):active {{
+    background: {PAPER} !important; color: {INK} !important; }}
 [data-testid="stPageLink"] a p {{ font-family: inherit !important; font-size: 13px; }}
 
 /* inputs: square, inked */
