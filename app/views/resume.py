@@ -39,7 +39,7 @@ def extractor():
     return DictionaryExtractor()
 
 
-@st.cache_resource(show_spinner="Loading the language model (first time only)...")
+@st.cache_resource(show_spinner=False)   # the analysis progress box explains the wait
 def warm_model():
     embed_resume("warm up")   # loads all-MiniLM-L6-v2 once per server
     return True
@@ -81,16 +81,26 @@ if go:
     except ResumeError as e:
         st.error(str(e), icon=":material/error:")
         st.stop()
-    with st.spinner("Reading your resume and comparing it with live jobs…"):
+    # Step-by-step progress: the first run on a sleeping server takes about a minute.
+    with st.status("Analysing your resume…", expanded=True) as progress:
+        st.write("Reading your resume and finding skills…")
+        found = sorted(resume_skills(text, extractor()))
+        years = resume_years(text)
+        st.write(f"Found {len(found)} skills. Loading the language model "
+                 "(the first visit of the day takes about a minute)…")
         warm_model()
-        ss.resume = {
-            "skills": sorted(resume_skills(text, extractor())),
-            "vec": embed_resume(text),
-            "years": resume_years(text),
-            "role": role,
-            "city": None if city_label == "Any city" else city_label,
-            "at": datetime.now(UTC),
-        }
+        st.write("Comparing your resume with live job postings…")
+        vec = embed_resume(text)
+        progress.update(label=f"Done: {len(found)} skills found", state="complete",
+                        expanded=False)
+    ss.resume = {
+        "skills": found,
+        "vec": vec,
+        "years": years,
+        "role": role,
+        "city": None if city_label == "Any city" else city_label,
+        "at": datetime.now(UTC),
+    }
     ss.pop("edited_skills", None)
     ss.pop("experience", None)
     ss.pop("plan", None)
@@ -104,6 +114,7 @@ r = ss.resume
 role_id = roles[r["role"]]
 demand, postings = data.top_skills(role_id, "ALL", DEMAND_DAYS, 30)
 
+summary = st.container()   # filled in below, once the score and best-fit role are known
 st.write("")
 with ui.card("found"):
     st.markdown("#### Skills we found")
@@ -155,8 +166,23 @@ with b, ui.card("skills"):
 # ---------------------------------------------------------------------- best-fit role
 fits = rank_roles(skills, {name: data.top_skills(rid, "ALL", DEMAND_DAYS, 30)
                            for name, rid in roles.items()}, skip=soft_names)
+
+with summary:   # the at-a-glance strip at the top of the results
+    best = fits[0] if fits else None
+    cells = [("Your match", f"{result.score:.0f}/100", r["role"])]
+    if best:
+        cells.append(("Best-fit role", best.role, f"score {best.score:.0f}"))
+    if learnable:
+        cells.append(("Learn next", learnable[0].skill, f"+{learnable[0].gain:.0f} pts"))
+    st.html('<div class="sp-sum">' + "".join(
+        f'<div class="it"><div class="l">{html.escape(a)}</div><div class="k">{html.escape(b)}'
+        f'</div><div class="sp-cap">{html.escape(c)}</div></div>' for a, b, c in cells) + "</div>"
+        '<div class="sp-jump">Jump to: <a href="#sp-fit">Role fit</a> · '
+        '<a href="#sp-plan">Learning plan</a> · <a href="#sp-jobs">Job matches</a></div>')
+
 if fits:
     st.write("")
+    st.html('<div id="sp-fit" class="sp-anchor"></div>')
     with ui.card("fit"):
         st.markdown("#### Which role fits you best?")
         st.caption("The same score for every role, from the same live postings. Roles with "
@@ -199,6 +225,7 @@ def cached_plan(missing: tuple[str, ...], role: str, have: tuple[str, ...], year
 
 
 st.write("")
+st.html('<div id="sp-plan" class="sp-anchor"></div>')
 ui.section("Learning plan", "Your next weeks, planned",
            "Built from the skills above, most valuable first. Free resources only.")
 with ui.card("plan"):
@@ -245,6 +272,7 @@ elif ss.get("plan"):
 
 # ---------------------------------------------------------------------- jobs
 st.write("")
+st.html('<div id="sp-jobs" class="sp-anchor"></div>')
 ui.section("Live job matches", "Jobs that fit you",
            f"{r['role']} postings{' in ' + r['city'] if r['city'] else ''}, ranked by how close "
            "they are to your resume in meaning and in skills.")

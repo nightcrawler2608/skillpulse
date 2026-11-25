@@ -76,7 +76,7 @@ h1, h2, h3, h4 {{ font-family: 'Bowlby One', 'Arial Black', sans-serif !importan
 .sp-meta {{ display:flex; justify-content:space-between; max-width:560px; margin:0 auto 2px;
     font-size:12px; color:{INK}; }}
 .sp-mega {{ font-family:'Anton', Impact, sans-serif; color:{INK}; text-transform:uppercase; text-align:center;
-    font-size:clamp(84px,15vw,190px); line-height:.9; letter-spacing:-.01em; margin:0; padding-top:.06em; }}
+    font-size:clamp(84px,12vw,150px); line-height:.9; letter-spacing:-.01em; margin:0; padding-top:.06em; }}
 .sp-hero {{ position:relative; overflow:visible; padding-bottom: 6px; }}
 .sp-ribbon {{ position:absolute; left:-12vw; right:-12vw; top:51%; transform:rotate(-4deg); background:{PAPER};
     border-top:2px solid {INK}; border-bottom:2px solid {INK}; box-shadow:0 8px 0 {BG_SHADOW}; overflow:hidden; z-index:3; }}
@@ -145,6 +145,17 @@ a.go:focus-visible, [data-testid="stPageLink"] a:focus-visible, .stButton button
 .sp-job .fit, .sp-plan a.go {{ margin-top:auto; }}
 .sp-plan a.go {{ align-self:flex-start; }}
 .sp-soft {{ font-size:12.5px; color:{INK2}; margin:-4px 0 10px; }}
+.sp-foot {{ text-align:center; font-size:12.5px; color:{INK}; margin:0 0 28px; line-height:1.7; }}
+.sp-foot a {{ color:{INK}; }}
+/* results summary strip with jump links */
+.sp-sum {{ display:flex; flex-wrap:wrap; gap:10px; align-items:stretch; justify-content:center; margin:6px 0 4px; }}
+.sp-sum .it {{ background:{PAPER}; border:2px solid {INK}; box-shadow:4px 4px 0 {BG_SHADOW}; padding:10px 14px;
+    min-width:150px; }}
+.sp-sum .it .k {{ font:20px/1.1 'Bowlby One','Arial Black',sans-serif; color:{INK}; }}
+.sp-sum .it .l {{ font-size:11.5px; color:{INK3}; text-transform:uppercase; letter-spacing:.04em; }}
+.sp-jump {{ text-align:center; font-size:13px; margin:10px 0 0; }}
+.sp-jump a {{ color:{INK}; font-weight:600; margin:0 8px; }}
+.sp-anchor {{ position:relative; top:-80px; }}   /* lands below the fixed top bar */
 .sp-roles {{ display:flex; flex-direction:column; gap:10px; }}
 .sp-rb {{ display:grid; grid-template-columns: minmax(150px, 1.3fr) 2fr 36px; gap:12px; align-items:center; }}
 .sp-rb .lab {{ font-size:13px; color:{INK}; display:flex; flex-direction:column; line-height:1.25; }}

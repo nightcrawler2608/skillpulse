@@ -59,7 +59,8 @@ if status.last_run is not None:
 track.event(f"view:{page.title}", once=True)
 page.run()
 
-# Adzuna's API terms ask apps that show its job data to credit it.
-ui.show('<div style="text-align:center;margin:48px 0 8px;font-size:12px">'
-        'Job data: <a href="https://www.adzuna.in/" target="_blank" rel="noopener">'
-        "Jobs by Adzuna</a> · SkillPulse is a student project, not affiliated with Adzuna.</div>")
+# One footer for every page. Adzuna's API terms ask apps that show its job data to credit it.
+ui.rule()
+ui.show('<div class="sp-foot">We never store resumes · job data refreshed nightly · '
+        '<a href="https://www.adzuna.in/" target="_blank" rel="noopener">Jobs by Adzuna</a><br>'
+        "<b>SkillPulse</b>: a final-year data science project, not affiliated with Adzuna.</div>")
