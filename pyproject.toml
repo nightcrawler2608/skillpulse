@@ -53,4 +53,4 @@ target-version = "py311"
 "app/ui.py" = ["C408"]   # dict(...) is the idiomatic way to write Plotly settings
 
 [tool.ruff.lint.isort]
-known-first-party = ["skillpulse", "ui", "data"]   # app/ modules are ours too
+known-first-party = ["skillpulse", "ui", "data", "track"]   # app/ modules are ours too

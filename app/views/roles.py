@@ -5,6 +5,7 @@ import html
 import streamlit as st
 
 import data
+import track
 import ui
 from skillpulse.analytics.clustering import MIN_JOBS, closest_kind
 
@@ -21,6 +22,7 @@ default = (ss.resume["role"] if "resume" in ss and ss.resume["role"] in roles
            else role_names[0])
 role = st.pills("Role", role_names, default=default, key="explore_role") or default
 result = data.clusters(roles[role])
+track.event(f"explore:{role[:40]}", roles[role], once=True)
 
 if result is None:
     st.html(f'<div class="sp-note">Not enough data yet for <b>{html.escape(role)}</b>: grouping '
@@ -66,6 +68,8 @@ for i, (col, kind) in enumerate(zip(cols, result.kinds, strict=True)):
                 + "".join(f"<li>{html.escape(t[:70])}</li>" for t in kind.titles) + "</ul>")
 
 st.write("")
+track.thumbs("explorer", f"explorer_{roles[role]}", roles[role],
+             label="Do these kinds of jobs make sense to you?")
 st.html(
     '<div class="sp-note"><b>How to read this.</b> Each kind is a group of postings whose '
     "skill lists look alike (KMeans clustering). The % next to a skill is the share of that "

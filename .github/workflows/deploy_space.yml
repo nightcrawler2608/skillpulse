@@ -1,0 +1,33 @@
+name: Deploy to Hugging Face
+
+# Uploads the app to the Space whenever app code changes on main (after you've set it up:
+# repo secret HF_TOKEN + repo variable HF_SPACE = "<hf-user>/<space-name>").
+on:
+  push:
+    branches: [main]
+    paths:
+      - "app/**"
+      - "src/**"
+      - "data/skills/**"
+      - ".streamlit/**"
+      - "Dockerfile"
+      - "pyproject.toml"
+      - "scripts/deploy_space.py"
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    if: vars.HF_SPACE != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install huggingface_hub
+      - name: Upload app to the Space
+        run: python scripts/deploy_space.py "$HF_SPACE"
+        env:
+          HF_SPACE: ${{ vars.HF_SPACE }}
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}

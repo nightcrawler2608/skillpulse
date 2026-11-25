@@ -10,6 +10,7 @@ from datetime import UTC, datetime
 import streamlit as st
 
 import data
+import track
 import ui
 from skillpulse.analytics.market import MIN_JOBS
 from skillpulse.config import CITIES
@@ -87,6 +88,7 @@ if go:
     ss.pop("edited_skills", None)
     ss.pop("experience", None)
     ss.pop("plan", None)
+    track.event("analyze", roles[role])
 
 if "resume" not in ss:
     st.stop()
@@ -124,6 +126,7 @@ with a, ui.card("score"):
     st.html(f'<div class="sp-h" style="font-size:18px">{verdict}</div>')
     st.caption(f"For {r['role']}, weighted by how often each skill appears in {postings} "
                "live postings.")
+    track.thumbs("score", "score", role_id, label="Does this score feel fair?")
 with b, ui.card("skills"):
     st.markdown("#### Skills you have")
     have = [g.skill for g in result.have]
@@ -142,15 +145,19 @@ def plan_store() -> dict:
     return {}
 
 
+MAX_AI_PLANS = 5   # per visitor session: keeps the free Gemini quota for everyone
+
+
 def cached_plan(missing: tuple[str, ...], role: str, have: tuple[str, ...], years: float,
-                weeks: int, hours: int):
+                weeks: int, hours: int, use_llm: bool = True):
     """Reuse Gemini-written plans across users (the key is only skill names and numbers),
     saving free-tier quota. Template plans aren't stored, so a brief AI outage isn't
     remembered: the next click tries Gemini again."""
     store, key = plan_store(), (missing, role, have, years, weeks, hours)
     if key in store:
         return store[key]
-    plan = make_plan(list(missing), role, list(have), years, weeks, hours)
+    plan = make_plan(list(missing), role, list(have), years, weeks, hours,
+                     use_llm=None if use_llm else False)
     if plan.source == "gemini":
         if len(store) >= 500:
             store.pop(next(iter(store)))        # forget the oldest
@@ -174,8 +181,16 @@ with ui.card("plan"):
 plan_key = (tuple(g.skill for g in result.missing), r["role"], tuple(sorted(skills)),
             have_years, plan_weeks, hours)
 if make:
+    ai_left = ss.get("ai_plans", 0) < MAX_AI_PLANS
     with st.spinner("Planning your weeks…"):
-        ss.plan = (plan_key, cached_plan(*plan_key))
+        new_plan = cached_plan(*plan_key, use_llm=ai_left)
+    if ai_left:
+        ss.ai_plans = ss.get("ai_plans", 0) + 1
+    elif new_plan.source == "template":
+        new_plan.note = (f"You've made {MAX_AI_PLANS} AI-worded plans in this visit, so this one "
+                         "uses the standard template (it keeps the free AI quota fair for all).")
+    ss.plan = (plan_key, new_plan)
+    track.event(f"plan:{new_plan.source}", role_id)
 if ss.get("plan") and ss.plan[0] == plan_key:
     plan = ss.plan[1]
     if plan.note:
@@ -190,6 +205,8 @@ if ss.get("plan") and ss.plan[0] == plan_key:
         if plan.skipped:
             foot += f" Didn't fit in {plan_weeks} weeks: {', '.join(plan.skipped[:5])}."
         st.caption(foot)
+        track.thumbs("plan", f"plan_{abs(hash(plan_key))}", role_id,
+                     label="Is this plan useful?")
 elif ss.get("plan"):
     st.caption("Your skills or choices changed. Press **Make my plan** again to update it.")
 
@@ -212,8 +229,11 @@ else:
         # missing values come back from pandas as NaN (a float), so keep real text only
         meta = " · ".join(x for x in [j.company, j.city, level, posted]
                           if isinstance(x, str) and x)
-        cols[i % 3].html(ui.job_card(j.title, meta, j.fit, j.matched, j.to_learn, j.url))
+        with cols[i % 3]:
+            st.html(ui.job_card(j.title, meta, j.fit, j.matched, j.to_learn, j.url))
+            track.thumbs("job", f"job_{j.id}", role_id, int(j.id))
     st.caption("Fit = 50% meaning similarity (AI embeddings of your resume vs. the job) + 50% "
                "skill match (share of the job's listed skills you have, pulled toward 50% when "
                "a job lists only a few), lowered for jobs that ask for much more experience "
-               "than you picked above. Links open the original ad on Adzuna.")
+               "than you picked above. Links open the original ad on Adzuna. Use 👍/👎 under a job "
+               "to tell us if it's a good match.")

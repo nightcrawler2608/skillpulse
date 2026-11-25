@@ -5,7 +5,8 @@
       "name": "app",
       "runtimeExecutable": ".venv/Scripts/streamlit.exe",
       "runtimeArgs": ["run", "app/main.py", "--server.port", "8501", "--server.headless", "true"],
-      "port": 8501
+      "port": 8501,
+      "env": { "SKILLPULSE_TRACKING": "off" }
     },
     {
       "name": "labeler",

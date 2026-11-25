@@ -88,6 +88,16 @@ python scripts/evaluate_matching.py --prepare   # Precision@5 workflow (see scri
   by silhouette score, kinds named by skills that are common in the group *and* rarer in the
   role. The silhouette is shown on the page; roles with too little data say so.
 
+## Online + feedback (Phase 6)
+
+- Deployed as a Hugging Face Docker Space by [.github/workflows/deploy_space.yml](.github/workflows/deploy_space.yml)
+  on every app change; setup steps in [docs/DEPLOY.md](docs/DEPLOY.md).
+- The website connects as a limited database user (`python -m skillpulse.db.app_role`): read
+  everything, insert only anonymous `feedback` and `usage_events`.
+- 👍/👎 on the score, each job match, the plan and the Role Explorer; anonymous page and
+  action counts (random per-tab ID, no cookies, no resume data). About page with methodology,
+  accuracy and privacy. AI plans are limited to 5 per visit to share the free Gemini quota.
+
 **Matching quality (synthetic trial, 20 held-out resumes, blind judging):** Precision@5 0.48 →
 0.80 after adding an experience-level step and growing the job pool. Real-resume evaluation is
 still to do. See [reports/matching_eval_heldout.md](reports/matching_eval_heldout.md).
