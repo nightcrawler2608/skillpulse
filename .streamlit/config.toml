@@ -4,6 +4,9 @@
 maxUploadSize = 5   # MB; resumes only
 headless = true
 
+[client]
+toolbarMode = "minimal"   # hide developer buttons (Deploy, rerun, settings) from visitors
+
 [browser]
 gatherUsageStats = false   # no Streamlit telemetry: our privacy note promises only our own counts
 

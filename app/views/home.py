@@ -53,9 +53,9 @@ with right:
     <div class="sp-cap" style="text-align:center;margin-bottom:6px">What you get, free:</div>
     <ul class="sp-list">
       <li>Live Skill Rankings</li><li>Resume Match Score</li><li>Missing Skills, Ranked</li>
-      <li>Jobs That Fit You</li>
-      <li style="opacity:.45">AI Learning Plan <span style="font-size:12px">(soon)</span></li>
+      <li>Jobs That Fit You</li><li>Week-by-Week Learning Plan</li><li>Kinds of Jobs per Role</li>
     </ul>""")
+    st.page_link("views/roles.py", label="Explore kinds of jobs →", use_container_width=True)
 
 ui.rule()
 ui.show("""

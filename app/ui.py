@@ -27,8 +27,9 @@ CSS = f"""
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Bowlby+One&family=Inter:wght@400;500;600;700&display=swap');
 html, body, [class*="css"], .stMarkdown, p, li, label, input {{ font-family: 'Inter', system-ui, sans-serif; }}
 .stApp {{ background: {BG}; }}
-header[data-testid="stHeader"] {{ background: transparent; }}
-.block-container {{ max-width: 1100px; padding-top: 2.2rem; }}
+/* solid top bar, so page text doesn't show through it while scrolling */
+header[data-testid="stHeader"] {{ background: {BG}; box-shadow: 0 1.5px 0 {BG_SHADOW}; }}
+.block-container {{ max-width: 1100px; padding-top: 4.4rem; }}   /* clears the solid top bar */
 h1, h2, h3, h4 {{ font-family: 'Bowlby One', 'Arial Black', sans-serif !important; color: {INK} !important;
     letter-spacing: -.01em; font-weight: 400 !important; }}
 [data-testid="stSidebar"] {{ background: {PAPER}; border-right: 2px solid {INK}; }}
@@ -123,6 +124,40 @@ h1, h2, h3, h4 {{ font-family: 'Bowlby One', 'Arial Black', sans-serif !importan
 .sp-plan .pj {{ font-size:13px; color:{INK}; border-top:1.5px dashed {INK}; padding-top:8px; margin:6px 0 12px; }}
 .sp-plan a.go {{ font:11px 'Bowlby One','Arial Black',sans-serif; text-transform:uppercase; color:{INK};
     border:2px solid {INK}; padding:7px 12px; box-shadow:3px 3px 0 {INK}; text-decoration:none; display:inline-block; }}
+
+/* ---- polish: same look, better feel ---- */
+a.go {{ transition: transform .12s ease, box-shadow .12s ease; }}
+a.go:hover {{ transform: translate(-1px,-1px); box-shadow: 4px 4px 0 {INK}; }}
+a.go:active {{ transform: translate(2px,2px); box-shadow: 1px 1px 0 {INK}; }}
+a.go:focus-visible, [data-testid="stPageLink"] a:focus-visible, .stButton button:focus-visible {{
+    outline: 3px solid {SUN}; outline-offset: 2px; }}
+.sp-job, .sp-plan {{ display:flex; flex-direction:column; }}
+.sp-job .fit, .sp-plan a.go {{ margin-top:auto; }}
+.sp-plan a.go {{ align-self:flex-start; }}
+.sp-soft {{ font-size:12.5px; color:{INK2}; margin:-4px 0 10px; }}
+
+/* ---- phones (Streamlit stacks columns below 640px) ---- */
+@media (max-width: 640px) {{
+  .block-container {{ padding: 3.6rem 1rem 2rem !important; }}
+  .sp-mega {{ font-size: 23vw; }}
+  .sp-meta {{ flex-direction:column; align-items:center; gap:2px; }}
+  .sp-mascots > div {{ width: 27vw !important; height: 27vw !important; }}
+  .sp-mascots img {{ width:100%; height:100%; }}
+  .sp-sec {{ margin: 4px 0 16px; }}
+  .sp-sec .sp-h {{ font-size: 30px; }}
+  .sp-list li {{ font-size: 20px; }}
+  .sp-rule {{ margin: 36px auto; }}
+  .sp-stat .k {{ font-size: 24px; }}
+  .sp-ring {{ width:150px; height:150px; }}
+  .sp-ring .in {{ width:110px; height:110px; }}
+  .sp-ring .v {{ font-size:46px; }}
+  [class*="st-key-card"] {{ padding: 14px 14px !important; }}
+}}
+/* ---- tablets: a little less padding so 3-column rows breathe ---- */
+@media (min-width: 641px) and (max-width: 1024px) {{
+  .block-container {{ padding-left: 1.4rem !important; padding-right: 1.4rem !important; }}
+  .sp-job, .sp-plan {{ padding: 14px 14px; }}
+}}
 """
 
 
@@ -241,10 +276,11 @@ def _base_layout(fig: go.Figure, height: int) -> go.Figure:
         font=dict(family="Inter, system-ui, sans-serif", size=12, color=INK2),
         hoverlabel=dict(bgcolor=INK, font_color="#fff", font_family="Inter", bordercolor=INK),
         showlegend=False,
+        dragmode=False,                 # no drag-to-zoom: on phones it traps scrolling
     )
     fig.update_xaxes(showgrid=True, gridcolor=GRID, zeroline=False, linecolor=GRID,
-                     tickfont=dict(color=INK3))
-    fig.update_yaxes(showgrid=False, zeroline=False, tickfont=dict(color=INK))
+                     tickfont=dict(color=INK3), fixedrange=True)
+    fig.update_yaxes(showgrid=False, zeroline=False, tickfont=dict(color=INK), fixedrange=True)
     return fig
 
 
@@ -289,4 +325,4 @@ def line_chart(df, skills: list[str]) -> go.Figure:
     return fig
 
 
-CHART_CONFIG = {"displayModeBar": False, "responsive": True}
+CHART_CONFIG = {"displayModeBar": False, "responsive": True, "scrollZoom": False}

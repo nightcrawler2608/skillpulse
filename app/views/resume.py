@@ -5,6 +5,7 @@ this browser session (st.session_state) and disappear when the tab closes. Nothi
 is cached across users, written to disk, or saved to the database.
 """
 
+import html
 from datetime import UTC, datetime
 
 import streamlit as st
@@ -26,6 +27,11 @@ from skillpulse.nlp.extractor import DictionaryExtractor
 from skillpulse.nlp.taxonomy import default_skills
 
 DEMAND_DAYS = 90   # use all recent postings for the role's skill weights
+
+
+@st.cache_resource(show_spinner=False)
+def soft_skill_names() -> frozenset[str]:
+    return frozenset(s.name for s in default_skills() if s.category == "soft")
 
 
 @st.cache_resource(show_spinner=False)
@@ -133,9 +139,16 @@ with b, ui.card("skills"):
     st.html(ui.chips(have) if have else '<p class="sp-cap">None of the top skills found yet.</p>')
     st.markdown("#### Learn these next")
     st.caption("Ranked by how many employers ask for them · points = how much your score rises")
-    st.html(ui.gap_chips(result.missing[:8]))
-    if result.missing:
-        g = result.missing[0]
+    soft_names = soft_skill_names()
+    learnable = [g for g in result.missing if g.skill not in soft_names]
+    soft = [g.skill for g in result.missing if g.skill in soft_names]
+    st.html(ui.gap_chips(learnable[:8]))
+    if soft:
+        st.html(f'<div class="sp-soft">Also asked for: <b>{html.escape(", ".join(soft[:4]))}</b>. '
+                "Show these through projects, internships and interviews rather than "
+                "courses.</div>")
+    if learnable:
+        g = learnable[0]
         st.caption(f"Adding **{g.skill}** alone would raise your score to about "
                    f"**{min(100, result.score + g.gain):.0f}**.")
 

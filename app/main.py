@@ -13,8 +13,9 @@ ui.inject_theme()
 
 pages = [
     st.Page("views/home.py", title="Home", icon=":material/home:", default=True),
-    st.Page("views/market.py", title="Market dashboard", icon=":material/monitoring:"),
-    st.Page("views/resume.py", title="Resume analyzer", icon=":material/description:"),
+    # short names so all five fit in the top bar on an iPad
+    st.Page("views/market.py", title="Market", icon=":material/monitoring:"),
+    st.Page("views/resume.py", title="Resume check", icon=":material/description:"),
     st.Page("views/roles.py", title="Role explorer", icon=":material/category:"),
     st.Page("views/about.py", title="About", icon=":material/info:"),
 ]

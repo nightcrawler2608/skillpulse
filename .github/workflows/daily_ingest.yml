@@ -2,7 +2,9 @@ name: Daily job ingest
 
 on:
   schedule:
-    - cron: "30 20 * * *"   # 20:30 UTC = 02:00 IST, every day
+    # 20:47 UTC = 02:17 IST. Not :00 or :30: GitHub drops scheduled runs at busy times, and
+    # the first run at 20:30 never started.
+    - cron: "47 20 * * *"
   workflow_dispatch:         # adds a "Run workflow" button on GitHub
     inputs:
       max_calls:
