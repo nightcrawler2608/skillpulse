@@ -26,7 +26,7 @@ saves its connection string as `APP_DATABASE_URL` in your `.env`. The password i
    - Main file path: `app/main.py`
    - App URL: pick a name, e.g. `skillpulse`
 3. **Advanced settings**:
-   - Python version: **3.12** (the pinned PyTorch file is for 3.12)
+   - Python version: any of **3.11–3.14** (requirements list a CPU PyTorch file for each)
    - Secrets: paste these two lines with your values from `.env`:
      ```toml
      DATABASE_URL = "the value of APP_DATABASE_URL (the limited user, NOT the owner one)"
@@ -36,8 +36,8 @@ saves its connection string as `APP_DATABASE_URL` in your `.env`. The password i
    push to `main` updates the site automatically.
 
 ## What the host uses
-- `app/requirements.txt`: the web app's dependencies (CPU-only PyTorch pinned as a direct file,
-  because the host installs with `uv`, which won't mix package indexes).
+- `app/requirements.txt`: the web app's dependencies (CPU-only PyTorch as direct files, one per
+  Python version, because the host installs with `uv`, which won't mix package indexes).
 - `.streamlit/config.toml`: theme, upload limit, telemetry off, developer toolbar hidden.
 - Secrets from the Secrets box are copied into environment variables by `app/main.py`.
 - Never uploaded anywhere: `.env`, job data files, evaluation data, resumes.

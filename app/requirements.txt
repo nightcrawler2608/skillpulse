@@ -4,9 +4,12 @@
 # CPU-only PyTorch, pinned as a direct file: much smaller than the default GPU build.
 # (An --extra-index-url line doesn't work here: Community Cloud installs with uv, which takes
 # each package only from the first index that has it, so numpy etc. would come from the
-# PyTorch index at old versions.) This file is for Linux x86-64 + Python 3.12, so choose
-# Python 3.12 when deploying.
-torch @ https://download.pytorch.org/whl/cpu/torch-2.15.0%2Bcpu-cp312-cp312-manylinux_2_28_x86_64.whl
+# PyTorch index at old versions.) One line per Python version (Linux x86-64); the installer
+# uses the line whose condition matches, so any of 3.11-3.14 works.
+torch @ https://download.pytorch.org/whl/cpu/torch-2.15.0%2Bcpu-cp311-cp311-manylinux_2_28_x86_64.whl ; python_version == "3.11"
+torch @ https://download.pytorch.org/whl/cpu/torch-2.15.0%2Bcpu-cp312-cp312-manylinux_2_28_x86_64.whl ; python_version == "3.12"
+torch @ https://download.pytorch.org/whl/cpu/torch-2.15.0%2Bcpu-cp313-cp313-manylinux_2_28_x86_64.whl ; python_version == "3.13"
+torch @ https://download.pytorch.org/whl/cpu/torch-2.15.0%2Bcpu-cp314-cp314-manylinux_2_28_x86_64.whl ; python_version == "3.14"
 sentence-transformers==6.3.0
 streamlit==1.67.0
 plotly==7.1.0
