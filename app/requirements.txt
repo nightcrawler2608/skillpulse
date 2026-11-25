@@ -1,0 +1,19 @@
+# Dependencies for the hosted web app (Streamlit Community Cloud reads this file).
+# Local development uses requirements-dev.txt instead.
+#
+# CPU-only PyTorch, pinned as a direct file: much smaller than the default GPU build.
+# (An --extra-index-url line doesn't work here: Community Cloud installs with uv, which takes
+# each package only from the first index that has it, so numpy etc. would come from the
+# PyTorch index at old versions.) This file is for Linux x86-64 + Python 3.12, so choose
+# Python 3.12 when deploying.
+torch @ https://download.pytorch.org/whl/cpu/torch-2.15.0%2Bcpu-cp312-cp312-manylinux_2_28_x86_64.whl
+sentence-transformers==6.3.0
+streamlit==1.67.0
+plotly==7.1.0
+pdfplumber==0.11.11
+scikit-learn==1.9.1
+pandas==3.1.1
+numpy==2.5.5
+psycopg[binary]==3.3.9
+python-dotenv==1.2.4
+requests==2.34.2

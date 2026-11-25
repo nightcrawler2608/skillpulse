@@ -3,9 +3,27 @@
 Run:  streamlit run app/main.py
 """
 
+import contextlib
+import os
+import sys
+from pathlib import Path
+
 import streamlit as st
 
-import track
+# Hosted copies (Streamlit Community Cloud) run straight from the repo without installing
+# our package, so make src/ importable.
+SRC = Path(__file__).resolve().parents[1] / "src"
+if str(SRC) not in sys.path:
+    sys.path.insert(0, str(SRC))
+
+# Secrets pasted into the host's Secrets box arrive in st.secrets; our code reads environment
+# variables, so copy plain top-level values across (never overwriting real ones).
+with contextlib.suppress(Exception):          # no secrets file locally is normal
+    for key, value in st.secrets.items():
+        if isinstance(value, str) and key not in os.environ:
+            os.environ[key] = value
+
+import track  # needs src/ on the path first
 import ui
 
 st.set_page_config(page_title="SkillPulse: what jobs want", page_icon="📈", layout="wide")

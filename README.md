@@ -10,7 +10,7 @@ Live job-market intelligence and resume gap analyzer for freshers in India.
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
+pip install -r requirements-dev.txt
 copy .env.example .env      # then fill in your keys
 python scripts/check_setup.py
 ```
@@ -90,8 +90,7 @@ python scripts/evaluate_matching.py --prepare   # Precision@5 workflow (see scri
 
 ## Online + feedback (Phase 6)
 
-- Deployed as a Hugging Face Docker Space by [.github/workflows/deploy_space.yml](.github/workflows/deploy_space.yml)
-  on every app change; setup steps in [docs/DEPLOY.md](docs/DEPLOY.md).
+- Hosted free on Streamlit Community Cloud from this repo (`app/main.py`, deps in`n  [app/requirements.txt](app/requirements.txt)); setup in [docs/DEPLOY.md](docs/DEPLOY.md). Hugging Face`n  Docker Spaces now need a paid plan; the `Dockerfile` still works on any Docker host.
 - The website connects as a limited database user (`python -m skillpulse.db.app_role`): read
   everything, insert only anonymous `feedback` and `usage_events`.
 - 👍/👎 on the score, each job match, the plan and the Role Explorer; anonymous page and
